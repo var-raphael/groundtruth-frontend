@@ -9,13 +9,13 @@ import {
   FiTag,
   FiInfo,
   FiPhone,
-  FiCheck,
-  FiGithub,
+  FiAlertTriangle,
   FiArrowLeft,
   FiArrowRight,
   FiPlusCircle,
   FiUserCheck,
   FiBarChart2,
+  FiFilter,
   FiSend,
 } from "react-icons/fi";
 
@@ -61,23 +61,6 @@ function Logo({ size = 20 }: { size?: number }) {
   );
 }
 
-function EvidenceLine({ claim, source }: { claim: string; source: string }) {
-  return (
-    <div className="flex items-start gap-3">
-      <FiCheck size={14} className="text-[#3FB950] mt-1 flex-shrink-0" />
-      <div className="min-w-0">
-        <div className="text-[14px] text-white">{claim}</div>
-        <div className="font-mono text-[11px] text-white/40 flex flex-wrap items-center gap-x-1.5 gap-y-1 mt-1">
-          <span>↳ based_on</span>
-          <code className="text-white/70 bg-white/[0.06] px-1.5 py-0.5 rounded break-all">
-            {source}
-          </code>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function TerminalFrame({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="rounded-xl border border-white/15 bg-white/[0.02] overflow-hidden">
@@ -96,22 +79,27 @@ const screeningSteps = [
   {
     icon: FiPlusCircle,
     title: "Create your job and share the link",
-    body: "Set the role, the stack you need, and where candidates can be based. Groundtruth generates an apply link you send wherever you already post the role.",
+    body: "Set the role, the stack you need, and where candidates can be based. Groundtruth generates an apply link, post it on LinkedIn, X, or your own careers page, wherever you already reach candidates.",
   },
   {
     icon: FiUserCheck,
-    title: "Candidates apply with GitHub",
-    body: "No resume upload. Candidates connect their GitHub, so the account is provably theirs before anything gets read or scored.",
+    title: "Candidates apply with GitHub and email",
+    body: "No resume upload. Candidates sign in with GitHub through OAuth, so the account is provably theirs, and leave an email for outreach later.",
   },
   {
     icon: FiBarChart2,
-    title: "See them ranked with evidence",
-    body: "Your dashboard shows every applicant scored against this specific role, each point linked back to a real repo, commit, or contribution.",
+    title: "Every applicant gets screened automatically",
+    body: "The moment someone applies, their GitHub is read and scored against this specific role, no manual review needed to get started.",
+  },
+  {
+    icon: FiFilter,
+    title: "Filter and rank to find your shortlist",
+    body: "See every candidate ranked with evidence. Sort or filter by score, match strength, or stack to get to your top picks fast.",
   },
   {
     icon: FiSend,
-    title: "Reach out with specifics",
-    body: "Draft outreach that references what a candidate actually built, not a template. You review and send it from your own inbox.",
+    title: "Reach out, or export and move on",
+    body: "Draft personal outreach for a candidate straight from their evidence, or export the full list as CSV, Excel, PDF, or JSON to take it wherever you work.",
   },
 ];
 
@@ -347,134 +335,56 @@ export default function Home() {
           </a>
         </div>
 
-        {/* SEE IT IN ACTION */}
+        {/* THE PROBLEM */}
         <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40 mb-3">
-          see it in action
+          the problem
         </div>
-        <h2 className="text-[26px] font-bold tracking-tight mb-14">
-          From a username to a decision
+        <h2 className="text-[26px] font-bold tracking-tight mb-5">
+          Every resume reads the same now
         </h2>
+        <p className="text-[14px] text-white/60 leading-relaxed max-w-md mb-10">
+          Post a role and the applications flood in, most of them polished
+          by the same AI tools, listing the same buzzwords, impossible to
+          tell apart. You&apos;re not short on applicants. You&apos;re short
+          on a way to know which ones are real.
+        </p>
 
-        {/* step 01: verify */}
-        <div className="mb-16">
-          <div className="flex gap-4 mb-5">
-            <span className="font-mono text-[13px] text-white/40 w-6 flex-shrink-0">01</span>
-            <div>
-              <div className="font-semibold text-[16px] mb-1.5">Verify, not guess</div>
-              <div className="text-[13px] text-white/60 leading-relaxed max-w-sm">
-                Paste a GitHub. We read commit history, check whether repos
-                are forks or abandoned pushes, before anything gets scored.
-              </div>
-            </div>
-          </div>
-          <TerminalFrame label="groundtruth / verify">
-            <div className="p-5 flex flex-col gap-4">
-              <div className="flex items-center bg-black border border-white/15 rounded-lg px-3.5">
-                <span className="font-mono text-[13px] text-white/40 whitespace-nowrap">
-                  github.com/
-                </span>
-                <span className="font-mono text-[13px] text-white py-3 px-1">var-raphael</span>
-              </div>
-              <div className="flex flex-col gap-3">
-                <EvidenceLine
-                  claim="Ships real products, not just repos"
-                  source="var-raphael.vercel.app · gnat, deployed and live"
-                />
-                <EvidenceLine
-                  claim="Actively maintains code, not a one-time push"
-                  source="github.com/var-raphael/QUOREL · 21 commits/90d"
-                />
-              </div>
-            </div>
-          </TerminalFrame>
-        </div>
-
-        {/* step 02: score */}
-        <div className="mb-16">
-          <div className="flex gap-4 mb-5">
-            <span className="font-mono text-[13px] text-white/40 w-6 flex-shrink-0">02</span>
-            <div>
-              <div className="font-semibold text-[16px] mb-1.5">Score against the role</div>
-              <div className="text-[13px] text-white/60 leading-relaxed max-w-sm">
-                The same evidence is weighed against the job you&apos;re
-                hiring for. Every point in the score links back to a repo, a
-                commit, or a deployed URL, so you can check it yourself.
-              </div>
-            </div>
-          </div>
-          <TerminalFrame label="groundtruth / score · founding-fullstack-ai">
-            <div className="p-5 flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-[14px] font-medium text-white">Raphael Samuel</div>
-                  <span className="font-mono text-[11px] uppercase tracking-wide text-[#3FB950] flex items-center gap-1.5 mt-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-current" />
-                    strong match
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-16 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-white w-full" />
-                  </div>
-                  <span className="font-mono text-[13px] text-white/80">10/10</span>
+        <TerminalFrame label="groundtruth / inbox">
+          <div className="p-5 flex flex-col gap-3">
+            {[
+              {
+                name: "applicant_204.pdf",
+                line: "\"Results-driven full-stack engineer passionate about scalable solutions...\"",
+              },
+              {
+                name: "applicant_205.pdf",
+                line: "\"Results-driven full-stack engineer passionate about scalable solutions...\"",
+              },
+              {
+                name: "applicant_206.pdf",
+                line: "\"Results-driven full-stack engineer passionate about scalable solutions...\"",
+              },
+            ].map((row) => (
+              <div key={row.name} className="flex items-start gap-3">
+                <FiAlertTriangle size={14} className="text-[#F0883E] mt-1 flex-shrink-0" />
+                <div className="min-w-0">
+                  <div className="font-mono text-[11px] text-white/40">{row.name}</div>
+                  <div className="text-[13px] text-white/70 truncate">{row.line}</div>
                 </div>
               </div>
-              <div className="flex flex-col gap-3 pt-3 border-t border-white/10">
-                <EvidenceLine
-                  claim="Built an MCP-native data API from scratch"
-                  source="github.com/var-raphael/QUOREL"
-                />
-                <EvidenceLine
-                  claim="Ships infra with real users, not just repos"
-                  source="quorel-uwrn.onrender.com · live, 21 commits/90d"
-                />
-              </div>
-            </div>
-          </TerminalFrame>
-        </div>
-
-        {/* step 03: outreach */}
-        <div className="mb-20">
-          <div className="flex gap-4 mb-5">
-            <span className="font-mono text-[13px] text-white/40 w-6 flex-shrink-0">03</span>
-            <div>
-              <div className="font-semibold text-[16px] mb-1.5">Reach out with specifics</div>
-              <div className="text-[13px] text-white/60 leading-relaxed max-w-sm">
-                Every draft references the candidate&apos;s actual work, not
-                a template. You review and send it yourself, from your own
-                inbox.
-              </div>
+            ))}
+            <div className="pt-3 border-t border-white/10 font-mono text-[11px] text-white/40">
+              same phrasing, same structure, zero way to verify any of it
             </div>
           </div>
-          <TerminalFrame label="groundtruth / outreach">
-            <div className="p-5 flex flex-col gap-3">
-              <div className="grid grid-cols-[3.5rem_1fr] gap-y-1 text-[12px] font-mono">
-                <span className="text-white/40">To</span>
-                <span className="text-white/80 truncate">
-                  raphael@var-raphael.dev
-                </span>
-                <span className="text-white/40">Subject</span>
-                <span className="text-white/80 truncate">
-                  Your work on gnat caught our eye
-                </span>
-              </div>
-              <div className="text-[13px] text-white/70 leading-relaxed pt-3 border-t border-white/10">
-                Hi Raphael,
-                <br />
-                <br />
-                I came across your work on gnat and your MCP-native data API,
-                quorel. Built an MCP-native data API from scratch is exactly
-                the kind of infra work this role is hiring for.
-                <br />
-                <br />
-                Would love to chat about what we&apos;re building.
-              </div>
-              <div className="flex items-center gap-2 font-mono text-[11px] text-white/40 pt-2 border-t border-white/10">
-                <FiGithub size={12} />
-                generated from verified evidence, not a template
-              </div>
-            </div>
-          </TerminalFrame>
+        </TerminalFrame>
+
+        <div className="mt-10 mb-20">
+          <p className="text-[14px] text-white/60 leading-relaxed max-w-md">
+            Groundtruth skips the resume entirely. Candidates connect
+            GitHub, we check what they&apos;ve actually built, and you see a
+            ranked list backed by commits and deployed code, not adjectives.
+          </p>
         </div>
 
         {/* screening walkthrough carousel */}

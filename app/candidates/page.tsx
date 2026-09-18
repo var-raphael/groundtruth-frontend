@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   FiMenu,
   FiX,
@@ -21,68 +21,184 @@ import {
   FiExternalLink,
   FiLink,
   FiMail,
+  FiLoader,
 } from "react-icons/fi";
 import { SiGithub, SiX } from "react-icons/si";
-// LinkedIn isn't in react-icons' bundled Simple Icons set in this version,
-// so it's sourced from Font Awesome's set instead, which still carries it.
 import { FaLinkedin } from "react-icons/fa6";
 import type { IconType } from "react-icons";
 
-// --- mock data shape, matches the hard_data / llm_remarks schema ---
+const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
-// a project this candidate actually built, used as evidence for a reason
-type Evidence = {
-  project: string; // repo/project name, e.g. "vexaro"
-  liveUrl?: string; // present if the project has a live/deployed URL
-  repoUrl?: string; // present if the project has a public repo
+const SIMPLE_ICON_SLUGS: Record<string, string> = {
+  go: "go",
+  golang: "go",
+  typescript: "typescript",
+  javascript: "javascript",
+  python: "python",
+  html: "html5",
+  css: "css3",
+  java: "openjdk",
+  react: "react",
+  "react router": "reactrouter",
+  "next.js": "nextdotjs",
+  nextjs: "nextdotjs",
+  "tailwind css": "tailwindcss",
+  tailwindcss: "tailwindcss",
+  postgres: "postgresql",
+  postgresql: "postgresql",
+  mysql: "mysql",
+  sqlite: "sqlite",
+  mongodb: "mongodb",
+  redis: "redis",
+  supabase: "supabase",
+  prisma: "prisma",
+  docker: "docker",
+  shopify: "shopify",
+  vercel: "vercel",
+  zod: "zod",
+  vite: "vite",
+  node: "nodedotjs",
+  "node.js": "nodedotjs",
+  express: "express",
+  graphql: "graphql",
+  rust: "rust",
+  kotlin: "kotlin",
+  swift: "swift",
+  ruby: "ruby",
+  rails: "rubyonrails",
+  django: "django",
+  flask: "flask",
+  laravel: "laravel",
+  php: "php",
+  aws: "amazonwebservices",
+  gcp: "googlecloud",
+  firebase: "firebase",
+  kubernetes: "kubernetes",
+  "c#": "csharp",
+  ".net": "dotnet",
 };
 
-// llm_remarks.reasons are scored PER JOB, same candidate, different job, different reasons/score.
-// a single reason can point to more than one piece of evidence.
-type JobReasoning = {
-  jobId: string;
-  score: number;
-  stackMatch: "strong" | "partial" | "weak";
-  reasons: { point: string; evidence: Evidence[] }[];
-};
-
-type Candidate = {
-  id: string;
-  name: string;
-  timezone: string;
-  stack: string[];
-  byJob: Record<string, JobReasoning>;
-  topRepos: {
-    name: string;
-    desc: string;
-    stack: string[];
-    commits90d: number;
-    lastCommit: string;
-    verified: boolean;
-    liveUrl?: string;
-    repoUrl?: string;
-  }[];
-  socials: { github: string; portfolio: string; linkedin?: string; x?: string; email: string };
-};
-
-// language -> accent color, common convention
-const LANG_COLORS: Record<string, string> = {
-  Go: "text-[#29D3F5] border-[#29D3F5]/50 bg-[#29D3F5]/[0.14]",
-  TypeScript: "text-[#5B9FF5] border-[#5B9FF5]/50 bg-[#5B9FF5]/[0.14]",
-  JavaScript: "text-[#F5DE4E] border-[#F5DE4E]/50 bg-[#F5DE4E]/[0.14]",
-  Python: "text-[#FFD84D] border-[#FFD84D]/50 bg-[#FFD84D]/[0.12]",
-  HTML: "text-[#FF7A50] border-[#FF7A50]/50 bg-[#FF7A50]/[0.14]",
-  Java: "text-[#FF5A5B] border-[#FF5A5B]/50 bg-[#FF5A5B]/[0.14]",
-};
-const DEFAULT_LANG_COLOR = "text-white/80 border-white/30 bg-white/[0.06]";
-
-function langColor(lang: string) {
-  return LANG_COLORS[lang] ?? DEFAULT_LANG_COLOR;
+// Strips common qualifier suffixes so a specific detected signal (e.g. "Vercel
+// Analytics", "Prisma Client", "AWS SDK") still maps to its base tech's icon,
+// without needing a hardcoded slug entry for every variant the detector reports.
+function normalizeForIcon(name: string): string {
+  return name
+    .trim()
+    .toLowerCase()
+    .replace(/\s*(analytics|sdk|client|cli|package|library)$/i, "")
+    .trim();
 }
 
-// Groundtruth mark: prompt triangle with an embedded check at 20px+ (nav,
-// app icon, hero); below that, drop the check and use a plain triangle
-// instead — the check detail doesn't survive rendering under ~20px.
+const DARK_ICON_SLUGS = new Set([
+  "nextdotjs",
+  "vercel",
+  "github",
+  "openjdk",
+  "express",
+]);
+
+function stackIconUrl(name: string): string | null {
+  const slug = SIMPLE_ICON_SLUGS[normalizeForIcon(name)];
+  if (!slug) return null;
+  // No color param = CDN's default, which is the icon's real brand color.
+  return DARK_ICON_SLUGS.has(slug)
+    ? `https://cdn.simpleicons.org/${slug}/ffffff`
+    : `https://cdn.simpleicons.org/${slug}`;
+}
+
+type Evidence = {
+  name: string;
+  description?: string;
+  repoUrl: string;
+  liveUrl?: string;
+  isLive: boolean;
+  languages: Record<string, number>;
+  detectedStack: string[];
+  detectedStackError?: string;
+  commits90d?: number;
+  activeWeeks90d?: number;
+  suspiciousPadding?: boolean;
+  hasReadme?: boolean;
+  readmeTruncated?: boolean;
+  junkDirs?: string[];
+  envFilesPushed?: string[];
+  score: number;
+};
+
+type Contribution = {
+  repoOwner: string;
+  repoName: string;
+  repoUrl: string;
+  prTitle: string;
+  prUrl: string;
+  mergedAt: string;
+  mergedPrCount: number;
+  contributorCount: number;
+  stars: number;
+};
+
+type ReasonEvidence = { project: string; repoUrl?: string; liveUrl?: string };
+
+type Reasoning = {
+  score: number;
+  stackMatch: "strong" | "partial" | "weak";
+  positiveReasons: { point: string; evidence: ReasonEvidence[] }[];
+  negativeReasons: { point: string; evidence: ReasonEvidence[] }[];
+  hasTrustFlag: boolean;
+};
+
+type CandidateSummary = {
+  candidateId: string;
+  name: string;
+  githubId?: number;
+  githubUsername: string;
+  email: string;
+  country: string;
+  city?: string;
+  timezone?: string;
+  claimedExperienceYears: number;
+  linkedin?: string;
+  x?: string;
+  portfolio?: string;
+  status: string;
+  statusUpdatedAt: string;
+  appliedAt: string;
+};
+
+type CandidateReport = {
+  candidateId: string;
+  jobId: string;
+  generatedAt: string;
+  candidate: CandidateSummary;
+  evidence: Evidence[];
+  contributions?: Contribution[];
+  reasoning: Reasoning;
+  warning?: string;
+};
+
+type ListReportsResponse = {
+  reports: CandidateReport[];
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+};
+
+type Job = {
+  id: string;
+  recruiter_id: string;
+  title: string;
+  description: string;
+  stack: string[];
+  location_mode: "anywhere" | "country" | "onsite";
+  location_countries: string[];
+  min_years_experience: number;
+  timezone: string;
+  min_overlap_hours: number;
+  candidate_limit: number;
+  created_at: string;
+};
+
 function Logo({ size = 20 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
@@ -99,60 +215,16 @@ function Logo({ size = 20 }: { size?: number }) {
   );
 }
 
-// Builds a Gmail compose URL, pre-filled with a subject + body generated
-// from this candidate's actual repos and top-scoring reason for the active
-// job. Deterministic template, no LLM call: pulls the strongest concrete
-// detail already in hard_data/llm_remarks rather than inventing anything.
-function buildOutreachEmail(c: Candidate, job: { id: string; title: string }): { subject: string; body: string } {
-  const reasoning = c.byJob[job.id];
-  const topReason = reasoning?.reasons[0];
-  const topRepo = c.topRepos[0];
-  const firstName = c.name.split(" ")[0];
-
-  // subject: lead with the most specific repo/stack detail available
-  const subject = topRepo
-    ? `Your work on ${topRepo.name} caught our eye`
-    : `Your ${c.stack[0] ?? "engineering"} work caught our eye`;
-
-  // body: greeting -> concrete callout from repos, tied into the top reason -> role tie-in -> soft CTA
-  const calloutRepo = topRepo?.desc
-    ? `your work on ${topRepo.name} (${topRepo.desc.charAt(0).toLowerCase()}${topRepo.desc.slice(1)})`
-    : topRepo
-    ? `your work on ${topRepo.name}`
-    : `your background in ${c.stack.slice(0, 2).join(" and ")}`;
-
-  const calloutReason = topReason
-    ? ` ${topReason.point}.`
-    : "";
-
-  const body =
-    `Hi ${firstName},\n\n` +
-    `I came across ${calloutRepo}.${calloutReason}\n\n` +
-    `We're hiring for ${job.title} and think your background is a strong fit for what we're building. Would love to chat about what we're working on.\n\n` +
-    `Best,\n`;
-
-  return { subject, body };
-}
-
-// URLSearchParams form-encodes spaces as "+", which mail clients render
-// literally in mailto: bodies instead of decoding back to spaces. Encoding
-// manually with encodeURIComponent uses %20 instead, which every client
-// (and Gmail/Outlook's web composers) handles correctly.
 function encodeQuery(params: Record<string, string>) {
   return Object.entries(params)
     .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
     .join("&");
 }
 
-// mailto: respects whatever mail client the recruiter already has set as
-// their OS/browser default, so it works regardless of provider without
-// assuming Gmail specifically.
 function mailtoUrl(to: string, subject: string, body: string) {
   return `mailto:${to}?${encodeQuery({ subject, body })}`;
 }
 
-// Same country set as the candidate apply form, so a job's required country
-// and a candidate's own country always compare against identical options.
 const JOB_COUNTRIES = [
   "United States",
   "United Kingdom",
@@ -169,245 +241,45 @@ const JOB_COUNTRIES = [
   "South Africa",
 ];
 
-const initialJobs = [
-  {
-    id: "founding-fullstack-ai-001",
-    title: "Founding Full-Stack (AI)",
-    count: 47,
-    limit: 100,
-    newSinceLastVisit: 6,
-    locationMode: "anywhere" as const,
-    locationCountries: [] as string[],
-  },
-  {
-    id: "backend-infra-002",
-    title: "Backend Infra Engineer",
-    count: 23,
-    limit: 100,
-    newSinceLastVisit: 2,
-    locationMode: "country" as const,
-    locationCountries: ["United States", "Canada"],
-  },
-  {
-    id: "ui-ux-eng-003",
-    title: "UI/UX Engineer",
-    count: 26,
-    limit: 20,
-    newSinceLastVisit: 0,
-    locationMode: "onsite" as const,
-    locationCountries: ["United States"],
-  },
-];
-
-type Job = (typeof initialJobs)[number];
-
-// Turns a job id into the public apply-link candidates use. Real deployment
-// would read the origin from window.location, but a fixed placeholder domain
-// keeps this component pure/testable without touching the browser API.
 function applyUrl(jobId: string) {
   return `https://groundtruth.app/apply/${jobId}`;
 }
 
 function locationLabel(job: Job): string {
-  if (job.locationMode === "anywhere") return "Remote, anywhere";
-  const countries = job.locationCountries.length > 0 ? job.locationCountries.join(", ") : "unspecified";
-  return job.locationMode === "onsite" ? `On-site · ${countries}` : `Remote · ${countries}`;
+  if (job.location_mode === "anywhere") return "Remote, anywhere";
+  const countries = job.location_countries.length > 0 ? job.location_countries.join(", ") : "unspecified";
+  return job.location_mode === "onsite" ? `On-site · ${countries}` : `Remote · ${countries}`;
 }
 
-// Raphael's actual projects, reused as evidence across jobs, weighted differently per job.
-const vexaro: Evidence = { project: "vexaro", repoUrl: "https://github.com/var-raphael/vexaro" };
-const quorel: Evidence = {
-  project: "quorel",
-  liveUrl: "https://quorel-uwrn.onrender.com",
-  repoUrl: "https://github.com/var-raphael/QUOREL",
-};
-const gnat: Evidence = {
-  project: "gnat",
-  liveUrl: "https://var-raphael.vercel.app",
-  repoUrl: "https://github.com/var-raphael/Gnat",
-};
-const portfolioEv: Evidence = { project: "var-raphael.vercel.app", liveUrl: "https://var-raphael.vercel.app" };
+const FETCH_TIMEOUT_MS = 10000;
 
-const mockCandidates: Candidate[] = Array.from({ length: 20 }).map((_, i) => {
-  const isRaphael = i === 0;
+async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
-  const byJob: Record<string, JobReasoning> = isRaphael
-    ? {
-        "founding-fullstack-ai-001": {
-          jobId: "founding-fullstack-ai-001",
-          score: 10,
-          stackMatch: "strong",
-          reasons: [
-            {
-              point: "Built an MCP-native data API from scratch, the core primitive this role is hiring for",
-              evidence: [quorel],
-            },
-            {
-              point: "Ships infra with real users, not just repos. Both a single-binary analytics tool and a live data API are deployed and running today",
-              evidence: [gnat, quorel],
-            },
-            {
-              point: "Maintains SDKs across Go, Python, and TypeScript, matching the full-stack breadth this role requires",
-              evidence: [vexaro, quorel],
-            },
-            {
-              point: "411 commits this year with an evening and weekday cadence, consistent with founding-stage ownership",
-              evidence: [quorel, gnat],
-            },
-            {
-              point: "Stack overlap is strong, not partial. Every required language (Go, TypeScript, Python) shows up in shipped, verified repos",
-              evidence: [vexaro, quorel, gnat],
-            },
-            {
-              point: "Timezone (UTC+1) falls within this role's required overlap window, so there's no scheduling friction",
-              evidence: [quorel],
-            },
-            {
-              point: "Shows real range across frontend, backend, infra, and database work rather than staying boxed into one layer, matching this role's explicit ask for someone who can own the pipeline end to end",
-              evidence: [gnat, quorel, vexaro],
-            },
-          ],
-        },
-        "backend-infra-002": {
-          jobId: "backend-infra-002",
-          score: 9,
-          stackMatch: "strong",
-          reasons: [
-            {
-              point: "Runs a versioned data API on a 500MB-RAM server, exactly the constraint this role is built around",
-              evidence: [quorel],
-            },
-            {
-              point: "Go-first systems design across multiple projects: single-binary deploys, no Docker dependency",
-              evidence: [gnat, vexaro],
-            },
-            {
-              point: "Active repo maintenance in the last 90 days on more than one project, not an abandoned push",
-              evidence: [vexaro, quorel],
-            },
-            {
-              point: "Stack overlap is strong. Required Go and Python both appear in shipped, verified infra repos",
-              evidence: [quorel, gnat],
-            },
-            {
-              point: "Timezone (UTC+1) falls within this role's required overlap window",
-              evidence: [gnat],
-            },
-            {
-              point: "Demonstrated range from data pipeline work to database-layer design (versioned, queryable storage), matching the infra ownership this role expects",
-              evidence: [quorel],
-            },
-          ],
-        },
-        "ui-ux-eng-003": {
-          jobId: "ui-ux-eng-003",
-          score: 3,
-          stackMatch: "weak",
-          reasons: [
-            {
-              point: "No frontend or design-system work found across portfolio or top repos",
-              evidence: [portfolioEv],
-            },
-            {
-              point: "Primary language footprint is backend-only across all top repos: Go, Python, minimal client-side code",
-              evidence: [vexaro, gnat],
-            },
-            {
-              point: "Stack overlap is weak. This role's required frontend and design tooling doesn't appear anywhere in verified repos",
-              evidence: [vexaro],
-            },
-          ],
-        },
-      }
-    : {
-        "founding-fullstack-ai-001": {
-          jobId: "founding-fullstack-ai-001",
-          score: Math.max(3, 10 - Math.floor(i / 2.2)),
-          stackMatch: i < 6 ? "strong" : i < 13 ? "partial" : "weak",
-          reasons: [
-            {
-              point: "Has shipped a backend service with verified commit history",
-              evidence: [{ project: "project-x", repoUrl: "https://github.com/example/project-x" }],
-            },
-            {
-              point: "Stack overlaps with the required Go and Python for this role",
-              evidence: [{ project: "project-x", repoUrl: "https://github.com/example/project-x" }],
-            },
-          ],
-        },
-        "backend-infra-002": {
-          jobId: "backend-infra-002",
-          score: Math.max(2, 9 - Math.floor(i / 2)),
-          stackMatch: i < 5 ? "strong" : i < 12 ? "partial" : "weak",
-          reasons: [
-            {
-              point: "Backend-focused repo activity in the last 90 days",
-              evidence: [{ project: "project-x", repoUrl: "https://github.com/example/project-x" }],
-            },
-          ],
-        },
-        "ui-ux-eng-003": {
-          jobId: "ui-ux-eng-003",
-          score: Math.max(1, 6 - Math.floor(i / 3)),
-          stackMatch: i < 3 ? "partial" : "weak",
-          reasons: [
-            {
-              point: "Limited evidence of frontend or UI-focused work",
-              evidence: [{ project: "project-x", repoUrl: "https://github.com/example/project-x" }],
-            },
-          ],
-        },
-      };
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}${path}`, {
+      ...options,
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      signal: controller.signal,
+    });
+  } catch (e) {
+    if (e instanceof Error && e.name === "AbortError") {
+      throw new Error("Request timed out — is the server running?");
+    }
+    throw e;
+  } finally {
+    clearTimeout(timeout);
+  }
 
-  return {
-    id: `cand-${i}`,
-    name: isRaphael ? "Raphael Samuel" : `Candidate ${i + 1}`,
-    timezone: i % 3 === 0 ? "UTC+1" : i % 3 === 1 ? "UTC-5" : "UTC+0",
-    stack: isRaphael ? ["Go", "TypeScript", "Python"] : ["Go", "Python"],
-    byJob,
-    topRepos: isRaphael
-      ? [
-          {
-            name: "gnat",
-            desc: "Self-hosted single-binary Go analytics platform",
-            stack: ["Go"],
-            commits90d: 34,
-            lastCommit: "2 days ago",
-            verified: true,
-            liveUrl: "https://var-raphael.vercel.app",
-            repoUrl: "https://github.com/var-raphael/Gnat",
-          },
-          {
-            name: "quorel",
-            desc: "Versioned data extraction platform with MCP support",
-            stack: ["Go", "Python", "TypeScript"],
-            commits90d: 21,
-            lastCommit: "5 days ago",
-            verified: true,
-            liveUrl: "https://quorel-uwrn.onrender.com",
-            repoUrl: "https://github.com/var-raphael/QUOREL",
-          },
-        ]
-      : [
-          {
-            name: "project-x",
-            desc: "Backend service",
-            stack: ["Go"],
-            commits90d: 12,
-            lastCommit: "1 week ago",
-            verified: true,
-            repoUrl: "https://github.com/example/project-x",
-          },
-        ],
-    socials: {
-      github: "github.com/var-raphael",
-      portfolio: "var-raphael.vercel.app",
-      linkedin: "linkedin.com/in/samuel-raphael",
-      x: "x.com/PhantomDev001",
-      email: "raphael@var-raphael.dev",
-    },
-  };
-});
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(text || `${res.status} ${res.statusText}`);
+  }
+  if (res.status === 204) return undefined as T;
+  return res.json();
+}
 
 const PAGE_SIZE = 20;
 
@@ -415,14 +287,14 @@ function ScoreBar({ score }: { score: number }) {
   return (
     <div className="flex items-center gap-2">
       <div className="w-16 h-1.5 bg-white/10 rounded-full overflow-hidden">
-        <div className="h-full bg-white" style={{ width: `${score * 10}%` }} />
+        <div className="h-full bg-white" style={{ width: `${Math.max(0, Math.min(10, score)) * 10}%` }} />
       </div>
-      <span className="font-mono text-[13px] text-white/80 tabular-nums">{score}/10</span>
+      <span className="font-mono text-[13px] text-white/80 tabular-nums">{score.toFixed(1)}/10</span>
     </div>
   );
 }
 
-function MatchIndicator({ match }: { match: JobReasoning["stackMatch"] }) {
+function MatchIndicator({ match }: { match: Reasoning["stackMatch"] }) {
   const styles = {
     strong: "text-[#3FB950]",
     partial: "text-[#F0883E]",
@@ -438,19 +310,18 @@ function MatchIndicator({ match }: { match: JobReasoning["stackMatch"] }) {
 }
 
 function StackTag({ lang }: { lang: string }) {
+  const iconUrl = stackIconUrl(lang);
   return (
-    <span className={`font-mono text-[11px] border rounded px-2 py-0.5 ${langColor(lang)}`}>
+    <span className="flex items-center gap-1.5 font-mono text-[11px] text-white/85 border border-white/20 bg-white/[0.06] rounded px-2 py-0.5">
+      {iconUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={iconUrl} alt="" width={11} height={11} className="flex-shrink-0" />
+      ) : null}
       {lang}
     </span>
   );
 }
 
-// Each icon carries its platform's brand color where the platform actually
-// has one. GitHub and X's marks are monochrome by convention (black/white),
-// so those stay a light neutral rather than being forced into a "color".
-// Generic icons (portfolio link, email) have no brand to reflect, so they
-// stay neutral too. Text stays white/60 -> white on hover in all cases, so
-// the color read comes from the icon alone, not the whole row.
 const BRAND_ICON_COLOR = {
   github: "text-white/70",
   portfolio: "text-white/40",
@@ -459,18 +330,16 @@ const BRAND_ICON_COLOR = {
   x: "text-white/70",
 } as const;
 
-function SocialRow({ socials }: { socials: Candidate["socials"] }) {
-  // icon-based rows: react-icons/fi for generic UI, react-icons/si for brand
-  // marks. Simple Icons (the "si" set) is maintained specifically to track
-  // brand/trademark changes, so this doesn't rot the way lucide's bundled
-  // brand glyphs did.
+function SocialRow({ candidate }: { candidate: CandidateSummary }) {
   const iconItems: { icon: IconType; label: string; href: string; colorKey: keyof typeof BRAND_ICON_COLOR }[] = [
-    { icon: SiGithub, label: socials.github, href: `https://${socials.github}`, colorKey: "github" },
-    { icon: FiLink, label: socials.portfolio, href: `https://${socials.portfolio}`, colorKey: "portfolio" },
-    ...(socials.linkedin
-      ? [{ icon: FaLinkedin, label: socials.linkedin, href: `https://${socials.linkedin}`, colorKey: "linkedin" as const }]
+    { icon: SiGithub, label: candidate.githubUsername, href: `https://github.com/${candidate.githubUsername}`, colorKey: "github" },
+    ...(candidate.portfolio
+      ? [{ icon: FiLink, label: candidate.portfolio, href: candidate.portfolio, colorKey: "portfolio" as const }]
       : []),
-    { icon: FiMail, label: socials.email, href: `mailto:${socials.email}`, colorKey: "email" },
+    ...(candidate.linkedin
+      ? [{ icon: FaLinkedin, label: candidate.linkedin, href: `https://${candidate.linkedin}`, colorKey: "linkedin" as const }]
+      : []),
+    { icon: FiMail, label: candidate.email, href: `mailto:${candidate.email}`, colorKey: "email" },
   ];
 
   return (
@@ -479,32 +348,30 @@ function SocialRow({ socials }: { socials: Candidate["socials"] }) {
         <a
           key={item.label}
           href={item.href}
+          target="_blank"
+          rel="noreferrer"
           className="flex items-center gap-2.5 font-mono text-[12px] text-white/60 hover:text-white"
         >
           <item.icon size={13} className={`${BRAND_ICON_COLOR[item.colorKey]} flex-shrink-0`} />
           <span className="truncate">{item.label}</span>
         </a>
       ))}
-      {/* X/Twitter now uses react-icons' SiX (Simple Icons), the real brand
-          mark, instead of a manual unicode glyph stand-in. */}
-      {socials.x && (
+      {candidate.x && (
         <a
-          href={`https://${socials.x}`}
+          href={`https://${candidate.x}`}
+          target="_blank"
+          rel="noreferrer"
           className="flex items-center gap-2.5 font-mono text-[12px] text-white/60 hover:text-white"
         >
           <SiX size={13} className={`${BRAND_ICON_COLOR.x} flex-shrink-0`} />
-          <span className="truncate">{socials.x}</span>
+          <span className="truncate">{candidate.x}</span>
         </a>
       )}
     </div>
   );
 }
 
-// Evidence link(s) for a reason. Behavior:
-// - one piece of evidence with both live + repo -> click opens a small tooltip with both options
-// - one piece of evidence with only one url -> link goes straight there, no tooltip
-// - multiple pieces of evidence -> each rendered as its own small link/tooltip, comma separated
-function SingleEvidenceLink({ evidence }: { evidence: Evidence }) {
+function SingleEvidenceLink({ evidence }: { evidence: ReasonEvidence }) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
 
@@ -519,6 +386,10 @@ function SingleEvidenceLink({ evidence }: { evidence: Evidence }) {
 
   const hasBoth = Boolean(evidence.liveUrl && evidence.repoUrl);
   const singleUrl = evidence.liveUrl ?? evidence.repoUrl;
+
+  if (!singleUrl) {
+    return <span className="font-mono text-[10px] text-white/50">{evidence.project}</span>;
+  }
 
   if (!hasBoth) {
     return (
@@ -565,12 +436,13 @@ function SingleEvidenceLink({ evidence }: { evidence: Evidence }) {
   );
 }
 
-function EvidenceLinks({ evidence }: { evidence: Evidence[] }) {
+function EvidenceLinks({ evidence }: { evidence: ReasonEvidence[] }) {
+  if (evidence.length === 0) return null;
   return (
     <div className="font-mono text-[10px] text-white/40 flex flex-wrap items-center gap-x-1">
       <span>evidence:</span>
       {evidence.map((ev, idx) => (
-        <span key={ev.project} className="flex items-center">
+        <span key={`${ev.project}-${idx}`} className="flex items-center">
           <SingleEvidenceLink evidence={ev} />
           {idx < evidence.length - 1 && <span className="text-white/30">,</span>}
         </span>
@@ -579,27 +451,24 @@ function EvidenceLinks({ evidence }: { evidence: Evidence[] }) {
   );
 }
 
-function CandidateCard({ c, activeJob }: { c: Candidate; activeJob: { id: string; title: string } }) {
-  const [open, setOpen] = useState(false);
-  const jobReasoning = c.byJob[activeJob.id];
-  const outreach = buildOutreachEmail(c, activeJob);
+function timeAgo(iso: string): string {
+  const then = new Date(iso).getTime();
+  if (Number.isNaN(then)) return "";
+  const diffMs = Date.now() - then;
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (days < 1) return "today";
+  if (days === 1) return "1 day ago";
+  if (days < 30) return `${days} days ago`;
+  const months = Math.floor(days / 30);
+  if (months < 12) return `${months} month${months === 1 ? "" : "s"} ago`;
+  const years = Math.floor(months / 12);
+  return `${years} year${years === 1 ? "" : "s"} ago`;
+}
 
-  // a brand-new job has no scored candidates yet, applicants are stored but
-  // not yet evaluated against it. say so plainly rather than showing a fake
-  // score or crashing on a missing lookup.
-  if (!jobReasoning) {
-    return (
-      <div className="border border-white/10 rounded-xl bg-white/[0.02] px-4 py-4 flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center font-mono text-[11px] text-white/60 flex-shrink-0">
-          {c.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="font-medium text-[14px] truncate">{c.name}</div>
-          <span className="font-mono text-[11px] text-white/40">not yet evaluated for this role</span>
-        </div>
-      </div>
-    );
-  }
+function CandidateCard({ report, job }: { report: CandidateReport; job: Job }) {
+  const [open, setOpen] = useState(false);
+  const c = report.candidate;
+  const r = report.reasoning;
 
   return (
     <div className="border border-white/10 rounded-xl bg-white/[0.02] overflow-hidden">
@@ -614,14 +483,18 @@ function CandidateCard({ c, activeJob }: { c: Candidate; activeJob: { id: string
           <div className="min-w-0 flex-1">
             <div className="font-medium text-[14px] truncate">{c.name}</div>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
-              <MatchIndicator match={jobReasoning.stackMatch} />
-              <span className="font-mono text-[11px] text-white/40">{c.timezone}</span>
+              <MatchIndicator match={r.stackMatch} />
+              {r.hasTrustFlag && (
+                <span className="font-mono text-[11px] text-[#F0883E] flex items-center gap-1 border border-[#F0883E]/40 rounded px-1.5 py-0.5">
+                  <FiAlertTriangle size={11} /> trust flag
+                </span>
+              )}
             </div>
           </div>
         </div>
 
         <div className="flex items-center gap-3 flex-shrink-0">
-          <ScoreBar score={jobReasoning.score} />
+          <ScoreBar score={r.score} />
           {open ? (
             <FiChevronUp size={16} className="text-white/40" />
           ) : (
@@ -630,14 +503,12 @@ function CandidateCard({ c, activeJob }: { c: Candidate; activeJob: { id: string
         </div>
       </button>
 
-      {/* collapsed peek: hints at the top reason before the user taps, fading
-          into black so it reads as a preview rather than cut-off text */}
-      {!open && jobReasoning.reasons[0] && (
+      {!open && r.positiveReasons[0] && (
         <div className="relative px-4 pb-3 -mt-1">
           <div className="flex items-start gap-2 pl-11">
             <FiCheck size={12} className="text-[#3FB950]/70 mt-0.5 flex-shrink-0" />
             <p className="text-[12px] text-white/50 leading-snug max-h-[2.6em] overflow-hidden">
-              {jobReasoning.reasons[0].point}
+              {r.positiveReasons[0].point}
             </p>
           </div>
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-black to-transparent" />
@@ -646,69 +517,156 @@ function CandidateCard({ c, activeJob }: { c: Candidate; activeJob: { id: string
 
       {open && (
         <div className="border-t border-white/10 p-4 pt-4 flex flex-col gap-5">
-          {/* hard_data first: stack */}
-          <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 mb-2">
-              stack
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {c.stack.map((s) => (
-                <StackTag key={s} lang={s} />
-              ))}
-            </div>
-          </div>
-
-          {/* hard_data: top repos, verified, with stack/commits/last activity */}
           <div>
             <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 mb-2">
               top repos
             </div>
             <div className="flex flex-col gap-2">
-              {c.topRepos.map((r) => (
+              {report.evidence.map((r) => (
                 <div key={r.name} className="border border-white/10 rounded-lg px-3 py-2.5">
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className="font-mono text-[12px] text-white">{r.name}</span>
-                    {r.verified && (
-                      <span className="font-mono text-[10px] text-[#3FB950] flex items-center gap-1 flex-shrink-0">
-                        <FiCheck size={11} /> verified
-                      </span>
-                    )}
+                    <a
+                      href={r.repoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-1.5 font-mono text-[12px] text-white hover:underline"
+                    >
+                      <SiGithub size={11} className="text-white/40 flex-shrink-0" />
+                      {r.name}
+                    </a>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      {r.isLive && r.liveUrl && (
+                        <a
+                          href={r.liveUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="font-mono text-[10px] text-[#3FB950] flex items-center gap-1 hover:underline"
+                        >
+                          <FiExternalLink size={11} /> live
+                        </a>
+                      )}
+                    </div>
                   </div>
-                  <div className="text-[12px] text-white/60 mb-2">{r.desc}</div>
+                  {r.description && <div className="text-[12px] text-white/60 mb-2">{r.description}</div>}
                   <div className="flex flex-wrap gap-1.5 mb-2">
-                    {r.stack.map((s) => (
+                    {r.detectedStack.map((s) => (
                       <StackTag key={s} lang={s} />
                     ))}
                   </div>
                   <div className="font-mono text-[10px] text-white/40">
-                    {r.commits90d} commits / 90d, last commit {r.lastCommit}
+                    {r.commits90d ?? 0} commits / {r.activeWeeks90d ?? 0} active weeks (90d)
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* hard_data: socials, iconized */}
+          {report.contributions && report.contributions.length > 0 && (
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 mb-2">
+                open-source contributions
+              </div>
+              <div className="flex flex-col gap-2">
+                {report.contributions.map((contrib, idx) => (
+                  <div key={idx} className="border border-white/10 rounded-lg px-3 py-2.5">
+                    <div className="flex items-center justify-between gap-2 mb-1">
+                      <a
+                        href={contrib.repoUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-1.5 font-mono text-[12px] text-white hover:underline"
+                      >
+                        <SiGithub size={11} className="text-white/40 flex-shrink-0" />
+                        {contrib.repoOwner}/{contrib.repoName}
+                      </a>
+                      <span className="font-mono text-[10px] text-white/40 flex-shrink-0">
+                        {contrib.stars.toLocaleString()}★
+                      </span>
+                    </div>
+                    <a
+                      href={contrib.prUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[12px] text-white/60 hover:text-white hover:underline block mb-2"
+                    >
+                      {contrib.prTitle}
+                    </a>
+                    <div className="font-mono text-[10px] text-white/40">
+                      {contrib.mergedPrCount} merged PR{contrib.mergedPrCount === 1 ? "" : "s"} ·{" "}
+                      {contrib.contributorCount} contributors
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 mb-2">
+              candidate details
+            </div>
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
+              {(c.city || c.country || c.timezone) && (
+                <div>
+                  <div className="font-mono text-[9px] uppercase tracking-[0.08em] text-white/30 mb-0.5">
+                    location
+                  </div>
+                  <div className="font-mono text-[12px] text-white/70">
+                    {[c.city, c.country, c.timezone].filter(Boolean).join(" · ")}
+                  </div>
+                </div>
+              )}
+              {c.claimedExperienceYears > 0 && (
+                <div>
+                  <div className="font-mono text-[9px] uppercase tracking-[0.08em] text-white/30 mb-0.5">
+                    claimed experience
+                  </div>
+                  <div className="font-mono text-[12px] text-white/70">
+                    {c.claimedExperienceYears} year{c.claimedExperienceYears === 1 ? "" : "s"}
+                  </div>
+                </div>
+              )}
+              {c.appliedAt && (
+                <div>
+                  <div className="font-mono text-[9px] uppercase tracking-[0.08em] text-white/30 mb-0.5">
+                    applied
+                  </div>
+                  <div className="font-mono text-[12px] text-white/70">{timeAgo(c.appliedAt)}</div>
+                </div>
+              )}
+            </div>
+          </div>
+
           <div>
             <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 mb-1">
               contact & profiles
             </div>
-            <SocialRow socials={c.socials} />
+            <SocialRow candidate={c} />
           </div>
 
-          {/* llm_remarks second: reasons, specific to the active job, each with linked evidence */}
           <div className="pt-1 border-t border-white/10 -mx-4 px-4 pt-4">
             <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-[#3FB950]/70 mb-3">
               why this score
             </div>
             <div className="flex flex-col gap-3">
-              {jobReasoning.reasons.map((r, idx) => (
+              {r.positiveReasons.map((reason, idx) => (
                 <div key={idx} className="flex items-start gap-2.5">
                   <FiCheck size={14} className="text-[#3FB950] mt-0.5 flex-shrink-0" />
                   <div className="min-w-0">
-                    <div className="text-[13px] text-white/90">{r.point}</div>
+                    <div className="text-[13px] text-white/90">{reason.point}</div>
                     <div className="mt-0.5">
-                      <EvidenceLinks evidence={r.evidence} />
+                      <EvidenceLinks evidence={reason.evidence} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {r.negativeReasons.map((reason, idx) => (
+                <div key={`neg-${idx}`} className="flex items-start gap-2.5">
+                  <FiAlertTriangle size={14} className="text-[#F0883E] mt-0.5 flex-shrink-0" />
+                  <div className="min-w-0">
+                    <div className="text-[13px] text-white/70">{reason.point}</div>
+                    <div className="mt-0.5">
+                      <EvidenceLinks evidence={reason.evidence} />
                     </div>
                   </div>
                 </div>
@@ -716,11 +674,7 @@ function CandidateCard({ c, activeJob }: { c: Candidate; activeJob: { id: string
             </div>
           </div>
 
-          {/* action: primary click opens the recruiter's default mail
-              client via mailto:, so it works regardless of provider. the
-              chevron offers Gmail / Outlook web directly for people who
-              specifically want the browser version. */}
-          <DraftEmailButton candidateEmail={c.socials.email} candidateFirstName={c.name.split(" ")[0]} outreach={outreach} />
+          <DraftEmailButton candidateId={c.candidateId} candidateEmail={c.email} candidateFirstName={c.name.split(" ")[0]} />
         </div>
       )}
     </div>
@@ -728,20 +682,40 @@ function CandidateCard({ c, activeJob }: { c: Candidate; activeJob: { id: string
 }
 
 function DraftEmailButton({
+  candidateId,
   candidateEmail,
   candidateFirstName,
-  outreach,
 }: {
+  candidateId: string;
   candidateEmail: string;
   candidateFirstName: string;
-  outreach: { subject: string; body: string };
 }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [draft, setDraft] = useState<{ subject: string; body: string } | null>(null);
+
+  const handleClick = async () => {
+    setModalOpen(true);
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await apiFetch<{ subject: string; body: string }>(
+        `/candidates/${candidateId}/outreach`,
+        { method: "POST" }
+      );
+      setDraft(result);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to draft email");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
       <button
-        onClick={() => setModalOpen(true)}
+        onClick={handleClick}
         className="flex items-center justify-center gap-2 font-mono text-[12px] text-black bg-white hover:bg-white/90 rounded-lg py-2.5 mt-1"
       >
         <FiMail size={13} />
@@ -750,8 +724,9 @@ function DraftEmailButton({
       {modalOpen && (
         <EmailPreviewModal
           candidateEmail={candidateEmail}
-          initialSubject={outreach.subject}
-          initialBody={outreach.body}
+          loading={loading}
+          error={error}
+          draft={draft}
           onClose={() => setModalOpen(false)}
         />
       )}
@@ -761,17 +736,26 @@ function DraftEmailButton({
 
 function EmailPreviewModal({
   candidateEmail,
-  initialSubject,
-  initialBody,
+  loading,
+  error,
+  draft,
   onClose,
 }: {
   candidateEmail: string;
-  initialSubject: string;
-  initialBody: string;
+  loading: boolean;
+  error: string | null;
+  draft: { subject: string; body: string } | null;
   onClose: () => void;
 }) {
-  const [subject, setSubject] = useState(initialSubject);
-  const [body, setBody] = useState(initialBody);
+  const [subject, setSubject] = useState("");
+  const [body, setBody] = useState("");
+
+  useEffect(() => {
+    if (draft) {
+      setSubject(draft.subject);
+      setBody(draft.body);
+    }
+  }, [draft]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -799,48 +783,67 @@ function EmailPreviewModal({
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3">
-          <div>
-            <label className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 block mb-1">
-              To
-            </label>
-            <div className="text-[13px] text-white/80 font-mono">{candidateEmail}</div>
+        {loading && (
+          <div className="flex-1 flex items-center justify-center gap-2 py-12 text-white/50 font-mono text-[12px]">
+            <FiLoader size={14} className="animate-spin" /> Drafting with AI...
           </div>
+        )}
 
-          <div>
-            <label className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 block mb-1">
-              Subject
-            </label>
-            <input
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-[13px] text-white focus:outline-none focus:border-white/30"
-            />
+        {error && !loading && (
+          <div className="flex-1 flex items-center justify-center px-6 py-12 text-center">
+            <div>
+              <FiAlertTriangle size={18} className="text-red-500 mx-auto mb-2" />
+              <p className="text-[13px] text-white/70">{error}</p>
+            </div>
           </div>
+        )}
 
-          <div>
-            <label className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 block mb-1">
-              Body
-            </label>
-            <textarea
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              rows={10}
-              className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-[13px] text-white leading-relaxed focus:outline-none focus:border-white/30 resize-none"
-            />
-          </div>
-        </div>
+        {!loading && !error && draft && (
+          <>
+            <div className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3">
+              <div>
+                <label className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 block mb-1">
+                  To
+                </label>
+                <div className="text-[13px] text-white/80 font-mono">{candidateEmail}</div>
+              </div>
 
-        <div className="px-4 py-3 border-t border-white/10 flex-shrink-0">
-          <a
-            href={mailtoUrl(candidateEmail, subject, body)}
-            onClick={onClose}
-            className="flex items-center justify-center gap-2 font-mono text-[12px] text-black bg-white hover:bg-white/90 rounded-lg py-2.5"
-          >
-            <FiMail size={13} />
-            Open in mail app
-          </a>
-        </div>
+              <div>
+                <label className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 block mb-1">
+                  Subject
+                </label>
+                <input
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-[13px] text-white focus:outline-none focus:border-white/30"
+                />
+              </div>
+
+              <div>
+                <label className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 block mb-1">
+                  Body
+                </label>
+                <textarea
+                  value={body}
+                  onChange={(e) => setBody(e.target.value)}
+                  rows={10}
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-[13px] text-white leading-relaxed focus:outline-none focus:border-white/30 resize-none"
+                />
+              </div>
+            </div>
+
+            <div className="px-4 py-3 border-t border-white/10 flex-shrink-0">
+              <a
+                href={mailtoUrl(candidateEmail, subject, body)}
+                onClick={onClose}
+                className="flex items-center justify-center gap-2 font-mono text-[12px] text-black bg-white hover:bg-white/90 rounded-lg py-2.5"
+              >
+                <FiMail size={13} />
+                Open in mail app
+              </a>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -869,35 +872,19 @@ function StatCard({
   );
 }
 
-// per-job stat row: capacity, strong matches, candidates stored but not yet
-// ranked (over the plan limit), and new applicants since last visit. strong
-// match / queued counts are derived live from the real candidate data
-// rather than hardcoded, so they can never drift out of sync with what the
-// list below actually shows.
-function JobStats({ job, candidates }: { job: Job; candidates: Candidate[] }) {
-  const evaluated = candidates.filter((c) => c.byJob[job.id]);
-  const strongCount = evaluated.filter((c) => c.byJob[job.id].stackMatch === "strong").length;
-  const queuedCount = Math.max(0, job.count - job.limit);
+function JobStats({ job, reports, total }: { job: Job; reports: CandidateReport[]; total: number }) {
+  const strongCount = reports.filter((r) => r.reasoning.stackMatch === "strong").length;
+  const atLimit = total >= job.candidate_limit;
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-8">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-8">
       <StatCard
-        label="candidates"
-        value={`${job.count}/${job.limit}`}
-        detail={job.count >= job.limit ? "plan limit reached" : `${job.limit - job.count} remaining`}
+        label="scored candidates"
+        value={`${total}/${job.candidate_limit}`}
+        detail={atLimit ? "plan limit reached" : `${job.candidate_limit - total} remaining`}
       />
-      <StatCard label="strong matches" value={String(strongCount)} accent="green" />
-      <StatCard
-        label="queued, unranked"
-        value={String(queuedCount)}
-        detail={queuedCount > 0 ? "upgrade to rank" : undefined}
-        accent={queuedCount > 0 ? "amber" : undefined}
-      />
-      <StatCard
-        label="new since last visit"
-        value={String(job.newSinceLastVisit)}
-        accent={job.newSinceLastVisit > 0 ? "green" : undefined}
-      />
+      <StatCard label="strong matches (this page)" value={String(strongCount)} accent="green" />
+      <StatCard label="min years exp." value={String(job.min_years_experience)} />
     </div>
   );
 }
@@ -905,28 +892,139 @@ function JobStats({ job, candidates }: { job: Job; candidates: Candidate[] }) {
 export default function CandidatesPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [jobsOpen, setJobsOpen] = useState(false);
-  const [jobs, setJobs] = useState(initialJobs);
-  const [activeJob, setActiveJob] = useState(jobs[0]);
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [jobsLoading, setJobsLoading] = useState(true);
+  const [jobsError, setJobsError] = useState<string | null>(null);
+  const [activeJob, setActiveJob] = useState<Job | null>(null);
+
+  const [reportsData, setReportsData] = useState<ListReportsResponse | null>(null);
+  const [reportsLoading, setReportsLoading] = useState(false);
+  const [reportsError, setReportsError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
+
   const [createJobOpen, setCreateJobOpen] = useState(false);
   const [copiedJobId, setCopiedJobId] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Job | null>(null);
 
-  const totalPages = Math.ceil(mockCandidates.length / PAGE_SIZE);
-  const pageItems = mockCandidates.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const loadJobs = useCallback(() => {
+    let cancelled = false;
+    setJobsLoading(true);
+    setJobsError(null);
+    apiFetch<Job[]>("/jobs")
+      .then((data) => {
+        if (cancelled) return;
+        setJobs(data ?? []);
+        if (data && data.length > 0) setActiveJob(data[0]);
+      })
+      .catch((e) => !cancelled && setJobsError(e instanceof Error ? e.message : "Failed to load jobs"))
+      .finally(() => !cancelled && setJobsLoading(false));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => loadJobs(), [loadJobs]);
+
+  const loadReports = useCallback((jobId: string, pageNum: number) => {
+    let cancelled = false;
+    setReportsLoading(true);
+    setReportsError(null);
+    apiFetch<ListReportsResponse>(`/jobs/${jobId}/reports?page=${pageNum}&pageSize=${PAGE_SIZE}`)
+      .then((data) => !cancelled && setReportsData(data))
+      .catch((e) => !cancelled && setReportsError(e instanceof Error ? e.message : "Failed to load candidates"))
+      .finally(() => !cancelled && setReportsLoading(false));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!activeJob) return;
+    return loadReports(activeJob.id, page);
+  }, [activeJob, page, loadReports]);
+
+  const handleDeleteJob = async (job: Job) => {
+    try {
+      await apiFetch(`/jobs/${job.id}`, { method: "DELETE" });
+      setJobs((prev) => {
+        const next = prev.filter((j) => j.id !== job.id);
+        if (activeJob?.id === job.id) {
+          setActiveJob(next[0] ?? null);
+          setPage(1);
+        }
+        return next;
+      });
+    } catch (e) {
+      setJobsError(e instanceof Error ? e.message : "Failed to delete job");
+    }
+    setDeleteTarget(null);
+  };
+
+  const handleCreateJob = async (payload: CreateJobPayload) => {
+    const created = await apiFetch<Job>("/jobs", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    setJobs((prev) => [created, ...prev]);
+    setActiveJob(created);
+    setPage(1);
+    return created;
+  };
+
+  if (jobsLoading) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center font-mono text-[13px] text-white/50">
+        <FiLoader size={16} className="animate-spin mr-2" /> Loading jobs...
+      </div>
+    );
+  }
+
+  if (jobsError) {
+    return (
+      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center gap-3 font-mono text-[13px] text-center px-6">
+        <FiAlertTriangle size={18} className="text-red-400" />
+        <span className="text-red-400">{jobsError}</span>
+        <button
+          onClick={loadJobs}
+          className="flex items-center gap-2 text-[12px] text-white/70 hover:text-white border border-white/15 rounded-lg px-3 py-2"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  if (!activeJob) {
+    return (
+      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center gap-4 font-mono text-[13px] text-white/50">
+        <span>No jobs yet.</span>
+        <button
+          onClick={() => setCreateJobOpen(true)}
+          className="flex items-center gap-2 font-mono text-[12px] text-black bg-white hover:bg-white/90 rounded-lg px-4 py-2.5"
+        >
+          <FiPlusCircle size={14} /> Create your first job
+        </button>
+        {createJobOpen && (
+          <CreateJobModal onClose={() => setCreateJobOpen(false)} onCreate={handleCreateJob} />
+        )}
+      </div>
+    );
+  }
+
+  const reports = reportsData?.reports ?? [];
+  const totalPages = reportsData?.totalPages ?? 1;
+  const total = reportsData?.total ?? 0;
 
   return (
     <div className="min-h-screen bg-black text-white font-sans">
       <div className="mx-auto max-w-3xl px-6 pt-8 pb-24">
-        {/* nav — sticky so it stays visible while the page scrolls */}
         <nav className="sticky top-0 z-30 -mx-6 px-6 py-4 flex flex-wrap items-center justify-between gap-y-3 font-mono text-[13px] mb-8 bg-black/90 backdrop-blur-sm border-b border-white/10">
           <span className="font-semibold flex-shrink-0 flex items-center gap-2">
             <Logo size={18} /> groundtruth
           </span>
 
           <div className="flex items-center gap-2 min-w-0">
-            {/* jobs dropdown */}
-            <div className="min-w-0">
+            <div className="relative min-w-0">
               <button
                 onClick={() => setJobsOpen(!jobsOpen)}
                 className="flex items-center gap-1.5 text-[12px] text-white/70 hover:text-white border border-white/15 rounded-full pl-3 pr-2.5 py-1.5 max-w-[160px] sm:max-w-none"
@@ -959,7 +1057,6 @@ export default function CandidatesPage() {
                       >
                         <span className="flex items-center justify-between gap-2">
                           <span className="truncate text-[13px]">{job.title}</span>
-                          <span className="font-mono text-[11px] text-white/40 flex-shrink-0">{job.count}</span>
                         </span>
                         <span className="font-mono text-[10px] text-white/35 truncate">
                           {locationLabel(job)}
@@ -972,9 +1069,7 @@ export default function CandidatesPage() {
                             setCopiedJobId(job.id);
                             setTimeout(() => setCopiedJobId((id) => (id === job.id ? null : id)), 1800);
                           } catch {
-                            // clipboard access can fail (permissions, insecure
-                            // context); silently no-op rather than throw, the
-                            // button remains clickable to retry
+                            /* clipboard unavailable, button stays clickable to retry */
                           }
                         }}
                         aria-label={`Copy apply link for ${job.title}`}
@@ -1002,7 +1097,6 @@ export default function CandidatesPage() {
               )}
             </div>
 
-            {/* main menu */}
             <div className="relative">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
@@ -1045,12 +1139,11 @@ export default function CandidatesPage() {
           </div>
         </nav>
 
-        {/* page header */}
         <div className="mb-6">
           <h1 className="text-[22px] font-bold mb-1">{activeJob.title}</h1>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <span className="font-mono text-[12px] text-white/40">
-              {mockCandidates.length} candidates, ranked by verified evidence
+              {total} scored candidates, ranked by verified evidence
             </span>
             <span className="font-mono text-[11px] text-white/50 border border-white/15 rounded px-2 py-0.5">
               {locationLabel(activeJob)}
@@ -1058,21 +1151,40 @@ export default function CandidatesPage() {
           </div>
         </div>
 
-        <JobStats job={activeJob} candidates={mockCandidates} />
+        <JobStats job={activeJob} reports={reports} total={total} />
 
-        {/* candidate list, sorted by score for the active job. candidates
-            without a byJob entry for a freshly created job sort last rather
-            than crashing on a missing lookup */}
-        <div className="flex flex-col gap-2.5 mb-8">
-          {pageItems
-            .slice()
-            .sort((a, b) => (b.byJob[activeJob.id]?.score ?? -1) - (a.byJob[activeJob.id]?.score ?? -1))
-            .map((c) => (
-              <CandidateCard key={c.id} c={c} activeJob={activeJob} />
+        {reportsLoading && (
+          <div className="flex items-center justify-center gap-2 py-12 font-mono text-[12px] text-white/50">
+            <FiLoader size={14} className="animate-spin" /> Loading candidates...
+          </div>
+        )}
+
+        {reportsError && !reportsLoading && (
+          <div className="flex flex-col items-center gap-3 text-center py-12 font-mono text-[12px] text-red-400">
+            <span>{reportsError}</span>
+            <button
+              onClick={() => loadReports(activeJob.id, page)}
+              className="flex items-center gap-2 text-white/70 hover:text-white border border-white/15 rounded-lg px-3 py-2"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
+        {!reportsLoading && !reportsError && reports.length === 0 && (
+          <div className="text-center py-12 font-mono text-[12px] text-white/40">
+            No scored candidates for this job yet.
+          </div>
+        )}
+
+        {!reportsLoading && !reportsError && reports.length > 0 && (
+          <div className="flex flex-col gap-2.5 mb-8">
+            {reports.map((report) => (
+              <CandidateCard key={report.candidateId} report={report} job={activeJob} />
             ))}
-        </div>
+          </div>
+        )}
 
-        {/* pagination */}
         {totalPages > 1 && (
           <div className="flex items-center justify-between font-mono text-[12px] text-white/50">
             <button
@@ -1097,14 +1209,7 @@ export default function CandidatesPage() {
       </div>
 
       {createJobOpen && (
-        <CreateJobModal
-          onClose={() => setCreateJobOpen(false)}
-          onCreate={(newJob) => {
-            setJobs((prev) => [newJob, ...prev]);
-            setActiveJob(newJob);
-            setPage(1);
-          }}
-        />
+        <CreateJobModal onClose={() => setCreateJobOpen(false)} onCreate={handleCreateJob} />
       )}
 
       {deleteTarget && (
@@ -1112,18 +1217,7 @@ export default function CandidatesPage() {
           job={deleteTarget}
           isOnlyJob={jobs.length <= 1}
           onCancel={() => setDeleteTarget(null)}
-          onConfirm={() => {
-            if (jobs.length <= 1) return; // at least one job must always exist
-            setJobs((prev) => {
-              const next = prev.filter((j) => j.id !== deleteTarget.id);
-              if (activeJob.id === deleteTarget.id) {
-                setActiveJob(next[0]);
-                setPage(1);
-              }
-              return next;
-            });
-            setDeleteTarget(null);
-          }}
+          onConfirm={() => handleDeleteJob(deleteTarget)}
         />
       )}
     </div>
@@ -1175,9 +1269,8 @@ function DeleteJobModal({
                 <>Create another job before deleting <span className="text-white">{job.title}</span>.</>
               ) : (
                 <>
-                  <span className="text-white">{job.title}</span> and its {job.count} candidate
-                  {job.count === 1 ? "" : "s"} will be permanently removed. This can&apos;t be
-                  undone.
+                  <span className="text-white">{job.title}</span> and its candidates will be
+                  permanently removed. This can&apos;t be undone.
                 </>
               )}
             </p>
@@ -1204,23 +1297,23 @@ function DeleteJobModal({
   );
 }
 
-function slugifyJobTitle(title: string) {
-  const base = title
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-  // short suffix keeps ids unique even if two jobs share a title
-  const suffix = Math.random().toString(36).slice(2, 6);
-  return `${base || "role"}-${suffix}`;
-}
+type CreateJobPayload = {
+  title: string;
+  description: string;
+  stack: string[];
+  location_mode: "anywhere" | "country" | "onsite";
+  location_countries: string[];
+  min_years_experience: number;
+  timezone: string;
+  min_overlap_hours: number;
+};
 
 function CreateJobModal({
   onClose,
   onCreate,
 }: {
   onClose: () => void;
-  onCreate: (job: Job) => void;
+  onCreate: (payload: CreateJobPayload) => Promise<Job>;
 }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -1229,6 +1322,10 @@ function CreateJobModal({
   const [locationMode, setLocationMode] = useState<"anywhere" | "country" | "onsite">("anywhere");
   const [locationCountries, setLocationCountries] = useState<string[]>([]);
   const [minYears, setMinYears] = useState("");
+  const [timezone, setTimezone] = useState("+00:00");
+  const [minOverlapHours, setMinOverlapHours] = useState("0");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [createdJob, setCreatedJob] = useState<{ id: string; title: string } | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -1240,7 +1337,11 @@ function CreateJobModal({
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [onClose]);
 
-  const canSubmit = title.trim().length > 0;
+  const canSubmit =
+    title.trim().length > 0 &&
+    description.trim().length > 0 &&
+    stack.length > 0 &&
+    (locationMode === "anywhere" || locationCountries.length > 0);
 
   const addStackTag = () => {
     const tag = stackInput.trim();
@@ -1249,27 +1350,31 @@ function CreateJobModal({
   };
 
   const handleCreate = async () => {
-    if (!canSubmit) return;
-    const id = slugifyJobTitle(title);
-    // new jobs start on the account's current plan limit; defaulting to the
-    // free tier here since this mock has no real billing/account state
-    const job: Job = {
-      id,
-      title: title.trim(),
-      count: 0,
-      limit: 20,
-      newSinceLastVisit: 0,
-      locationMode,
-      locationCountries: locationMode === "anywhere" ? [] : locationCountries,
-    };
-    onCreate(job);
-    setCreatedJob({ id, title: job.title });
+    if (!canSubmit || submitting) return;
+    setSubmitting(true);
+    setSubmitError(null);
     try {
-      await navigator.clipboard.writeText(applyUrl(id));
-      setCopied(true);
-    } catch {
-      // clipboard may be unavailable; the link is still shown and has its
-      // own copy button below, so this isn't a dead end
+      const created = await onCreate({
+        title: title.trim(),
+        description: description.trim(),
+        stack,
+        location_mode: locationMode,
+        location_countries: locationMode === "anywhere" ? [] : locationCountries,
+        min_years_experience: minYears ? parseInt(minYears, 10) : 0,
+        timezone,
+        min_overlap_hours: minOverlapHours ? parseInt(minOverlapHours, 10) : 0,
+      });
+      setCreatedJob({ id: created.id, title: created.title });
+      try {
+        await navigator.clipboard.writeText(applyUrl(created.id));
+        setCopied(true);
+      } catch {
+        /* clipboard unavailable, link still shown with its own copy button */
+      }
+    } catch (e) {
+      setSubmitError(e instanceof Error ? e.message : "Failed to create job");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -1305,8 +1410,6 @@ function CreateJobModal({
               />
             </div>
 
-            {/* structured match criteria: what candidate evidence gets
-                scored against, separate from the freeform description */}
             <div>
               <label className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 block mb-1">
                 Stack
@@ -1373,6 +1476,33 @@ function CreateJobModal({
               </div>
             </div>
 
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 block mb-1">
+                  Your timezone
+                </label>
+                <input
+                  value={timezone}
+                  onChange={(e) => setTimezone(e.target.value)}
+                  placeholder="+01:00"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/30"
+                />
+              </div>
+              <div>
+                <label className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 block mb-1">
+                  Min. overlap hours
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  value={minOverlapHours}
+                  onChange={(e) => setMinOverlapHours(e.target.value)}
+                  placeholder="4"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/30"
+                />
+              </div>
+            </div>
+
             {locationMode !== "anywhere" && (
               <div>
                 <label className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 block mb-1">
@@ -1429,6 +1559,10 @@ function CreateJobModal({
                 className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-[13px] text-white placeholder:text-white/30 leading-relaxed focus:outline-none focus:border-white/30 resize-none"
               />
             </div>
+
+            {submitError && (
+              <div className="text-[12px] text-red-400 font-mono">{submitError}</div>
+            )}
           </div>
         ) : (
           <div className="flex-1 overflow-y-auto px-4 py-5 flex flex-col gap-4">
@@ -1450,7 +1584,7 @@ function CreateJobModal({
                     setCopied(true);
                     setTimeout(() => setCopied(false), 1800);
                   } catch {
-                    // no-op, button remains available to retry
+                    /* no-op, button remains available to retry */
                   }
                 }}
                 aria-label="Copy apply link"
@@ -1469,10 +1603,11 @@ function CreateJobModal({
           {!createdJob ? (
             <button
               onClick={handleCreate}
-              disabled={!canSubmit}
+              disabled={!canSubmit || submitting}
               className="w-full flex items-center justify-center gap-2 font-mono text-[12px] text-black bg-white hover:bg-white/90 disabled:opacity-30 disabled:hover:bg-white rounded-lg py-2.5"
             >
-              Create job →
+              {submitting ? <FiLoader size={14} className="animate-spin" /> : null}
+              {submitting ? "Creating..." : "Create job →"}
             </button>
           ) : (
             <button
