@@ -22,6 +22,8 @@ import {
   FiLink,
   FiMail,
   FiLoader,
+  FiRefreshCw,
+  FiSave,
 } from "react-icons/fi";
 import { SiGithub, SiX } from "react-icons/si";
 import { FaLinkedin } from "react-icons/fa6";
@@ -30,64 +32,177 @@ import type { IconType } from "react-icons";
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
 const SIMPLE_ICON_SLUGS: Record<string, string> = {
+  // Languages
   go: "go",
   golang: "go",
   typescript: "typescript",
   javascript: "javascript",
   python: "python",
-  html: "html5",
-  css: "css3",
   java: "openjdk",
+  kotlin: "kotlin",
+  swift: "swift",
+  rust: "rust",
+  php: "php",
+  ruby: "ruby",
+  dart: "dart",
+  c: "c",
+  "c++": "cplusplus",
+  cpp: "cplusplus",
+  "c#": "csharp",
+  ".net": "dotnet",
+
+  // Frontend
   react: "react",
   "react router": "reactrouter",
-  "next.js": "nextdotjs",
   nextjs: "nextdotjs",
-  "tailwind css": "tailwindcss",
-  tailwindcss: "tailwindcss",
-  postgres: "postgresql",
-  postgresql: "postgresql",
-  mysql: "mysql",
-  sqlite: "sqlite",
-  mongodb: "mongodb",
-  redis: "redis",
-  supabase: "supabase",
-  prisma: "prisma",
-  docker: "docker",
-  shopify: "shopify",
-  vercel: "vercel",
-  zod: "zod",
+  "next.js": "nextdotjs",
+  vue: "vuedotjs",
+  nuxt: "nuxt",
+  angular: "angular",
+  svelte: "svelte",
+  solidjs: "solid",
+  astro: "astro",
   vite: "vite",
+  webpack: "webpack",
+  parcel: "parcel",
+  html: "html5",
+  html5: "html5",
+  css: "css",
+  css3: "css",
+  sass: "sass",
+  scss: "sass",
+  tailwind: "tailwindcss",
+  tailwindcss: "tailwindcss",
+  bootstrap: "bootstrap",
+  mui: "mui",
+  materialui: "mui",
+  shadcn: "shadcnui",
+
+  // Backend
   node: "nodedotjs",
   "node.js": "nodedotjs",
   express: "express",
-  graphql: "graphql",
-  rust: "rust",
-  kotlin: "kotlin",
-  swift: "swift",
-  ruby: "ruby",
-  rails: "rubyonrails",
+  nestjs: "nestjs",
+  fastify: "fastify",
+  hono: "hono",
   django: "django",
   flask: "flask",
+  fastapi: "fastapi",
   laravel: "laravel",
-  php: "php",
+  spring: "spring",
+  springboot: "springboot",
+  rails: "rubyonrails",
+
+  // Databases
+  postgres: "postgresql",
+  postgresql: "postgresql",
+  mysql: "mysql",
+  mariadb: "mariadb",
+  sqlite: "sqlite",
+  mongodb: "mongodb",
+  redis: "redis",
+  elasticsearch: "elasticsearch",
+  opensearch: "opensearch",
+  cockroachdb: "cockroachlabs",
+  cassandra: "apachecassandra",
+  dynamodb: "amazondynamodb",
+  influxdb: "influxdb",
+
+  // ORMs
+  prisma: "prisma",
+  drizzle: "drizzle",
+  sequelize: "sequelize",
+  typeorm: "typeorm",
+
+  // Cloud
   aws: "amazonwebservices",
   gcp: "googlecloud",
+  googlecloud: "googlecloud",
+  azure: "microsoftazure",
+  cloudflare: "cloudflare",
+  vercel: "vercel",
+  netlify: "netlify",
   firebase: "firebase",
-  kubernetes: "kubernetes",
-  "c#": "csharp",
-  ".net": "dotnet",
-};
+  supabase: "supabase",
 
-// Strips common qualifier suffixes so a specific detected signal (e.g. "Vercel
-// Analytics", "Prisma Client", "AWS SDK") still maps to its base tech's icon,
-// without needing a hardcoded slug entry for every variant the detector reports.
-function normalizeForIcon(name: string): string {
-  return name
-    .trim()
-    .toLowerCase()
-    .replace(/\s*(analytics|sdk|client|cli|package|library)$/i, "")
-    .trim();
-}
+  // Containers / Infra
+  docker: "docker",
+  kubernetes: "kubernetes",
+  helm: "helm",
+  terraform: "terraform",
+  ansible: "ansible",
+  nginx: "nginx",
+  traefik: "traefik",
+
+  // CI/CD
+  githubactions: "githubactions",
+  "github actions": "githubactions",
+  gitlabci: "gitlab",
+  jenkins: "jenkins",
+  circleci: "circleci",
+
+  // Monitoring
+  prometheus: "prometheus",
+  grafana: "grafana",
+  datadog: "datadog",
+  sentry: "sentry",
+  opentelemetry: "opentelemetry",
+  langfuse: "langfuse",
+
+  // Messaging
+  kafka: "apachekafka",
+  rabbitmq: "rabbitmq",
+  nats: "natsdotio",
+
+  // AI
+  openai: "openai",
+  anthropic: "anthropic",
+  langchain: "langchain",
+  llamaindex: "llamaindex",
+  ollama: "ollama",
+
+  // Mobile
+  flutter: "flutter",
+  reactnative: "react",
+  expo: "expo",
+
+  // Tools
+  git: "git",
+  github: "github",
+  gitlab: "gitlab",
+  bitbucket: "bitbucket",
+  vscode: "visualstudiocode",
+  postman: "postman",
+  insomnia: "insomnia",
+  linux: "linux",
+
+  // Package Managers
+  npm: "npm",
+  yarn: "yarn",
+  pnpm: "pnpm",
+  bun: "bun",
+
+  // Auth
+  auth0: "auth0",
+  clerk: "clerk",
+  keycloak: "keycloak",
+
+  // Payments
+  stripe: "stripe",
+  paypal: "paypal",
+  paystack: "paystack",
+
+  // CMS
+  strapi: "strapi",
+  contentful: "contentful",
+  sanity: "sanity",
+
+  // Testing
+  jest: "jest",
+  vitest: "vitest",
+  playwright: "playwright",
+  cypress: "cypress",
+};
 
 const DARK_ICON_SLUGS = new Set([
   "nextdotjs",
@@ -97,13 +212,56 @@ const DARK_ICON_SLUGS = new Set([
   "express",
 ]);
 
+function matchIconSlug(name: string): string | null {
+  const normalized = name.trim().toLowerCase();
+  if (SIMPLE_ICON_SLUGS[normalized]) return SIMPLE_ICON_SLUGS[normalized];
+
+  const tokens = normalized.split(/[^a-z0-9.#+]+/).filter(Boolean);
+
+  for (const token of tokens) {
+    if (SIMPLE_ICON_SLUGS[token]) return SIMPLE_ICON_SLUGS[token];
+  }
+
+  const keys = Object.keys(SIMPLE_ICON_SLUGS).sort((a, b) => b.length - a.length);
+  for (const key of keys) {
+    if (key.length < 3) continue;
+    if (normalized.includes(key)) return SIMPLE_ICON_SLUGS[key];
+  }
+
+  return null;
+}
+
 function stackIconUrl(name: string): string | null {
-  const slug = SIMPLE_ICON_SLUGS[normalizeForIcon(name)];
+  const slug = matchIconSlug(name);
   if (!slug) return null;
-  // No color param = CDN's default, which is the icon's real brand color.
   return DARK_ICON_SLUGS.has(slug)
     ? `https://cdn.simpleicons.org/${slug}/ffffff`
     : `https://cdn.simpleicons.org/${slug}`;
+}
+
+function hashString(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
+
+function stringToColor(str: string): string {
+  const hue = hashString(str) % 360;
+  return `hsl(${hue}, 65%, 50%)`;
+}
+
+function fallbackAvatar(name: string): { letters: string; color: string } {
+  const cleaned = name.trim().toLowerCase().replace(/\s*(analytics|sdk|client|cli|package|library)$/i, "").trim();
+  const alnum = cleaned.replace(/[^a-zA-Z0-9]/g, "");
+  const letters =
+    alnum.length <= 2
+      ? alnum.toUpperCase() || "?"
+      : (alnum[0] + alnum[alnum.length - 1]).toUpperCase();
+  const color = stringToColor(cleaned);
+  return { letters, color };
 }
 
 type Evidence = {
@@ -169,6 +327,7 @@ type CandidateReport = {
   candidateId: string;
   jobId: string;
   generatedAt: string;
+  lastScannedAt: string;
   candidate: CandidateSummary;
   evidence: Evidence[];
   contributions?: Contribution[];
@@ -311,12 +470,20 @@ function MatchIndicator({ match }: { match: Reasoning["stackMatch"] }) {
 
 function StackTag({ lang }: { lang: string }) {
   const iconUrl = stackIconUrl(lang);
+  const fallback = iconUrl ? null : fallbackAvatar(lang);
   return (
     <span className="flex items-center gap-1.5 font-mono text-[11px] text-white/85 border border-white/20 bg-white/[0.06] rounded px-2 py-0.5">
       {iconUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={iconUrl} alt="" width={11} height={11} className="flex-shrink-0" />
-      ) : null}
+      ) : (
+        <span
+          className="flex-shrink-0 w-[13px] h-[13px] rounded-[3px] flex items-center justify-center text-[7px] font-bold text-black/80 leading-none"
+          style={{ backgroundColor: fallback!.color }}
+        >
+          {fallback!.letters}
+        </span>
+      )}
       {lang}
     </span>
   );
@@ -451,6 +618,8 @@ function EvidenceLinks({ evidence }: { evidence: ReasonEvidence[] }) {
   );
 }
 
+const RESCAN_COOLDOWN_MS = 24 * 60 * 60 * 1000;
+
 function timeAgo(iso: string): string {
   const then = new Date(iso).getTime();
   if (Number.isNaN(then)) return "";
@@ -465,7 +634,72 @@ function timeAgo(iso: string): string {
   return `${years} year${years === 1 ? "" : "s"} ago`;
 }
 
-function CandidateCard({ report, job }: { report: CandidateReport; job: Job }) {
+function hoursUntilRescan(lastScannedAt: string): number {
+  const last = new Date(lastScannedAt).getTime();
+  if (Number.isNaN(last)) return 0;
+  const remainingMs = RESCAN_COOLDOWN_MS - (Date.now() - last);
+  return Math.max(0, Math.ceil(remainingMs / (60 * 60 * 1000)));
+}
+
+function RescanButton({
+  candidateId,
+  lastScannedAt,
+  onRescanned,
+}: {
+  candidateId: string;
+  lastScannedAt: string;
+  onRescanned: (updated: CandidateReport) => void;
+}) {
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const hoursLeft = hoursUntilRescan(lastScannedAt);
+  const onCooldown = hoursLeft > 0;
+
+  const handleRescan = async () => {
+    if (onCooldown || submitting) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const updated = await apiFetch<CandidateReport>(`/candidates/${candidateId}/rescan`, {
+        method: "POST",
+      });
+      onRescanned(updated);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to rescan");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-1">
+      <button
+        onClick={handleRescan}
+        disabled={onCooldown || submitting}
+        className="flex items-center justify-center gap-2 font-mono text-[12px] text-white/80 hover:text-white disabled:opacity-40 border border-white/15 rounded-lg py-2.5 transition-colors"
+      >
+        {submitting ? <FiLoader size={13} className="animate-spin" /> : <FiRefreshCw size={13} />}
+        {submitting ? "Rescanning..." : onCooldown ? `Rescan available in ${hoursLeft}h` : "Rescan candidate"}
+      </button>
+      <span className="font-mono text-[10px] text-white/30 text-center">
+        Can be regenerated once per 24 hours
+      </span>
+      {error && (
+        <span className="font-mono text-[11px] text-red-400 text-center">{error}</span>
+      )}
+    </div>
+  );
+}
+
+function CandidateCard({
+  report,
+  job,
+  onReportUpdated,
+}: {
+  report: CandidateReport;
+  job: Job;
+  onReportUpdated: (updated: CandidateReport) => void;
+}) {
   const [open, setOpen] = useState(false);
   const c = report.candidate;
   const r = report.reasoning;
@@ -674,7 +908,14 @@ function CandidateCard({ report, job }: { report: CandidateReport; job: Job }) {
             </div>
           </div>
 
-          <DraftEmailButton candidateId={c.candidateId} candidateEmail={c.email} candidateFirstName={c.name.split(" ")[0]} />
+          <div className="flex flex-col gap-2">
+            <RescanButton
+              candidateId={c.candidateId}
+              lastScannedAt={report.lastScannedAt}
+              onRescanned={onReportUpdated}
+            />
+            <DraftEmailButton candidateId={c.candidateId} candidateEmail={c.email} candidateFirstName={c.name.split(" ")[0]} />
+          </div>
         </div>
       )}
     </div>
@@ -695,18 +936,26 @@ function DraftEmailButton({
   const [error, setError] = useState<string | null>(null);
   const [draft, setDraft] = useState<{ subject: string; body: string } | null>(null);
 
-  const handleClick = async () => {
+  const loadSavedDraft = async () => {
     setModalOpen(true);
     setLoading(true);
     setError(null);
     try {
-      const result = await apiFetch<{ subject: string; body: string }>(
+      const result = await apiFetch<{ subject: string; body: string } | null>(
         `/candidates/${candidateId}/outreach`,
-        { method: "POST" }
+        { method: "GET" }
       );
-      setDraft(result);
+      if (result) {
+        setDraft(result);
+      } else {
+        const generated = await apiFetch<{ subject: string; body: string }>(
+          `/candidates/${candidateId}/outreach`,
+          { method: "POST" }
+        );
+        setDraft(generated);
+      }
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to draft email");
+      setError(e instanceof Error ? e.message : "Failed to load draft");
     } finally {
       setLoading(false);
     }
@@ -715,18 +964,20 @@ function DraftEmailButton({
   return (
     <>
       <button
-        onClick={handleClick}
-        className="flex items-center justify-center gap-2 font-mono text-[12px] text-black bg-white hover:bg-white/90 rounded-lg py-2.5 mt-1"
+        onClick={loadSavedDraft}
+        className="flex items-center justify-center gap-2 font-mono text-[12px] text-black bg-white hover:bg-white/90 rounded-lg py-2.5"
       >
         <FiMail size={13} />
         Draft email to {candidateFirstName}
       </button>
       {modalOpen && (
         <EmailPreviewModal
+          candidateId={candidateId}
           candidateEmail={candidateEmail}
           loading={loading}
           error={error}
           draft={draft}
+          onDraftChange={setDraft}
           onClose={() => setModalOpen(false)}
         />
       )}
@@ -735,20 +986,28 @@ function DraftEmailButton({
 }
 
 function EmailPreviewModal({
+  candidateId,
   candidateEmail,
   loading,
   error,
   draft,
+  onDraftChange,
   onClose,
 }: {
+  candidateId: string;
   candidateEmail: string;
   loading: boolean;
   error: string | null;
   draft: { subject: string; body: string } | null;
+  onDraftChange: (draft: { subject: string; body: string }) => void;
   onClose: () => void;
 }) {
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
+  const [regenerating, setRegenerating] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   useEffect(() => {
     if (draft) {
@@ -764,6 +1023,41 @@ function EmailPreviewModal({
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [onClose]);
+
+  const handleRegenerate = async () => {
+    setRegenerating(true);
+    setActionError(null);
+    setSaved(false);
+    try {
+      const fresh = await apiFetch<{ subject: string; body: string }>(
+        `/candidates/${candidateId}/outreach`,
+        { method: "POST" }
+      );
+      onDraftChange(fresh);
+    } catch (e) {
+      setActionError(e instanceof Error ? e.message : "Failed to regenerate");
+    } finally {
+      setRegenerating(false);
+    }
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    setActionError(null);
+    try {
+      await apiFetch(`/candidates/${candidateId}/outreach`, {
+        method: "PUT",
+        body: JSON.stringify({ subject, body }),
+      });
+      onDraftChange({ subject, body });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 1800);
+    } catch (e) {
+      setActionError(e instanceof Error ? e.message : "Failed to save");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <div
@@ -830,9 +1124,34 @@ function EmailPreviewModal({
                   className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-[13px] text-white leading-relaxed focus:outline-none focus:border-white/30 resize-none"
                 />
               </div>
+
+              {actionError && (
+                <span className="font-mono text-[11px] text-red-400">{actionError}</span>
+              )}
+              {saved && (
+                <span className="font-mono text-[11px] text-[#3FB950]">Draft saved</span>
+              )}
             </div>
 
-            <div className="px-4 py-3 border-t border-white/10 flex-shrink-0">
+            <div className="px-4 py-3 border-t border-white/10 flex-shrink-0 flex flex-col gap-2">
+              <div className="flex gap-2">
+                <button
+                  onClick={handleRegenerate}
+                  disabled={regenerating || saving}
+                  className="flex-1 flex items-center justify-center gap-2 font-mono text-[12px] text-white/80 hover:text-white disabled:opacity-40 border border-white/15 rounded-lg py-2.5 transition-colors"
+                >
+                  {regenerating ? <FiLoader size={13} className="animate-spin" /> : <FiRefreshCw size={13} />}
+                  {regenerating ? "Regenerating..." : "Regenerate"}
+                </button>
+                <button
+                  onClick={handleSave}
+                  disabled={saving || regenerating}
+                  className="flex-1 flex items-center justify-center gap-2 font-mono text-[12px] text-white/80 hover:text-white disabled:opacity-40 border border-white/15 rounded-lg py-2.5 transition-colors"
+                >
+                  {saving ? <FiLoader size={13} className="animate-spin" /> : <FiSave size={13} />}
+                  {saving ? "Saving..." : "Save"}
+                </button>
+              </div>
               <a
                 href={mailtoUrl(candidateEmail, subject, body)}
                 onClick={onClose}
@@ -1069,7 +1388,6 @@ export default function CandidatesPage() {
                             setCopiedJobId(job.id);
                             setTimeout(() => setCopiedJobId((id) => (id === job.id ? null : id)), 1800);
                           } catch {
-                            /* clipboard unavailable, button stays clickable to retry */
                           }
                         }}
                         aria-label={`Copy apply link for ${job.title}`}
@@ -1180,7 +1498,23 @@ export default function CandidatesPage() {
         {!reportsLoading && !reportsError && reports.length > 0 && (
           <div className="flex flex-col gap-2.5 mb-8">
             {reports.map((report) => (
-              <CandidateCard key={report.candidateId} report={report} job={activeJob} />
+              <CandidateCard
+                key={report.candidateId}
+                report={report}
+                job={activeJob}
+                onReportUpdated={(updated) =>
+                  setReportsData((prev) =>
+                    prev
+                      ? {
+                          ...prev,
+                          reports: prev.reports.map((r) =>
+                            r.candidateId === updated.candidateId ? updated : r
+                          ),
+                        }
+                      : prev
+                  )
+                }
+              />
             ))}
           </div>
         )}
@@ -1369,7 +1703,6 @@ function CreateJobModal({
         await navigator.clipboard.writeText(applyUrl(created.id));
         setCopied(true);
       } catch {
-        /* clipboard unavailable, link still shown with its own copy button */
       }
     } catch (e) {
       setSubmitError(e instanceof Error ? e.message : "Failed to create job");
@@ -1584,7 +1917,6 @@ function CreateJobModal({
                     setCopied(true);
                     setTimeout(() => setCopied(false), 1800);
                   } catch {
-                    /* no-op, button remains available to retry */
                   }
                 }}
                 aria-label="Copy apply link"
