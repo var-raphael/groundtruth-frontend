@@ -15,9 +15,10 @@ import {
   FiX,
   FiUsers,
 } from "react-icons/fi";
+import { getRecruiterSupabase } from "../../lib/supabase";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
-const ADMIN_SESSION_KEY = "gt_admin_session";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
 
 function Logo({ size = 20 }: { size?: number }) {
   return (
@@ -35,23 +36,13 @@ function Logo({ size = 20 }: { size?: number }) {
   );
 }
 
-function TerminalFrame({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded-xl border border-white/15 bg-white/[0.02] overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/10 font-mono text-[11px] text-white/40">
-        <span className="w-2 h-2 rounded-full border border-white/20" />
-        <span className="w-2 h-2 rounded-full border border-white/20" />
-        <span className="w-2 h-2 rounded-full border border-white/20" />
-        <span className="ml-2">{label}</span>
-      </div>
-      {children}
-    </div>
-  );
-}
-
-const FETCH_TIMEOUT_MS = 10000;
+const FETCH_TIMEOUT_MS = 20000;
+const FORBIDDEN = "FORBIDDEN";
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
+  const { data } = await getRecruiterSupabase().auth.getSession();
+  const token = data.session?.access_token;
+
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
@@ -59,7 +50,11 @@ async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   try {
     res = await fetch(`${API_URL}${path}`, {
       ...options,
-      headers: { "Content-Type": "application/json", ...options?.headers },
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options?.headers,
+      },
       signal: controller.signal,
     });
   } catch (e) {
@@ -71,6 +66,12 @@ async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
     clearTimeout(timeout);
   }
 
+  if (res.status === 401 && typeof window !== "undefined") {
+    window.location.href = "/login";
+  }
+  if (res.status === 403) {
+    throw new Error(FORBIDDEN);
+  }
   if (!res.ok) {
     const text = await res.text().catch(() => "");
     throw new Error(text || `${res.status} ${res.statusText}`);
@@ -95,91 +96,27 @@ type Job = {
   created_at: string;
 };
 
-const JOB_COUNTRIES = [
-  "United States",
-  "United Kingdom",
-  "Canada",
-  "Germany",
-  "France",
-  "Nigeria",
-  "India",
-  "Brazil",
-  "Australia",
-  "Japan",
-  "Singapore",
-  "Netherlands",
-  "South Africa",
+const JOB_COUNTRIES: { name: string; code: string }[] = [
+  { name: "United States", code: "US" },
+  { name: "United Kingdom", code: "GB" },
+  { name: "Canada", code: "CA" },
+  { name: "Germany", code: "DE" },
+  { name: "France", code: "FR" },
+  { name: "Nigeria", code: "NG" },
+  { name: "India", code: "IN" },
+  { name: "Brazil", code: "BR" },
+  { name: "Australia", code: "AU" },
+  { name: "Japan", code: "JP" },
+  { name: "Singapore", code: "SG" },
+  { name: "Netherlands", code: "NL" },
+  { name: "South Africa", code: "ZA" },
 ];
 
+const COUNTRY_CODE_BY_NAME = new Map(JOB_COUNTRIES.map((c) => [c.name, c.code]));
+
 function reportUrl(jobId: string) {
-  if (typeof window === "undefined") return `/job-report/${jobId}`;
-  return `${window.location.origin}/job-report/${jobId}`;
-}
-
-// ── password gate ────────────────────────────────────────────────────────
-
-function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
-  const [password, setPassword] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async () => {
-    if (!password || submitting) return;
-    setSubmitting(true);
-    setError(null);
-    try {
-      await apiFetch("/admin/login", {
-        method: "POST",
-        body: JSON.stringify({ password }),
-      });
-      sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
-      onUnlock();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Incorrect password");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-black text-white font-sans flex items-center justify-center px-6">
-      <div className="w-full max-w-sm">
-        <div className="flex items-center gap-2 font-mono text-[13px] font-semibold justify-center mb-8">
-          <Logo size={18} /> groundtruth
-        </div>
-        <TerminalFrame label="groundtruth / admin">
-          <div className="p-6 flex flex-col gap-4">
-            <div className="flex items-center gap-2 text-white/60">
-              <FiLock size={14} />
-              <span className="font-mono text-[12px]">Admin access</span>
-            </div>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-              placeholder="Password"
-              autoFocus
-              className="w-full bg-black border border-white/15 focus:border-white/50 rounded-lg px-3.5 py-3 font-mono text-[14px] text-white placeholder:text-white/30 outline-none transition-colors"
-            />
-            {error && (
-              <div className="flex items-center gap-2 font-mono text-[12px] text-red-400">
-                <FiAlertTriangle size={13} /> {error}
-              </div>
-            )}
-            <button
-              onClick={handleSubmit}
-              disabled={!password || submitting}
-              className="w-full flex items-center justify-center gap-2 font-mono text-[13px] font-semibold text-black bg-white hover:bg-white/90 disabled:opacity-30 rounded-lg py-3 transition-colors"
-            >
-              {submitting ? <FiLoader size={14} className="animate-spin" /> : null}
-              {submitting ? "Checking..." : "Enter →"}
-            </button>
-          </div>
-        </TerminalFrame>
-      </div>
-    </div>
-  );
+  const base = (APP_URL || (typeof window !== "undefined" ? window.location.origin : "")).replace(/\/$/, "");
+  return `${base}/job-report/${jobId}`;
 }
 
 // ── candidate paste ───────────────────────────────────────────────────────
@@ -202,7 +139,7 @@ function BulkPasteCandidates({
   const [raw, setRaw] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<number | null>(null);
+  const [result, setResult] = useState<{ queued: number; failed: string[] } | null>(null);
 
   const usernames = parseGithubLines(raw);
 
@@ -210,14 +147,17 @@ function BulkPasteCandidates({
     if (usernames.length === 0 || submitting) return;
     setSubmitting(true);
     setError(null);
-    setSuccess(null);
+    setResult(null);
     try {
-      await apiFetch(`/admin/jobs/${job.id}/candidates/bulk`, {
-        method: "POST",
-        body: JSON.stringify({ github_usernames: usernames }),
-      });
-      setSuccess(usernames.length);
-      setRaw("");
+      const res = await apiFetch<{ queued: number; failed: string[] }>(
+        `/admin/jobs/${job.id}/candidates/bulk`,
+        {
+          method: "POST",
+          body: JSON.stringify({ github_usernames: usernames }),
+        }
+      );
+      setResult(res);
+      if (res.queued > 0) setRaw("");
       onQueued(job.id);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to queue candidates");
@@ -256,9 +196,16 @@ function BulkPasteCandidates({
           <FiAlertTriangle size={13} /> {error}
         </div>
       )}
-      {success !== null && (
+      {result && result.queued > 0 && (
         <div className="flex items-center gap-2 font-mono text-[12px] text-[#3FB950]">
-          <FiCheckCircle size={13} /> Queued {success} candidate{success === 1 ? "" : "s"} for scanning
+          <FiCheckCircle size={13} /> Queued {result.queued} candidate{result.queued === 1 ? "" : "s"} for scanning
+        </div>
+      )}
+      {result && result.failed.length > 0 && (
+        <div className="font-mono text-[11px] text-[#F0883E] leading-relaxed">
+          {result.failed.map((f) => (
+            <div key={f}>{f}</div>
+          ))}
         </div>
       )}
     </div>
@@ -305,7 +252,10 @@ function JobRow({
         <div className="min-w-0 flex-1">
           <div className="font-medium text-[14px] truncate">{job.title}</div>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
-            <span className={`font-mono text-[11px] ${status.color}`}>{status.text}</span>
+            <span className={`font-mono text-[11px] ${status.color}`}>
+              {job.status === "scanning" && <FiLoader size={10} className="inline animate-spin mr-1" />}
+              {status.text}
+            </span>
             <span className="font-mono text-[11px] text-white/40 flex items-center gap-1">
               <FiUsers size={11} /> {job.scored_count}/{job.candidate_count} scored
             </span>
@@ -402,7 +352,10 @@ function CreateJobForm({ onCreated }: { onCreated: (job: Job) => void }) {
         description: description.trim(),
         stack,
         location_mode: locationMode,
-        location_countries: locationMode === "anywhere" ? [] : locationCountries,
+        location_countries:
+          locationMode === "anywhere"
+            ? []
+            : locationCountries.map((n) => COUNTRY_CODE_BY_NAME.get(n) ?? n),
         min_years_experience: minYears ? parseInt(minYears, 10) : 0,
       };
       const created = await apiFetch<Job>("/admin/jobs", {
@@ -536,8 +489,8 @@ function CreateJobForm({ onCreated }: { onCreated: (job: Job) => void }) {
             className="w-full bg-black border border-white/15 focus:border-white/50 rounded-lg px-3 py-2.5 text-[13px] text-white outline-none appearance-none transition-colors"
           >
             <option value="" className="bg-black">Add a country</option>
-            {JOB_COUNTRIES.filter((c) => !locationCountries.includes(c)).map((c) => (
-              <option key={c} value={c} className="bg-black">{c}</option>
+            {JOB_COUNTRIES.filter((c) => !locationCountries.includes(c.name)).map((c) => (
+              <option key={c.code} value={c.name} className="bg-black">{c.name}</option>
             ))}
           </select>
         </div>
@@ -622,84 +575,53 @@ function DeleteJobModal({
 
 // ── main page ─────────────────────────────────────────────────────────────
 
+const POLL_INTERVAL_MS = 8000;
+
 export default function AdminPage() {
-  // TEMP: skipping the password gate to preview the dashboard — no backend yet. REVERT before shipping.
-  const [unlocked, setUnlocked] = useState<boolean | null>(true);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [forbidden, setForbidden] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Job | null>(null);
 
-  useEffect(() => {
-    // TEMP: skip sessionStorage check while unlocked is hardcoded above. REVERT before shipping.
-    // setUnlocked(sessionStorage.getItem(ADMIN_SESSION_KEY) === "1");
-  }, []);
-
-  // TEMP: mock jobs so the dashboard has something to show without a backend. REVERT before shipping.
-  const MOCK_JOBS: Job[] = [
-    {
-      id: "mock-job-1",
-      title: "Founding Engineer",
-      description: "Full-stack founding engineer role, Go + Rust backend.",
-      stack: ["Go", "Rust", "PostgreSQL", "Docker"],
-      location_mode: "anywhere",
-      location_countries: [],
-      min_years_experience: 5,
-      candidate_count: 2,
-      scored_count: 2,
-      status: "ready",
-      created_at: new Date().toISOString(),
-    },
-    {
-      id: "mock-job-2",
-      title: "Backend Engineer, Payments",
-      description: "Backend engineer for the payments team.",
-      stack: ["Go", "PostgreSQL"],
-      location_mode: "country",
-      location_countries: ["United States", "Canada"],
-      min_years_experience: 3,
-      candidate_count: 6,
-      scored_count: 3,
-      status: "scanning",
-      created_at: new Date().toISOString(),
-    },
-    {
-      id: "mock-job-3",
-      title: "Frontend Engineer",
-      description: "React/Next.js frontend engineer, no candidates pasted yet.",
-      stack: ["TypeScript", "React", "Next.js"],
-      location_mode: "anywhere",
-      location_countries: [],
-      min_years_experience: 2,
-      candidate_count: 0,
-      scored_count: 0,
-      status: "draft",
-      created_at: new Date().toISOString(),
-    },
-  ];
-
   const loadJobs = useCallback(() => {
-    // TEMP: short-circuit with mock data instead of hitting the real API. REVERT before shipping.
     setLoading(true);
     setError(null);
-    const t = setTimeout(() => {
-      setJobs(MOCK_JOBS);
-      setLoading(false);
-    }, 400);
-    return () => clearTimeout(t);
+    apiFetch<Job[]>("/admin/jobs")
+      .then((data) => setJobs(data))
+      .catch((e) => {
+        if (e instanceof Error && e.message === FORBIDDEN) {
+          setForbidden(true);
+          return;
+        }
+        setError(e instanceof Error ? e.message : "Failed to load jobs");
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
-    if (unlocked) return loadJobs();
-  }, [unlocked, loadJobs]);
+    loadJobs();
+  }, [loadJobs]);
 
-  // refresh a single job's status after candidates are queued, so scanning
-  // state shows up without a full page reload
+  const hasScanning = jobs.some((j) => j.status === "scanning");
+
+  useEffect(() => {
+    if (!hasScanning) return;
+    const timer = setInterval(() => {
+      apiFetch<Job[]>("/admin/jobs")
+        .then((data) => setJobs(data))
+        .catch(() => {
+          /* silent — next tick retries */
+        });
+    }, POLL_INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, [hasScanning]);
+
   const refreshJob = useCallback((jobId: string) => {
     apiFetch<Job>(`/admin/jobs/${jobId}`)
       .then((updated) => setJobs((prev) => prev.map((j) => (j.id === jobId ? updated : j))))
       .catch(() => {
-        /* silent — next full reload will pick up the real state */
+        /* silent — polling will pick up the real state */
       });
   }, []);
 
@@ -713,12 +635,29 @@ export default function AdminPage() {
     setDeleteTarget(null);
   };
 
-  if (unlocked === null) {
-    return <div className="min-h-screen bg-black" />;
-  }
+  const signOut = async () => {
+    await getRecruiterSupabase().auth.signOut();
+    window.location.href = "/login";
+  };
 
-  if (!unlocked) {
-    return <PasswordGate onUnlock={() => setUnlocked(true)} />;
+  if (forbidden) {
+    return (
+      <div className="min-h-screen bg-black text-white font-sans flex items-center justify-center px-6">
+        <div className="max-w-sm text-center">
+          <FiLock size={24} className="text-white/40 mx-auto mb-4" />
+          <h1 className="text-[18px] font-bold mb-2">Admin access only</h1>
+          <p className="text-[14px] text-white/60 leading-relaxed mb-5">
+            This account isn&apos;t on the admin list.
+          </p>
+          <a
+            href="/candidates"
+            className="inline-block font-mono text-[12px] text-black bg-white hover:bg-white/90 rounded-lg px-4 py-2.5"
+          >
+            Back to dashboard
+          </a>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -728,8 +667,13 @@ export default function AdminPage() {
           <span className="font-semibold flex items-center gap-2">
             <Logo size={18} /> groundtruth
           </span>
-          <span className="font-mono text-[11px] text-white/40 flex items-center gap-1.5">
-            <FiLock size={11} /> admin
+          <span className="flex items-center gap-4">
+            <span className="font-mono text-[11px] text-white/40 flex items-center gap-1.5">
+              <FiLock size={11} /> admin
+            </span>
+            <button onClick={signOut} className="font-mono text-[11px] text-white/40 hover:text-white">
+              Sign out
+            </button>
           </span>
         </nav>
 

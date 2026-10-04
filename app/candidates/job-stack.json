@@ -1,0 +1,5330 @@
+[
+  {
+    "name": "aarch64",
+    "type": "icon",
+    "label": "AA",
+    "color": "#16358C"
+  },
+  {
+    "name": "adonisjs",
+    "type": "icon",
+    "label": "AD",
+    "color": "#5A45FF"
+  },
+  {
+    "name": "aerospike",
+    "type": "icon",
+    "label": "AE",
+    "color": "#c21417"
+  },
+  {
+    "name": "aframe",
+    "type": "icon",
+    "label": "AF",
+    "color": "#ee295f"
+  },
+  {
+    "name": "aftereffects",
+    "type": "icon",
+    "label": "AF",
+    "color": "#1F0740"
+  },
+  {
+    "name": "akka",
+    "type": "icon",
+    "label": "AK",
+    "color": "#15a9ce"
+  },
+  {
+    "name": "algolia",
+    "type": "icon",
+    "label": "AL",
+    "color": "#003dff"
+  },
+  {
+    "name": "almalinux",
+    "type": "icon",
+    "label": "AL",
+    "color": "#ffffff"
+  },
+  {
+    "name": "alpinejs",
+    "type": "icon",
+    "label": "AL",
+    "color": "#2d3441"
+  },
+  {
+    "name": "amazonwebservices",
+    "type": "icon",
+    "label": "AM",
+    "color": "#f90"
+  },
+  {
+    "name": "anaconda",
+    "type": "icon",
+    "label": "AN",
+    "color": "#3eb049"
+  },
+  {
+    "name": "android",
+    "type": "icon",
+    "label": "AN",
+    "color": "#A4C439"
+  },
+  {
+    "name": "androidstudio",
+    "type": "icon",
+    "label": "AN",
+    "color": "#4285F4"
+  },
+  {
+    "name": "angular",
+    "type": "icon",
+    "label": "AN",
+    "color": "#FFFFFF"
+  },
+  {
+    "name": "angularjs",
+    "type": "icon",
+    "label": "AN",
+    "color": "#c4473a"
+  },
+  {
+    "name": "angularmaterial",
+    "type": "icon",
+    "label": "AN",
+    "color": "#ffa726"
+  },
+  {
+    "name": "ansible",
+    "type": "icon",
+    "label": "AN",
+    "color": "#1A1918"
+  },
+  {
+    "name": "ansys",
+    "type": "icon",
+    "label": "AN",
+    "color": "#000000"
+  },
+  {
+    "name": "antdesign",
+    "type": "icon",
+    "label": "AN",
+    "color": "#0073bb"
+  },
+  {
+    "name": "apache",
+    "type": "icon",
+    "label": "AP",
+    "color": "#cb2533"
+  },
+  {
+    "name": "apacheairflow",
+    "type": "icon",
+    "label": "AP",
+    "color": "#017cee"
+  },
+  {
+    "name": "apachekafka",
+    "type": "icon",
+    "label": "AP",
+    "color": "#231f20"
+  },
+  {
+    "name": "apachespark",
+    "type": "icon",
+    "label": "AP",
+    "color": "#e15919"
+  },
+  {
+    "name": "apex",
+    "type": "icon",
+    "label": "AP",
+    "color": "#0d9dda"
+  },
+  {
+    "name": "apl",
+    "type": "icon",
+    "label": "AP",
+    "color": "#24a148"
+  },
+  {
+    "name": "apollographql",
+    "type": "icon",
+    "label": "AP",
+    "color": "#112B49"
+  },
+  {
+    "name": "appcelerator",
+    "type": "icon",
+    "label": "AP",
+    "color": "#ac162c"
+  },
+  {
+    "name": "apple",
+    "type": "icon",
+    "label": "AP",
+    "color": "#000000"
+  },
+  {
+    "name": "appwrite",
+    "type": "icon",
+    "label": "AP",
+    "color": "#fd366e"
+  },
+  {
+    "name": "archlinux",
+    "type": "icon",
+    "label": "AR",
+    "color": "#1791cf"
+  },
+  {
+    "name": "arduino",
+    "type": "icon",
+    "label": "AR",
+    "color": "#00979d"
+  },
+  {
+    "name": "argocd",
+    "type": "icon",
+    "label": "AR",
+    "color": "#ef7b4d"
+  },
+  {
+    "name": "artixlinux",
+    "type": "icon",
+    "label": "AR",
+    "color": "#10a0cc"
+  },
+  {
+    "name": "astro",
+    "type": "icon",
+    "label": "AS",
+    "color": "#ff5d01"
+  },
+  {
+    "name": "atom",
+    "type": "icon",
+    "label": "AT",
+    "color": "#67595D"
+  },
+  {
+    "name": "awk",
+    "type": "icon",
+    "label": "AW",
+    "color": "#0a094d"
+  },
+  {
+    "name": "axios",
+    "type": "icon",
+    "label": "AX",
+    "color": "#5a29e4"
+  },
+  {
+    "name": "azure",
+    "type": "icon",
+    "label": "AZ",
+    "color": "#0089D6"
+  },
+  {
+    "name": "azuredevops",
+    "type": "icon",
+    "label": "AZ",
+    "color": "#0078d4"
+  },
+  {
+    "name": "azuresqldatabase",
+    "type": "icon",
+    "label": "AZ",
+    "color": "#005ba1"
+  },
+  {
+    "name": "babel",
+    "type": "icon",
+    "label": "BA",
+    "color": "#f9dc3e"
+  },
+  {
+    "name": "babylonjs",
+    "type": "icon",
+    "label": "BA",
+    "color": "#bb464b"
+  },
+  {
+    "name": "backbonejs",
+    "type": "icon",
+    "label": "BA",
+    "color": "#002A41"
+  },
+  {
+    "name": "ballerina",
+    "type": "icon",
+    "label": "BA",
+    "color": "#46C0BC"
+  },
+  {
+    "name": "bamboo",
+    "type": "icon",
+    "label": "BA",
+    "color": "#1068e2"
+  },
+  {
+    "name": "bash",
+    "type": "icon",
+    "label": "BA",
+    "color": "#293138"
+  },
+  {
+    "name": "bazel",
+    "type": "icon",
+    "label": "BA",
+    "color": "#76D275"
+  },
+  {
+    "name": "beats",
+    "type": "icon",
+    "label": "BE",
+    "color": "#07c"
+  },
+  {
+    "name": "behance",
+    "type": "icon",
+    "label": "BE",
+    "color": "#0071e0"
+  },
+  {
+    "name": "bevyengine",
+    "type": "icon",
+    "label": "BE",
+    "color": "#282828"
+  },
+  {
+    "name": "biome",
+    "type": "icon",
+    "label": "BI",
+    "color": "#60a5fa"
+  },
+  {
+    "name": "bitbucket",
+    "type": "icon",
+    "label": "BI",
+    "color": "#205081"
+  },
+  {
+    "name": "blazor",
+    "type": "icon",
+    "label": "BL",
+    "color": "#5c2d91"
+  },
+  {
+    "name": "blender",
+    "type": "icon",
+    "label": "BL",
+    "color": "#DC7B2E"
+  },
+  {
+    "name": "bootstrap",
+    "type": "icon",
+    "label": "BO",
+    "color": "#712cf9"
+  },
+  {
+    "name": "bower",
+    "type": "icon",
+    "label": "BO",
+    "color": "#ef5734"
+  },
+  {
+    "name": "browserstack",
+    "type": "icon",
+    "label": "BR",
+    "color": "#0070f0"
+  },
+  {
+    "name": "bulma",
+    "type": "icon",
+    "label": "BU",
+    "color": "#00d1b2"
+  },
+  {
+    "name": "bun",
+    "type": "icon",
+    "label": "BU",
+    "color": "#FBF0DF"
+  },
+  {
+    "name": "c",
+    "type": "icon",
+    "label": "C",
+    "color": "#a9bacd"
+  },
+  {
+    "name": "cairo",
+    "type": "icon",
+    "label": "CA",
+    "color": "#f39914"
+  },
+  {
+    "name": "cakephp",
+    "type": "icon",
+    "label": "CA",
+    "color": "#D43D44"
+  },
+  {
+    "name": "canva",
+    "type": "icon",
+    "label": "CA",
+    "color": "#00C4CC"
+  },
+  {
+    "name": "capacitor",
+    "type": "icon",
+    "label": "CA",
+    "color": "#53B9FF"
+  },
+  {
+    "name": "carbon",
+    "type": "icon",
+    "label": "CA",
+    "color": "#000000"
+  },
+  {
+    "name": "cassandra",
+    "type": "icon",
+    "label": "CA",
+    "color": "#1185b0"
+  },
+  {
+    "name": "centos",
+    "type": "icon",
+    "label": "CE",
+    "color": "#932178"
+  },
+  {
+    "name": "ceylon",
+    "type": "icon",
+    "label": "CE",
+    "color": "#AB710A"
+  },
+  {
+    "name": "chakraui",
+    "type": "icon",
+    "label": "CH",
+    "color": "#52c8c5"
+  },
+  {
+    "name": "chartjs",
+    "type": "icon",
+    "label": "CH",
+    "color": "#ff6384"
+  },
+  {
+    "name": "chrome",
+    "type": "icon",
+    "label": "CH",
+    "color": "#ce4e4e"
+  },
+  {
+    "name": "circleci",
+    "type": "icon",
+    "label": "CI",
+    "color": "#343434"
+  },
+  {
+    "name": "clarity",
+    "type": "icon",
+    "label": "CL",
+    "color": "#13171a"
+  },
+  {
+    "name": "clickhouse",
+    "type": "icon",
+    "label": "CL",
+    "color": "#f9ff69"
+  },
+  {
+    "name": "clion",
+    "type": "icon",
+    "label": "CL",
+    "color": "#21d789"
+  },
+  {
+    "name": "clojure",
+    "type": "icon",
+    "label": "CL",
+    "color": "#5881d8"
+  },
+  {
+    "name": "clojurescript",
+    "type": "icon",
+    "label": "CL",
+    "color": "#96ca4b"
+  },
+  {
+    "name": "cloudflare",
+    "type": "icon",
+    "label": "CL",
+    "color": "#F38020"
+  },
+  {
+    "name": "cloudflareworkers",
+    "type": "icon",
+    "label": "CL",
+    "color": "#ea9344"
+  },
+  {
+    "name": "cloudrun",
+    "type": "icon",
+    "label": "CL",
+    "color": "#4285f4"
+  },
+  {
+    "name": "cmake",
+    "type": "icon",
+    "label": "CM",
+    "color": "#0e8a16"
+  },
+  {
+    "name": "cobol",
+    "type": "icon",
+    "label": "CO",
+    "color": "#000000"
+  },
+  {
+    "name": "codeac",
+    "type": "icon",
+    "label": "CO",
+    "color": "#005096"
+  },
+  {
+    "name": "codecov",
+    "type": "icon",
+    "label": "CO",
+    "color": "#e0225c"
+  },
+  {
+    "name": "codeigniter",
+    "type": "icon",
+    "label": "CO",
+    "color": "#ee4323"
+  },
+  {
+    "name": "codepen",
+    "type": "icon",
+    "label": "CO",
+    "color": "#000"
+  },
+  {
+    "name": "coffeescript",
+    "type": "icon",
+    "label": "CO",
+    "color": "#28334c"
+  },
+  {
+    "name": "composer",
+    "type": "icon",
+    "label": "CO",
+    "color": "#000000"
+  },
+  {
+    "name": "confluence",
+    "type": "icon",
+    "label": "CO",
+    "color": "#136be6"
+  },
+  {
+    "name": "consul",
+    "type": "icon",
+    "label": "CO",
+    "color": "#e03875"
+  },
+  {
+    "name": "contao",
+    "type": "icon",
+    "label": "CO",
+    "color": "#f47c00"
+  },
+  {
+    "name": "corejs",
+    "type": "icon",
+    "label": "CO",
+    "color": "#000000"
+  },
+  {
+    "name": "cosmosdb",
+    "type": "icon",
+    "label": "CO",
+    "color": "#59B3D8"
+  },
+  {
+    "name": "couchbase",
+    "type": "icon",
+    "label": "CO",
+    "color": "#EA2328"
+  },
+  {
+    "name": "couchdb",
+    "type": "icon",
+    "label": "CO",
+    "color": "#e42528"
+  },
+  {
+    "name": "cpanel",
+    "type": "icon",
+    "label": "CP",
+    "color": "#ff6c2c"
+  },
+  {
+    "name": "cplusplus",
+    "type": "icon",
+    "label": "CP",
+    "color": "#004482"
+  },
+  {
+    "name": "crystal",
+    "type": "icon",
+    "label": "CR",
+    "color": "#000"
+  },
+  {
+    "name": "csharp",
+    "type": "icon",
+    "label": "CS",
+    "color": "#68217a"
+  },
+  {
+    "name": "css3",
+    "type": "icon",
+    "label": "CS",
+    "color": "#3d8fc6"
+  },
+  {
+    "name": "cucumber",
+    "type": "icon",
+    "label": "CU",
+    "color": "#00a818"
+  },
+  {
+    "name": "cypressio",
+    "type": "icon",
+    "label": "CY",
+    "color": "#1b1e2e"
+  },
+  {
+    "name": "d3js",
+    "type": "icon",
+    "label": "D3",
+    "color": "#f7974e"
+  },
+  {
+    "name": "dart",
+    "type": "icon",
+    "label": "DA",
+    "color": "#00A8E1"
+  },
+  {
+    "name": "datadog",
+    "type": "icon",
+    "label": "DA",
+    "color": "#632ca6"
+  },
+  {
+    "name": "datagrip",
+    "type": "icon",
+    "label": "DA",
+    "color": "#21d789"
+  },
+  {
+    "name": "dataspell",
+    "type": "icon",
+    "label": "DA",
+    "color": "#087cfa"
+  },
+  {
+    "name": "datatables",
+    "type": "icon",
+    "label": "DA",
+    "color": "#ffffff"
+  },
+  {
+    "name": "dbeaver",
+    "type": "icon",
+    "label": "DB",
+    "color": "#382a24"
+  },
+  {
+    "name": "debian",
+    "type": "icon",
+    "label": "DE",
+    "color": "#A80030"
+  },
+  {
+    "name": "delphi",
+    "type": "icon",
+    "label": "DE",
+    "color": "#a81c21"
+  },
+  {
+    "name": "denojs",
+    "type": "icon",
+    "label": "DE",
+    "color": "#000000"
+  },
+  {
+    "name": "detaspace",
+    "type": "icon",
+    "label": "DE",
+    "color": "#f73b95"
+  },
+  {
+    "name": "devicon",
+    "type": "icon",
+    "label": "DE",
+    "color": "#60BE86"
+  },
+  {
+    "name": "digitalocean",
+    "type": "icon",
+    "label": "DI",
+    "color": "#0080FF"
+  },
+  {
+    "name": "discloud",
+    "type": "icon",
+    "label": "DI",
+    "color": "#57f287"
+  },
+  {
+    "name": "discordjs",
+    "type": "icon",
+    "label": "DI",
+    "color": "#0c0c14"
+  },
+  {
+    "name": "django",
+    "type": "icon",
+    "label": "DJ",
+    "color": "#092e20"
+  },
+  {
+    "name": "djangorest",
+    "type": "icon",
+    "label": "DJ",
+    "color": "#a30000"
+  },
+  {
+    "name": "docker",
+    "type": "icon",
+    "label": "DO",
+    "color": "#019bc6"
+  },
+  {
+    "name": "doctrine",
+    "type": "icon",
+    "label": "DO",
+    "color": "#f56d39"
+  },
+  {
+    "name": "dot-net",
+    "type": "icon",
+    "label": "DO",
+    "color": "#1384c8"
+  },
+  {
+    "name": "dotnetcore",
+    "type": "icon",
+    "label": "DO",
+    "color": "#623697"
+  },
+  {
+    "name": "dovecot",
+    "type": "icon",
+    "label": "DO",
+    "color": "#54bbab"
+  },
+  {
+    "name": "dreamweaver",
+    "type": "icon",
+    "label": "DR",
+    "color": "#470137"
+  },
+  {
+    "name": "dropwizard",
+    "type": "icon",
+    "label": "DR",
+    "color": "#24265d"
+  },
+  {
+    "name": "drupal",
+    "type": "icon",
+    "label": "DR",
+    "color": "#0073BA"
+  },
+  {
+    "name": "duckdb",
+    "type": "icon",
+    "label": "DU",
+    "color": "#000000"
+  },
+  {
+    "name": "dyalog",
+    "type": "icon",
+    "label": "DY",
+    "color": "#ff6a13"
+  },
+  {
+    "name": "dynamodb",
+    "type": "icon",
+    "label": "DY",
+    "color": "#527fff"
+  },
+  {
+    "name": "dynatrace",
+    "type": "icon",
+    "label": "DY",
+    "color": "#000000"
+  },
+  {
+    "name": "eclipse",
+    "type": "icon",
+    "label": "EC",
+    "color": "#2c2255"
+  },
+  {
+    "name": "ecto",
+    "type": "icon",
+    "label": "EC",
+    "color": "#77bf43"
+  },
+  {
+    "name": "elasticsearch",
+    "type": "icon",
+    "label": "EL",
+    "color": "#00bfb3"
+  },
+  {
+    "name": "electron",
+    "type": "icon",
+    "label": "EL",
+    "color": "#47848f"
+  },
+  {
+    "name": "eleventy",
+    "type": "icon",
+    "label": "EL",
+    "color": "#1f1f1f"
+  },
+  {
+    "name": "elixir",
+    "type": "icon",
+    "label": "EL",
+    "color": "#380A4D"
+  },
+  {
+    "name": "elm",
+    "type": "icon",
+    "label": "EL",
+    "color": "#34495E"
+  },
+  {
+    "name": "emacs",
+    "type": "icon",
+    "label": "EM",
+    "color": "#421f5f"
+  },
+  {
+    "name": "embeddedc",
+    "type": "icon",
+    "label": "EM",
+    "color": "#444444"
+  },
+  {
+    "name": "ember",
+    "type": "icon",
+    "label": "EM",
+    "color": "#E04E39"
+  },
+  {
+    "name": "entityframeworkcore",
+    "type": "icon",
+    "label": "EN",
+    "color": "#512bd4"
+  },
+  {
+    "name": "envoy",
+    "type": "icon",
+    "label": "EN",
+    "color": "#e13eaf"
+  },
+  {
+    "name": "erlang",
+    "type": "icon",
+    "label": "ER",
+    "color": "#a90533"
+  },
+  {
+    "name": "eslint",
+    "type": "icon",
+    "label": "ES",
+    "color": "#4b32c3"
+  },
+  {
+    "name": "expo",
+    "type": "icon",
+    "label": "EX",
+    "color": "#000000"
+  },
+  {
+    "name": "express",
+    "type": "icon",
+    "label": "EX",
+    "color": "#444"
+  },
+  {
+    "name": "facebook",
+    "type": "icon",
+    "label": "FA",
+    "color": "#3d5a98"
+  },
+  {
+    "name": "fastapi",
+    "type": "icon",
+    "label": "FA",
+    "color": "#009688"
+  },
+  {
+    "name": "fastify",
+    "type": "icon",
+    "label": "FA",
+    "color": "#000000"
+  },
+  {
+    "name": "faunadb",
+    "type": "icon",
+    "label": "FA",
+    "color": "#3A1AB6"
+  },
+  {
+    "name": "feathersjs",
+    "type": "icon",
+    "label": "FE",
+    "color": "#333333"
+  },
+  {
+    "name": "fedora",
+    "type": "icon",
+    "label": "FE",
+    "color": "#294172"
+  },
+  {
+    "name": "fiber",
+    "type": "icon",
+    "label": "FI",
+    "color": "#00acd7"
+  },
+  {
+    "name": "figma",
+    "type": "icon",
+    "label": "FI",
+    "color": "#f24e1e"
+  },
+  {
+    "name": "filamentphp",
+    "type": "icon",
+    "label": "FI",
+    "color": "#000000"
+  },
+  {
+    "name": "filezilla",
+    "type": "icon",
+    "label": "FI",
+    "color": "#bb0001"
+  },
+  {
+    "name": "firebase",
+    "type": "icon",
+    "label": "FI",
+    "color": "#ffa000"
+  },
+  {
+    "name": "firebird",
+    "type": "icon",
+    "label": "FI",
+    "color": "#f4790e"
+  },
+  {
+    "name": "firefox",
+    "type": "icon",
+    "label": "FI",
+    "color": "#DD732A"
+  },
+  {
+    "name": "flask",
+    "type": "icon",
+    "label": "FL",
+    "color": "#010101"
+  },
+  {
+    "name": "flutter",
+    "type": "icon",
+    "label": "FL",
+    "color": "#3FB6D3"
+  },
+  {
+    "name": "forgejo",
+    "type": "icon",
+    "label": "FO",
+    "color": "#FF5500"
+  },
+  {
+    "name": "fortran",
+    "type": "icon",
+    "label": "FO",
+    "color": "#734f96"
+  },
+  {
+    "name": "foundation",
+    "type": "icon",
+    "label": "FO",
+    "color": "#008cba"
+  },
+  {
+    "name": "framermotion",
+    "type": "icon",
+    "label": "FR",
+    "color": "#000"
+  },
+  {
+    "name": "framework7",
+    "type": "icon",
+    "label": "FR",
+    "color": "#ee350f"
+  },
+  {
+    "name": "fsharp",
+    "type": "icon",
+    "label": "FS",
+    "color": "#378BBA"
+  },
+  {
+    "name": "fusion",
+    "type": "icon",
+    "label": "FU",
+    "color": "#FF6A00"
+  },
+  {
+    "name": "gardener",
+    "type": "icon",
+    "label": "GA",
+    "color": "#009f76"
+  },
+  {
+    "name": "gatling",
+    "type": "icon",
+    "label": "GA",
+    "color": "#f78557"
+  },
+  {
+    "name": "gatsby",
+    "type": "icon",
+    "label": "GA",
+    "color": "#64328B"
+  },
+  {
+    "name": "gazebo",
+    "type": "icon",
+    "label": "GA",
+    "color": "#f58113"
+  },
+  {
+    "name": "gcc",
+    "type": "icon",
+    "label": "GC",
+    "color": "#ffcfab"
+  },
+  {
+    "name": "gentoo",
+    "type": "icon",
+    "label": "GE",
+    "color": "#9991d9"
+  },
+  {
+    "name": "ghost",
+    "type": "icon",
+    "label": "GH",
+    "color": "#000000"
+  },
+  {
+    "name": "gimp",
+    "type": "icon",
+    "label": "GI",
+    "color": "#716955"
+  },
+  {
+    "name": "git",
+    "type": "icon",
+    "label": "GI",
+    "color": "#f34f29"
+  },
+  {
+    "name": "gitbook",
+    "type": "icon",
+    "label": "GI",
+    "color": "#346ddb"
+  },
+  {
+    "name": "github",
+    "type": "icon",
+    "label": "GI",
+    "color": "#181616"
+  },
+  {
+    "name": "githubactions",
+    "type": "icon",
+    "label": "GI",
+    "color": "#2088FF"
+  },
+  {
+    "name": "githubcodespaces",
+    "type": "icon",
+    "label": "GI",
+    "color": "#24292e"
+  },
+  {
+    "name": "gitkraken",
+    "type": "icon",
+    "label": "GI",
+    "color": "#179287"
+  },
+  {
+    "name": "gitlab",
+    "type": "icon",
+    "label": "GI",
+    "color": "#E24329"
+  },
+  {
+    "name": "gitpod",
+    "type": "icon",
+    "label": "GI",
+    "color": "#FFA132"
+  },
+  {
+    "name": "gitter",
+    "type": "icon",
+    "label": "GI",
+    "color": "#000000"
+  },
+  {
+    "name": "gleam",
+    "type": "icon",
+    "label": "GL",
+    "color": "#ffaff3"
+  },
+  {
+    "name": "glitch",
+    "type": "icon",
+    "label": "GL",
+    "color": "#000000"
+  },
+  {
+    "name": "go",
+    "type": "icon",
+    "label": "GO",
+    "color": "#00acd7"
+  },
+  {
+    "name": "godot",
+    "type": "icon",
+    "label": "GO",
+    "color": "#478cbf"
+  },
+  {
+    "name": "goland",
+    "type": "icon",
+    "label": "GO",
+    "color": "#087cfa"
+  },
+  {
+    "name": "google",
+    "type": "icon",
+    "label": "GO",
+    "color": "#587dbd"
+  },
+  {
+    "name": "googlecloud",
+    "type": "icon",
+    "label": "GO",
+    "color": "#557ebf"
+  },
+  {
+    "name": "googlecolab",
+    "type": "icon",
+    "label": "GO",
+    "color": "#ffb300"
+  },
+  {
+    "name": "gradle",
+    "type": "icon",
+    "label": "GR",
+    "color": "#02303a"
+  },
+  {
+    "name": "grafana",
+    "type": "icon",
+    "label": "GR",
+    "color": "#f7a525"
+  },
+  {
+    "name": "grails",
+    "type": "icon",
+    "label": "GR",
+    "color": "#feb571"
+  },
+  {
+    "name": "graphql",
+    "type": "icon",
+    "label": "GR",
+    "color": "#e434aa"
+  },
+  {
+    "name": "groovy",
+    "type": "icon",
+    "label": "GR",
+    "color": "#619cbc"
+  },
+  {
+    "name": "grpc",
+    "type": "icon",
+    "label": "GR",
+    "color": "#00b0ad"
+  },
+  {
+    "name": "grunt",
+    "type": "icon",
+    "label": "GR",
+    "color": "#fcaa1a"
+  },
+  {
+    "name": "gulp",
+    "type": "icon",
+    "label": "GU",
+    "color": "#eb4a4b"
+  },
+  {
+    "name": "hadoop",
+    "type": "icon",
+    "label": "HA",
+    "color": "#ffff00"
+  },
+  {
+    "name": "handlebars",
+    "type": "icon",
+    "label": "HA",
+    "color": "#000000"
+  },
+  {
+    "name": "harbor",
+    "type": "icon",
+    "label": "HA",
+    "color": "#666666"
+  },
+  {
+    "name": "hardhat",
+    "type": "icon",
+    "label": "HA",
+    "color": "#fff100"
+  },
+  {
+    "name": "harvester",
+    "type": "icon",
+    "label": "HA",
+    "color": "#00A580"
+  },
+  {
+    "name": "haskell",
+    "type": "icon",
+    "label": "HA",
+    "color": "#5E5185"
+  },
+  {
+    "name": "haxe",
+    "type": "icon",
+    "label": "HA",
+    "color": "#EA8220"
+  },
+  {
+    "name": "helm",
+    "type": "icon",
+    "label": "HE",
+    "color": "#0F1689"
+  },
+  {
+    "name": "heroku",
+    "type": "icon",
+    "label": "HE",
+    "color": "#6762a6"
+  },
+  {
+    "name": "hibernate",
+    "type": "icon",
+    "label": "HI",
+    "color": "#bcae79"
+  },
+  {
+    "name": "homebrew",
+    "type": "icon",
+    "label": "HO",
+    "color": "#fbb040"
+  },
+  {
+    "name": "hoppscotch",
+    "type": "icon",
+    "label": "HO",
+    "color": "#00d196"
+  },
+  {
+    "name": "html5",
+    "type": "icon",
+    "label": "HT",
+    "color": "#e54d26"
+  },
+  {
+    "name": "htmx",
+    "type": "icon",
+    "label": "HT",
+    "color": "#333333"
+  },
+  {
+    "name": "hugo",
+    "type": "icon",
+    "label": "HU",
+    "color": "#FF4088"
+  },
+  {
+    "name": "hyperv",
+    "type": "icon",
+    "label": "HY",
+    "color": "#00188f"
+  },
+  {
+    "name": "ie10",
+    "type": "icon",
+    "label": "IE",
+    "color": "#1EBBEE"
+  },
+  {
+    "name": "ifttt",
+    "type": "icon",
+    "label": "IF",
+    "color": "#000"
+  },
+  {
+    "name": "illustrator",
+    "type": "icon",
+    "label": "IL",
+    "color": "#330000"
+  },
+  {
+    "name": "inertiajs",
+    "type": "icon",
+    "label": "IN",
+    "color": "#8163eb"
+  },
+  {
+    "name": "influxdb",
+    "type": "icon",
+    "label": "IN",
+    "color": "#020a47"
+  },
+  {
+    "name": "inkscape",
+    "type": "icon",
+    "label": "IN",
+    "color": "#000000"
+  },
+  {
+    "name": "insomnia",
+    "type": "icon",
+    "label": "IN",
+    "color": "#4000bf"
+  },
+  {
+    "name": "intellij",
+    "type": "icon",
+    "label": "IN",
+    "color": "#087cfa"
+  },
+  {
+    "name": "ionic",
+    "type": "icon",
+    "label": "IO",
+    "color": "#4e8ef7"
+  },
+  {
+    "name": "jaegertracing",
+    "type": "icon",
+    "label": "JA",
+    "color": "#67cfe3"
+  },
+  {
+    "name": "jamstack",
+    "type": "icon",
+    "label": "JA",
+    "color": "#F0047F"
+  },
+  {
+    "name": "jasmine",
+    "type": "icon",
+    "label": "JA",
+    "color": "#8a4182"
+  },
+  {
+    "name": "java",
+    "type": "icon",
+    "label": "JA",
+    "color": "#EA2D2E"
+  },
+  {
+    "name": "javascript",
+    "type": "icon",
+    "label": "JA",
+    "color": "#f0db4f"
+  },
+  {
+    "name": "jeet",
+    "type": "icon",
+    "label": "JE",
+    "color": "#FF664A"
+  },
+  {
+    "name": "jekyll",
+    "type": "icon",
+    "label": "JE",
+    "color": "#000000"
+  },
+  {
+    "name": "jenkins",
+    "type": "icon",
+    "label": "JE",
+    "color": "#F0D6B7"
+  },
+  {
+    "name": "jest",
+    "type": "icon",
+    "label": "JE",
+    "color": "#99425b"
+  },
+  {
+    "name": "jetbrains",
+    "type": "icon",
+    "label": "JE",
+    "color": "#FDCC21"
+  },
+  {
+    "name": "jetpackcompose",
+    "type": "icon",
+    "label": "JE",
+    "color": "#4285f4"
+  },
+  {
+    "name": "jhipster",
+    "type": "icon",
+    "label": "JH",
+    "color": "#4289c7"
+  },
+  {
+    "name": "jira",
+    "type": "icon",
+    "label": "JI",
+    "color": "#2684ff"
+  },
+  {
+    "name": "jiraalign",
+    "type": "icon",
+    "label": "JI",
+    "color": "#2684FF"
+  },
+  {
+    "name": "jquery",
+    "type": "icon",
+    "label": "JQ",
+    "color": "#0769ad"
+  },
+  {
+    "name": "json",
+    "type": "icon",
+    "label": "JS",
+    "color": "#505050"
+  },
+  {
+    "name": "jule",
+    "type": "icon",
+    "label": "JU",
+    "color": "#5f7389"
+  },
+  {
+    "name": "julia",
+    "type": "icon",
+    "label": "JU",
+    "color": "#28a745"
+  },
+  {
+    "name": "junit",
+    "type": "icon",
+    "label": "JU",
+    "color": "#dc514a"
+  },
+  {
+    "name": "jupyter",
+    "type": "icon",
+    "label": "JU",
+    "color": "#F37726"
+  },
+  {
+    "name": "k3os",
+    "type": "icon",
+    "label": "K3",
+    "color": "#fd824e"
+  },
+  {
+    "name": "k3s",
+    "type": "icon",
+    "label": "K3",
+    "color": "#ffc519"
+  },
+  {
+    "name": "k6",
+    "type": "icon",
+    "label": "K6",
+    "color": "#7D64FF"
+  },
+  {
+    "name": "kaggle",
+    "type": "icon",
+    "label": "KA",
+    "color": "#20BEFF"
+  },
+  {
+    "name": "kaldi",
+    "type": "icon",
+    "label": "KA",
+    "color": "#8c6432"
+  },
+  {
+    "name": "kalilinux",
+    "type": "icon",
+    "label": "KA",
+    "color": "#2777ff"
+  },
+  {
+    "name": "karatelabs",
+    "type": "icon",
+    "label": "KA",
+    "color": "#000000"
+  },
+  {
+    "name": "karma",
+    "type": "icon",
+    "label": "KA",
+    "color": "#56c5a8"
+  },
+  {
+    "name": "kdeneon",
+    "type": "icon",
+    "label": "KD",
+    "color": "#21769a"
+  },
+  {
+    "name": "keras",
+    "type": "icon",
+    "label": "KE",
+    "color": "#d00000"
+  },
+  {
+    "name": "kibana",
+    "type": "icon",
+    "label": "KI",
+    "color": "#F04E98"
+  },
+  {
+    "name": "knexjs",
+    "type": "icon",
+    "label": "KN",
+    "color": "#e16426"
+  },
+  {
+    "name": "knockout",
+    "type": "icon",
+    "label": "KN",
+    "color": "#e42e16"
+  },
+  {
+    "name": "kotlin",
+    "type": "icon",
+    "label": "KO",
+    "color": "#c711e1"
+  },
+  {
+    "name": "krakenjs",
+    "type": "icon",
+    "label": "KR",
+    "color": "#0081C2"
+  },
+  {
+    "name": "ktor",
+    "type": "icon",
+    "label": "KT",
+    "color": "#fc801d"
+  },
+  {
+    "name": "kubeflow",
+    "type": "icon",
+    "label": "KU",
+    "color": "#72a1e5"
+  },
+  {
+    "name": "kubernetes",
+    "type": "icon",
+    "label": "KU",
+    "color": "#326ce5"
+  },
+  {
+    "name": "labview",
+    "type": "icon",
+    "label": "LA",
+    "color": "#fed500"
+  },
+  {
+    "name": "laminas",
+    "type": "icon",
+    "label": "LA",
+    "color": "#013755"
+  },
+  {
+    "name": "laravel",
+    "type": "icon",
+    "label": "LA",
+    "color": "#f0513f"
+  },
+  {
+    "name": "laraveljetstream",
+    "type": "icon",
+    "label": "LA",
+    "color": "#6875f5"
+  },
+  {
+    "name": "latex",
+    "type": "icon",
+    "label": "LA",
+    "color": "#000000"
+  },
+  {
+    "name": "leetcode",
+    "type": "icon",
+    "label": "LE",
+    "color": "#ffa116"
+  },
+  {
+    "name": "less",
+    "type": "icon",
+    "label": "LE",
+    "color": "#2a4d80"
+  },
+  {
+    "name": "libgdx",
+    "type": "icon",
+    "label": "LI",
+    "color": "#e74a45"
+  },
+  {
+    "name": "linkedin",
+    "type": "icon",
+    "label": "LI",
+    "color": "#0076b2"
+  },
+  {
+    "name": "linux",
+    "type": "icon",
+    "label": "LI",
+    "color": "#000000"
+  },
+  {
+    "name": "linuxmint",
+    "type": "icon",
+    "label": "LI",
+    "color": "#69b53f"
+  },
+  {
+    "name": "liquibase",
+    "type": "icon",
+    "label": "LI",
+    "color": "#FF3C00"
+  },
+  {
+    "name": "livewire",
+    "type": "icon",
+    "label": "LI",
+    "color": "#FB70A9"
+  },
+  {
+    "name": "llvm",
+    "type": "icon",
+    "label": "LL",
+    "color": "#5A90B6"
+  },
+  {
+    "name": "lodash",
+    "type": "icon",
+    "label": "LO",
+    "color": "#000"
+  },
+  {
+    "name": "logstash",
+    "type": "icon",
+    "label": "LO",
+    "color": "#fec514"
+  },
+  {
+    "name": "love2d",
+    "type": "icon",
+    "label": "LO",
+    "color": "#fff"
+  },
+  {
+    "name": "lua",
+    "type": "icon",
+    "label": "LU",
+    "color": "#000080"
+  },
+  {
+    "name": "lumen",
+    "type": "icon",
+    "label": "LU",
+    "color": "#e54537"
+  },
+  {
+    "name": "magento",
+    "type": "icon",
+    "label": "MA",
+    "color": "#f26322"
+  },
+  {
+    "name": "mapbox",
+    "type": "icon",
+    "label": "MA",
+    "color": "#000000"
+  },
+  {
+    "name": "mariadb",
+    "type": "icon",
+    "label": "MA",
+    "color": "#003545"
+  },
+  {
+    "name": "markdown",
+    "type": "icon",
+    "label": "MA",
+    "color": "#000000"
+  },
+  {
+    "name": "materializecss",
+    "type": "icon",
+    "label": "MA",
+    "color": "#EB7077"
+  },
+  {
+    "name": "materialui",
+    "type": "icon",
+    "label": "MA",
+    "color": "#1FA6CA"
+  },
+  {
+    "name": "matlab",
+    "type": "icon",
+    "label": "MA",
+    "color": "#6dd0c7"
+  },
+  {
+    "name": "matplotlib",
+    "type": "icon",
+    "label": "MA",
+    "color": "#11557C"
+  },
+  {
+    "name": "mattermost",
+    "type": "icon",
+    "label": "MA",
+    "color": "#19191c"
+  },
+  {
+    "name": "maven",
+    "type": "icon",
+    "label": "MA",
+    "color": "#e97826"
+  },
+  {
+    "name": "maya",
+    "type": "icon",
+    "label": "MA",
+    "color": "#149B9A"
+  },
+  {
+    "name": "memcached",
+    "type": "icon",
+    "label": "ME",
+    "color": "#2A9790"
+  },
+  {
+    "name": "mercurial",
+    "type": "icon",
+    "label": "ME",
+    "color": "#999"
+  },
+  {
+    "name": "meteor",
+    "type": "icon",
+    "label": "ME",
+    "color": "#df5052"
+  },
+  {
+    "name": "microsoftsqlserver",
+    "type": "icon",
+    "label": "MI",
+    "color": "#ee352c"
+  },
+  {
+    "name": "minitab",
+    "type": "icon",
+    "label": "MI",
+    "color": "#8dc63f"
+  },
+  {
+    "name": "mithril",
+    "type": "icon",
+    "label": "MI",
+    "color": "#010002"
+  },
+  {
+    "name": "mobx",
+    "type": "icon",
+    "label": "MO",
+    "color": "#e05e11"
+  },
+  {
+    "name": "mocha",
+    "type": "icon",
+    "label": "MO",
+    "color": "#8d6748"
+  },
+  {
+    "name": "modx",
+    "type": "icon",
+    "label": "MO",
+    "color": "#00decc"
+  },
+  {
+    "name": "moleculer",
+    "type": "icon",
+    "label": "MO",
+    "color": "#3cafce"
+  },
+  {
+    "name": "mongodb",
+    "type": "icon",
+    "label": "MO",
+    "color": "#4FAA41"
+  },
+  {
+    "name": "mongoose",
+    "type": "icon",
+    "label": "MO",
+    "color": "#860000"
+  },
+  {
+    "name": "monogame",
+    "type": "icon",
+    "label": "MO",
+    "color": "#e73c00"
+  },
+  {
+    "name": "moodle",
+    "type": "icon",
+    "label": "MO",
+    "color": "#F7931E"
+  },
+  {
+    "name": "msdos",
+    "type": "icon",
+    "label": "MS",
+    "color": "#000"
+  },
+  {
+    "name": "mysql",
+    "type": "icon",
+    "label": "MY",
+    "color": "#00618a"
+  },
+  {
+    "name": "nano",
+    "type": "icon",
+    "label": "NA",
+    "color": "#C8F"
+  },
+  {
+    "name": "nats",
+    "type": "icon",
+    "label": "NA",
+    "color": "#27aae1"
+  },
+  {
+    "name": "neo4j",
+    "type": "icon",
+    "label": "NE",
+    "color": "#018BFF"
+  },
+  {
+    "name": "neovim",
+    "type": "icon",
+    "label": "NE",
+    "color": "#5fb950"
+  },
+  {
+    "name": "nestjs",
+    "type": "icon",
+    "label": "NE",
+    "color": "#df234f"
+  },
+  {
+    "name": "netbeans",
+    "type": "icon",
+    "label": "NE",
+    "color": "#1e6abf"
+  },
+  {
+    "name": "netbox",
+    "type": "icon",
+    "label": "NE",
+    "color": "#00857d"
+  },
+  {
+    "name": "netlify",
+    "type": "icon",
+    "label": "NE",
+    "color": "#05BDBA"
+  },
+  {
+    "name": "networkx",
+    "type": "icon",
+    "label": "NE",
+    "color": "#2c7fb8"
+  },
+  {
+    "name": "newrelic",
+    "type": "icon",
+    "label": "NE",
+    "color": "#1d252c"
+  },
+  {
+    "name": "nextjs",
+    "type": "icon",
+    "label": "NE",
+    "color": "#000"
+  },
+  {
+    "name": "nginx",
+    "type": "icon",
+    "label": "NG",
+    "color": "#090"
+  },
+  {
+    "name": "ngrok",
+    "type": "icon",
+    "label": "NG",
+    "color": "#02228e"
+  },
+  {
+    "name": "ngrx",
+    "type": "icon",
+    "label": "NG",
+    "color": "#ba2bd2"
+  },
+  {
+    "name": "nhibernate",
+    "type": "icon",
+    "label": "NH",
+    "color": "#903a36"
+  },
+  {
+    "name": "nim",
+    "type": "icon",
+    "label": "NI",
+    "color": "#ffe953"
+  },
+  {
+    "name": "nimble",
+    "type": "icon",
+    "label": "NI",
+    "color": "#f7e941"
+  },
+  {
+    "name": "nixos",
+    "type": "icon",
+    "label": "NI",
+    "color": "#5277C3"
+  },
+  {
+    "name": "nodejs",
+    "type": "icon",
+    "label": "NO",
+    "color": "#5fa04e"
+  },
+  {
+    "name": "nodemon",
+    "type": "icon",
+    "label": "NO",
+    "color": "#76d04b"
+  },
+  {
+    "name": "nodered",
+    "type": "icon",
+    "label": "NO",
+    "color": "#8f0000"
+  },
+  {
+    "name": "nodewebkit",
+    "type": "icon",
+    "label": "NO",
+    "color": "#3d3b47"
+  },
+  {
+    "name": "nomad",
+    "type": "icon",
+    "label": "NO",
+    "color": "#00ca8e"
+  },
+  {
+    "name": "norg",
+    "type": "icon",
+    "label": "NO",
+    "color": "#4878be"
+  },
+  {
+    "name": "notion",
+    "type": "icon",
+    "label": "NO",
+    "color": "#fff"
+  },
+  {
+    "name": "npm",
+    "type": "icon",
+    "label": "NP",
+    "color": "#cb3837"
+  },
+  {
+    "name": "npss",
+    "type": "icon",
+    "label": "NP",
+    "color": "#0a37b2"
+  },
+  {
+    "name": "nuget",
+    "type": "icon",
+    "label": "NU",
+    "color": "#004880"
+  },
+  {
+    "name": "numpy",
+    "type": "icon",
+    "label": "NU",
+    "color": "#4dabcf"
+  },
+  {
+    "name": "nuxt",
+    "type": "icon",
+    "label": "NU",
+    "color": "#00dc82"
+  },
+  {
+    "name": "nuxtjs",
+    "type": "icon",
+    "label": "NU",
+    "color": "#00c48d"
+  },
+  {
+    "name": "oauth",
+    "type": "icon",
+    "label": "OA",
+    "color": "#000000"
+  },
+  {
+    "name": "objectivec",
+    "type": "icon",
+    "label": "OB",
+    "color": "#0b5a9d"
+  },
+  {
+    "name": "ocaml",
+    "type": "icon",
+    "label": "OC",
+    "color": "#F18803"
+  },
+  {
+    "name": "ohmyzsh",
+    "type": "icon",
+    "label": "OH",
+    "color": "#000000"
+  },
+  {
+    "name": "okta",
+    "type": "icon",
+    "label": "OK",
+    "color": "#0f82c2"
+  },
+  {
+    "name": "openal",
+    "type": "icon",
+    "label": "OP",
+    "color": "#7e000d"
+  },
+  {
+    "name": "openapi",
+    "type": "icon",
+    "label": "OP",
+    "color": "#91d400"
+  },
+  {
+    "name": "opencl",
+    "type": "icon",
+    "label": "OP",
+    "color": "#000"
+  },
+  {
+    "name": "opencv",
+    "type": "icon",
+    "label": "OP",
+    "color": "#128dff"
+  },
+  {
+    "name": "opengl",
+    "type": "icon",
+    "label": "OP",
+    "color": "#5586a4"
+  },
+  {
+    "name": "openstack",
+    "type": "icon",
+    "label": "OP",
+    "color": "#ed1944"
+  },
+  {
+    "name": "opensuse",
+    "type": "icon",
+    "label": "OP",
+    "color": "#73ba25"
+  },
+  {
+    "name": "opentelemetry",
+    "type": "icon",
+    "label": "OP",
+    "color": "#f5a800"
+  },
+  {
+    "name": "opera",
+    "type": "icon",
+    "label": "OP",
+    "color": "#f7192d"
+  },
+  {
+    "name": "oracle",
+    "type": "icon",
+    "label": "OR",
+    "color": "#EA1B22"
+  },
+  {
+    "name": "ory",
+    "type": "icon",
+    "label": "OR",
+    "color": "#5528ff"
+  },
+  {
+    "name": "p5js",
+    "type": "icon",
+    "label": "P5",
+    "color": "#ED225D"
+  },
+  {
+    "name": "packer",
+    "type": "icon",
+    "label": "PA",
+    "color": "#1d94dd"
+  },
+  {
+    "name": "pandas",
+    "type": "icon",
+    "label": "PA",
+    "color": "#130754"
+  },
+  {
+    "name": "passport",
+    "type": "icon",
+    "label": "PA",
+    "color": "#35df79"
+  },
+  {
+    "name": "perl",
+    "type": "icon",
+    "label": "PE",
+    "color": "#212177"
+  },
+  {
+    "name": "pfsense",
+    "type": "icon",
+    "label": "PF",
+    "color": "#000000"
+  },
+  {
+    "name": "phalcon",
+    "type": "icon",
+    "label": "PH",
+    "color": "#76c39b"
+  },
+  {
+    "name": "phoenix",
+    "type": "icon",
+    "label": "PH",
+    "color": "#FD4F00"
+  },
+  {
+    "name": "photonengine",
+    "type": "icon",
+    "label": "PH",
+    "color": "#004480"
+  },
+  {
+    "name": "photoshop",
+    "type": "icon",
+    "label": "PH",
+    "color": "#001e36"
+  },
+  {
+    "name": "php",
+    "type": "icon",
+    "label": "PH",
+    "color": "#777bb3"
+  },
+  {
+    "name": "phpstorm",
+    "type": "icon",
+    "label": "PH",
+    "color": "#b74af7"
+  },
+  {
+    "name": "pixijs",
+    "type": "icon",
+    "label": "PI",
+    "color": "#e72264"
+  },
+  {
+    "name": "playwright",
+    "type": "icon",
+    "label": "PL",
+    "color": "#2EAD33"
+  },
+  {
+    "name": "plotly",
+    "type": "icon",
+    "label": "PL",
+    "color": "#3d4c73"
+  },
+  {
+    "name": "pm2",
+    "type": "icon",
+    "label": "PM",
+    "color": "#000"
+  },
+  {
+    "name": "pnpm",
+    "type": "icon",
+    "label": "PN",
+    "color": "#f9ad00"
+  },
+  {
+    "name": "podman",
+    "type": "icon",
+    "label": "PO",
+    "color": "#892ca0"
+  },
+  {
+    "name": "poetry",
+    "type": "icon",
+    "label": "PO",
+    "color": "#0080c5"
+  },
+  {
+    "name": "polygon",
+    "type": "icon",
+    "label": "PO",
+    "color": "#7950DD"
+  },
+  {
+    "name": "portainer",
+    "type": "icon",
+    "label": "PO",
+    "color": "#3BBCED"
+  },
+  {
+    "name": "postcss",
+    "type": "icon",
+    "label": "PO",
+    "color": "#DD3A0A"
+  },
+  {
+    "name": "postgresql",
+    "type": "icon",
+    "label": "PO",
+    "color": "#336791"
+  },
+  {
+    "name": "postman",
+    "type": "icon",
+    "label": "PO",
+    "color": "#f37036"
+  },
+  {
+    "name": "powershell",
+    "type": "icon",
+    "label": "PO",
+    "color": "#1E2A3A"
+  },
+  {
+    "name": "premierepro",
+    "type": "icon",
+    "label": "PR",
+    "color": "#2A0634"
+  },
+  {
+    "name": "primeng",
+    "type": "icon",
+    "label": "PR",
+    "color": "#000"
+  },
+  {
+    "name": "prisma",
+    "type": "icon",
+    "label": "PR",
+    "color": "#2D3748"
+  },
+  {
+    "name": "processing",
+    "type": "icon",
+    "label": "PR",
+    "color": "#1f34ab"
+  },
+  {
+    "name": "processwire",
+    "type": "icon",
+    "label": "PR",
+    "color": "#1e87f0"
+  },
+  {
+    "name": "prolog",
+    "type": "icon",
+    "label": "PR",
+    "color": "#F46C30"
+  },
+  {
+    "name": "prometheus",
+    "type": "icon",
+    "label": "PR",
+    "color": "#e75225"
+  },
+  {
+    "name": "protractor",
+    "type": "icon",
+    "label": "PR",
+    "color": "#d51c2f"
+  },
+  {
+    "name": "proxmox",
+    "type": "icon",
+    "label": "PR",
+    "color": "#e57000"
+  },
+  {
+    "name": "pug",
+    "type": "icon",
+    "label": "PU",
+    "color": "#56332b"
+  },
+  {
+    "name": "pulsar",
+    "type": "icon",
+    "label": "PU",
+    "color": "#2c3e50"
+  },
+  {
+    "name": "pulumi",
+    "type": "icon",
+    "label": "PU",
+    "color": "#f6bf29"
+  },
+  {
+    "name": "puppeteer",
+    "type": "icon",
+    "label": "PU",
+    "color": "#00d8a2"
+  },
+  {
+    "name": "purescript",
+    "type": "icon",
+    "label": "PU",
+    "color": "#14161a"
+  },
+  {
+    "name": "putty",
+    "type": "icon",
+    "label": "PU",
+    "color": "#0000fc"
+  },
+  {
+    "name": "pycharm",
+    "type": "icon",
+    "label": "PY",
+    "color": "#21D789"
+  },
+  {
+    "name": "pypi",
+    "type": "icon",
+    "label": "PY",
+    "color": "#3775a9"
+  },
+  {
+    "name": "pyscript",
+    "type": "icon",
+    "label": "PY",
+    "color": "#fda703"
+  },
+  {
+    "name": "pytest",
+    "type": "icon",
+    "label": "PY",
+    "color": "#009fe3"
+  },
+  {
+    "name": "python",
+    "type": "icon",
+    "label": "PY",
+    "color": "#ffd845"
+  },
+  {
+    "name": "pytorch",
+    "type": "icon",
+    "label": "PY",
+    "color": "#EE4C2C"
+  },
+  {
+    "name": "qodana",
+    "type": "icon",
+    "label": "QO",
+    "color": "#ff318c"
+  },
+  {
+    "name": "qt",
+    "type": "icon",
+    "label": "QT",
+    "color": "#41cd52"
+  },
+  {
+    "name": "qtest",
+    "type": "icon",
+    "label": "QT",
+    "color": "#1a62b3"
+  },
+  {
+    "name": "quarkus",
+    "type": "icon",
+    "label": "QU",
+    "color": "#4695EB"
+  },
+  {
+    "name": "quasar",
+    "type": "icon",
+    "label": "QU",
+    "color": "#00b4ff"
+  },
+  {
+    "name": "qwik",
+    "type": "icon",
+    "label": "QW",
+    "color": "#18B6F6"
+  },
+  {
+    "name": "r",
+    "type": "icon",
+    "label": "R",
+    "color": "#1f65b7"
+  },
+  {
+    "name": "rabbitmq",
+    "type": "icon",
+    "label": "RA",
+    "color": "#ff6600"
+  },
+  {
+    "name": "racket",
+    "type": "icon",
+    "label": "RA",
+    "color": "#9f1d20"
+  },
+  {
+    "name": "radstudio",
+    "type": "icon",
+    "label": "RA",
+    "color": "#f42434"
+  },
+  {
+    "name": "rails",
+    "type": "icon",
+    "label": "RA",
+    "color": "#CC0000"
+  },
+  {
+    "name": "railway",
+    "type": "icon",
+    "label": "RA",
+    "color": "#fff"
+  },
+  {
+    "name": "rancher",
+    "type": "icon",
+    "label": "RA",
+    "color": "#2453FF"
+  },
+  {
+    "name": "raspberrypi",
+    "type": "icon",
+    "label": "RA",
+    "color": "#c51850"
+  },
+  {
+    "name": "reach",
+    "type": "icon",
+    "label": "RE",
+    "color": "#6AC6E7"
+  },
+  {
+    "name": "react",
+    "type": "icon",
+    "label": "RE",
+    "color": "#61dafb"
+  },
+  {
+    "name": "reactbootstrap",
+    "type": "icon",
+    "label": "RE",
+    "color": "#41e0fd"
+  },
+  {
+    "name": "reactnative",
+    "type": "icon",
+    "label": "RE",
+    "color": "#61dafb"
+  },
+  {
+    "name": "reactnavigation",
+    "type": "icon",
+    "label": "RE",
+    "color": "#7b61c1"
+  },
+  {
+    "name": "reactrouter",
+    "type": "icon",
+    "label": "RE",
+    "color": "#f44250"
+  },
+  {
+    "name": "readthedocs",
+    "type": "icon",
+    "label": "RE",
+    "color": "#32322A"
+  },
+  {
+    "name": "realm",
+    "type": "icon",
+    "label": "RE",
+    "color": "#6e60f9"
+  },
+  {
+    "name": "rect",
+    "type": "icon",
+    "label": "RE",
+    "color": "#262626"
+  },
+  {
+    "name": "redhat",
+    "type": "icon",
+    "label": "RE",
+    "color": "#e93442"
+  },
+  {
+    "name": "redis",
+    "type": "icon",
+    "label": "RE",
+    "color": "#d82c20"
+  },
+  {
+    "name": "redux",
+    "type": "icon",
+    "label": "RE",
+    "color": "#764abc"
+  },
+  {
+    "name": "reflex",
+    "type": "icon",
+    "label": "RE",
+    "color": "#664ec6"
+  },
+  {
+    "name": "remix",
+    "type": "icon",
+    "label": "RE",
+    "color": "#121212"
+  },
+  {
+    "name": "renpy",
+    "type": "icon",
+    "label": "RE",
+    "color": "#ff7f7f"
+  },
+  {
+    "name": "replit",
+    "type": "icon",
+    "label": "RE",
+    "color": "#F26207"
+  },
+  {
+    "name": "rexx",
+    "type": "icon",
+    "label": "RE",
+    "color": "#d81511"
+  },
+  {
+    "name": "rider",
+    "type": "icon",
+    "label": "RI",
+    "color": "#dd1265"
+  },
+  {
+    "name": "rocksdb",
+    "type": "icon",
+    "label": "RO",
+    "color": "#ffbe00"
+  },
+  {
+    "name": "rockylinux",
+    "type": "icon",
+    "label": "RO",
+    "color": "#10b982"
+  },
+  {
+    "name": "rollup",
+    "type": "icon",
+    "label": "RO",
+    "color": "#ff3333"
+  },
+  {
+    "name": "ros",
+    "type": "icon",
+    "label": "RO",
+    "color": "#21304c"
+  },
+  {
+    "name": "rspec",
+    "type": "icon",
+    "label": "RS",
+    "color": "#6de1fa"
+  },
+  {
+    "name": "rstudio",
+    "type": "icon",
+    "label": "RS",
+    "color": "#75aadb"
+  },
+  {
+    "name": "ruby",
+    "type": "icon",
+    "label": "RU",
+    "color": "#d91404"
+  },
+  {
+    "name": "rubymine",
+    "type": "icon",
+    "label": "RU",
+    "color": "#FC801D"
+  },
+  {
+    "name": "rust",
+    "type": "icon",
+    "label": "RU",
+    "color": "#000"
+  },
+  {
+    "name": "rxjs",
+    "type": "icon",
+    "label": "RX",
+    "color": "#df1c85"
+  },
+  {
+    "name": "safari",
+    "type": "icon",
+    "label": "SA",
+    "color": "#1B88CA"
+  },
+  {
+    "name": "salesforce",
+    "type": "icon",
+    "label": "SA",
+    "color": "#00a1e0"
+  },
+  {
+    "name": "sanity",
+    "type": "icon",
+    "label": "SA",
+    "color": "#F03E2F"
+  },
+  {
+    "name": "sass",
+    "type": "icon",
+    "label": "SA",
+    "color": "#cc6699"
+  },
+  {
+    "name": "scala",
+    "type": "icon",
+    "label": "SC",
+    "color": "#de3423"
+  },
+  {
+    "name": "scalingo",
+    "type": "icon",
+    "label": "SC",
+    "color": "#173aee"
+  },
+  {
+    "name": "scikitlearn",
+    "type": "icon",
+    "label": "SC",
+    "color": "#f89939"
+  },
+  {
+    "name": "sdl",
+    "type": "icon",
+    "label": "SD",
+    "color": "#173354"
+  },
+  {
+    "name": "selenium",
+    "type": "icon",
+    "label": "SE",
+    "color": "#CF0A2C"
+  },
+  {
+    "name": "sema",
+    "type": "icon",
+    "label": "SE",
+    "color": "#000"
+  },
+  {
+    "name": "sentry",
+    "type": "icon",
+    "label": "SE",
+    "color": "#362d59"
+  },
+  {
+    "name": "sequelize",
+    "type": "icon",
+    "label": "SE",
+    "color": "#3b4b72"
+  },
+  {
+    "name": "shopware",
+    "type": "icon",
+    "label": "SH",
+    "color": "#179eff"
+  },
+  {
+    "name": "shotgrid",
+    "type": "icon",
+    "label": "SH",
+    "color": "#000000"
+  },
+  {
+    "name": "sketch",
+    "type": "icon",
+    "label": "SK",
+    "color": "#fdad00"
+  },
+  {
+    "name": "slack",
+    "type": "icon",
+    "label": "SL",
+    "color": "#2D333A"
+  },
+  {
+    "name": "socketio",
+    "type": "icon",
+    "label": "SO",
+    "color": "#010101"
+  },
+  {
+    "name": "solidity",
+    "type": "icon",
+    "label": "SO",
+    "color": "#383838"
+  },
+  {
+    "name": "solidjs",
+    "type": "icon",
+    "label": "SO",
+    "color": "#2c4f7c"
+  },
+  {
+    "name": "sonarqube",
+    "type": "icon",
+    "label": "SO",
+    "color": "#549dd0"
+  },
+  {
+    "name": "sourceengine",
+    "type": "icon",
+    "label": "SO",
+    "color": "#f79a10"
+  },
+  {
+    "name": "sourcetree",
+    "type": "icon",
+    "label": "SO",
+    "color": "#205081"
+  },
+  {
+    "name": "spack",
+    "type": "icon",
+    "label": "SP",
+    "color": "#0F3A80"
+  },
+  {
+    "name": "spicedb",
+    "type": "icon",
+    "label": "SP",
+    "color": "#FB5B62"
+  },
+  {
+    "name": "splunk",
+    "type": "icon",
+    "label": "SP",
+    "color": "#0C1724"
+  },
+  {
+    "name": "spring",
+    "type": "icon",
+    "label": "SP",
+    "color": "#5FB832"
+  },
+  {
+    "name": "spss",
+    "type": "icon",
+    "label": "SP",
+    "color": "#cc1e4c"
+  },
+  {
+    "name": "spyder",
+    "type": "icon",
+    "label": "SP",
+    "color": "#8c0000"
+  },
+  {
+    "name": "sqlalchemy",
+    "type": "icon",
+    "label": "SQ",
+    "color": "#333333"
+  },
+  {
+    "name": "sqldeveloper",
+    "type": "icon",
+    "label": "SQ",
+    "color": "#adadad"
+  },
+  {
+    "name": "sqlite",
+    "type": "icon",
+    "label": "SQ",
+    "color": "#0f80cc"
+  },
+  {
+    "name": "ssh",
+    "type": "icon",
+    "label": "SS",
+    "color": "#231F20"
+  },
+  {
+    "name": "stackblitz",
+    "type": "icon",
+    "label": "ST",
+    "color": "#1389fd"
+  },
+  {
+    "name": "stackoverflow",
+    "type": "icon",
+    "label": "ST",
+    "color": "#F58025"
+  },
+  {
+    "name": "stata",
+    "type": "icon",
+    "label": "ST",
+    "color": "#195f92"
+  },
+  {
+    "name": "stenciljs",
+    "type": "icon",
+    "label": "ST",
+    "color": "#000"
+  },
+  {
+    "name": "storybook",
+    "type": "icon",
+    "label": "ST",
+    "color": "#FF4785"
+  },
+  {
+    "name": "streamlit",
+    "type": "icon",
+    "label": "ST",
+    "color": "#7d353b"
+  },
+  {
+    "name": "styledcomponents",
+    "type": "icon",
+    "label": "ST",
+    "color": "#d268a7"
+  },
+  {
+    "name": "stylus",
+    "type": "icon",
+    "label": "ST",
+    "color": "#333333"
+  },
+  {
+    "name": "subversion",
+    "type": "icon",
+    "label": "SU",
+    "color": "#809cc8"
+  },
+  {
+    "name": "sulu",
+    "type": "icon",
+    "label": "SU",
+    "color": "#112a46"
+  },
+  {
+    "name": "supabase",
+    "type": "icon",
+    "label": "SU",
+    "color": "#3ecf8e"
+  },
+  {
+    "name": "surrealdb",
+    "type": "icon",
+    "label": "SU",
+    "color": "#c900d1"
+  },
+  {
+    "name": "svelte",
+    "type": "icon",
+    "label": "SV",
+    "color": "#ff3e00"
+  },
+  {
+    "name": "svgo",
+    "type": "icon",
+    "label": "SV",
+    "color": "#fff"
+  },
+  {
+    "name": "swagger",
+    "type": "icon",
+    "label": "SW",
+    "color": "#85ea2d"
+  },
+  {
+    "name": "swift",
+    "type": "icon",
+    "label": "SW",
+    "color": "#F05138"
+  },
+  {
+    "name": "swiper",
+    "type": "icon",
+    "label": "SW",
+    "color": "#0080FF"
+  },
+  {
+    "name": "symfony",
+    "type": "icon",
+    "label": "SY",
+    "color": "#1A171B"
+  },
+  {
+    "name": "tailwindcss",
+    "type": "icon",
+    "label": "TA",
+    "color": "#38bdf8"
+  },
+  {
+    "name": "talos",
+    "type": "icon",
+    "label": "TA",
+    "color": "#f92a20"
+  },
+  {
+    "name": "tauri",
+    "type": "icon",
+    "label": "TA",
+    "color": "#FFC131"
+  },
+  {
+    "name": "teleport",
+    "type": "icon",
+    "label": "TE",
+    "color": "#512fc9"
+  },
+  {
+    "name": "tensorflow",
+    "type": "icon",
+    "label": "TE",
+    "color": "#ff6f00"
+  },
+  {
+    "name": "terraform",
+    "type": "icon",
+    "label": "TE",
+    "color": "#5c4ee5"
+  },
+  {
+    "name": "terramate",
+    "type": "icon",
+    "label": "TE",
+    "color": "#fff"
+  },
+  {
+    "name": "tex",
+    "type": "icon",
+    "label": "TE",
+    "color": "#000000"
+  },
+  {
+    "name": "thealgorithms",
+    "type": "icon",
+    "label": "TH",
+    "color": "#00BCB4"
+  },
+  {
+    "name": "threedsmax",
+    "type": "icon",
+    "label": "TH",
+    "color": "#37a5cc"
+  },
+  {
+    "name": "threejs",
+    "type": "icon",
+    "label": "TH",
+    "color": "#000000"
+  },
+  {
+    "name": "thymeleaf",
+    "type": "icon",
+    "label": "TH",
+    "color": "#005f0f"
+  },
+  {
+    "name": "titaniumsdk",
+    "type": "icon",
+    "label": "TI",
+    "color": "#bd222b"
+  },
+  {
+    "name": "tmux",
+    "type": "icon",
+    "label": "TM",
+    "color": "#1bb91f"
+  },
+  {
+    "name": "tomcat",
+    "type": "icon",
+    "label": "TO",
+    "color": "#D1A41A"
+  },
+  {
+    "name": "tortoisegit",
+    "type": "icon",
+    "label": "TO",
+    "color": "#4b8eb4"
+  },
+  {
+    "name": "towergit",
+    "type": "icon",
+    "label": "TO",
+    "color": "#d18900"
+  },
+  {
+    "name": "traefikmesh",
+    "type": "icon",
+    "label": "TR",
+    "color": "#9D0FB0"
+  },
+  {
+    "name": "traefikproxy",
+    "type": "icon",
+    "label": "TR",
+    "color": "#24a1c1"
+  },
+  {
+    "name": "travis",
+    "type": "icon",
+    "label": "TR",
+    "color": "#2d3136"
+  },
+  {
+    "name": "trello",
+    "type": "icon",
+    "label": "TR",
+    "color": "#0052cc"
+  },
+  {
+    "name": "trpc",
+    "type": "icon",
+    "label": "TR",
+    "color": "#398ccb"
+  },
+  {
+    "name": "turbo",
+    "type": "icon",
+    "label": "TU",
+    "color": "#5cd8e5"
+  },
+  {
+    "name": "twilio",
+    "type": "icon",
+    "label": "TW",
+    "color": "#f22f46"
+  },
+  {
+    "name": "twitter",
+    "type": "icon",
+    "label": "TW",
+    "color": "#000"
+  },
+  {
+    "name": "typescript",
+    "type": "icon",
+    "label": "TY",
+    "color": "#007acc"
+  },
+  {
+    "name": "typo3",
+    "type": "icon",
+    "label": "TY",
+    "color": "#f49700"
+  },
+  {
+    "name": "ubuntu",
+    "type": "icon",
+    "label": "UB",
+    "color": "#e95420"
+  },
+  {
+    "name": "unifiedmodelinglanguage",
+    "type": "icon",
+    "label": "UN",
+    "color": "#452e7f"
+  },
+  {
+    "name": "unity",
+    "type": "icon",
+    "label": "UN",
+    "color": "#4d4d4d"
+  },
+  {
+    "name": "unix",
+    "type": "icon",
+    "label": "UN",
+    "color": "#4051b5"
+  },
+  {
+    "name": "unrealengine",
+    "type": "icon",
+    "label": "UN",
+    "color": "#000000"
+  },
+  {
+    "name": "uwsgi",
+    "type": "icon",
+    "label": "UW",
+    "color": "#bad05e"
+  },
+  {
+    "name": "v8",
+    "type": "icon",
+    "label": "V8",
+    "color": "#00C4CC"
+  },
+  {
+    "name": "vaadin",
+    "type": "icon",
+    "label": "VA",
+    "color": "#00b4f0"
+  },
+  {
+    "name": "vagrant",
+    "type": "icon",
+    "label": "VA",
+    "color": "#127eff"
+  },
+  {
+    "name": "vala",
+    "type": "icon",
+    "label": "VA",
+    "color": "#a56de2"
+  },
+  {
+    "name": "vault",
+    "type": "icon",
+    "label": "VA",
+    "color": "#ffd814"
+  },
+  {
+    "name": "veevalidate",
+    "type": "icon",
+    "label": "VE",
+    "color": "#04c971"
+  },
+  {
+    "name": "vercel",
+    "type": "icon",
+    "label": "VE",
+    "color": "#000"
+  },
+  {
+    "name": "vertx",
+    "type": "icon",
+    "label": "VE",
+    "color": "#782a91"
+  },
+  {
+    "name": "vim",
+    "type": "icon",
+    "label": "VI",
+    "color": "#179a33"
+  },
+  {
+    "name": "visualbasic",
+    "type": "icon",
+    "label": "VI",
+    "color": "#004e8c"
+  },
+  {
+    "name": "visualstudio",
+    "type": "icon",
+    "label": "VI",
+    "color": "#52218a"
+  },
+  {
+    "name": "vite",
+    "type": "icon",
+    "label": "VI",
+    "color": "#006BFF"
+  },
+  {
+    "name": "vitejs",
+    "type": "icon",
+    "label": "VI",
+    "color": "#ffdd35"
+  },
+  {
+    "name": "vitess",
+    "type": "icon",
+    "label": "VI",
+    "color": "#f16827"
+  },
+  {
+    "name": "vitest",
+    "type": "icon",
+    "label": "VI",
+    "color": "#fcc72b"
+  },
+  {
+    "name": "vscode",
+    "type": "icon",
+    "label": "VS",
+    "color": "#3C99D4"
+  },
+  {
+    "name": "vscodium",
+    "type": "icon",
+    "label": "VS",
+    "color": "#3C99D4"
+  },
+  {
+    "name": "vsphere",
+    "type": "icon",
+    "label": "VS",
+    "color": "#0091da"
+  },
+  {
+    "name": "vuejs",
+    "type": "icon",
+    "label": "VU",
+    "color": "#41B883"
+  },
+  {
+    "name": "vuestorefront",
+    "type": "icon",
+    "label": "VU",
+    "color": "#5ecf7b"
+  },
+  {
+    "name": "vuetify",
+    "type": "icon",
+    "label": "VU",
+    "color": "#1697F6"
+  },
+  {
+    "name": "vulkan",
+    "type": "icon",
+    "label": "VU",
+    "color": "#ac162c"
+  },
+  {
+    "name": "vyper",
+    "type": "icon",
+    "label": "VY",
+    "color": "#9F4CF2"
+  },
+  {
+    "name": "waku",
+    "type": "icon",
+    "label": "WA",
+    "color": "#dd2e44"
+  },
+  {
+    "name": "wasm",
+    "type": "icon",
+    "label": "WA",
+    "color": "#654ff0"
+  },
+  {
+    "name": "web3js",
+    "type": "icon",
+    "label": "WE",
+    "color": "#f16822"
+  },
+  {
+    "name": "webflow",
+    "type": "icon",
+    "label": "WE",
+    "color": "#4353ff"
+  },
+  {
+    "name": "webgpu",
+    "type": "icon",
+    "label": "WE",
+    "color": "#005a9c"
+  },
+  {
+    "name": "weblate",
+    "type": "icon",
+    "label": "WE",
+    "color": "#2eccaa"
+  },
+  {
+    "name": "webpack",
+    "type": "icon",
+    "label": "WE",
+    "color": "#1C78C0"
+  },
+  {
+    "name": "webstorm",
+    "type": "icon",
+    "label": "WE",
+    "color": "#07c3f2"
+  },
+  {
+    "name": "windows11",
+    "type": "icon",
+    "label": "WI",
+    "color": "#0078d4"
+  },
+  {
+    "name": "windows8",
+    "type": "icon",
+    "label": "WI",
+    "color": "#00adef"
+  },
+  {
+    "name": "wolfram",
+    "type": "icon",
+    "label": "WO",
+    "color": "#dd1100"
+  },
+  {
+    "name": "woocommerce",
+    "type": "icon",
+    "label": "WO",
+    "color": "#7f54b3"
+  },
+  {
+    "name": "wordpress",
+    "type": "icon",
+    "label": "WO",
+    "color": "#494949"
+  },
+  {
+    "name": "xamarin",
+    "type": "icon",
+    "label": "XA",
+    "color": "#3498DB"
+  },
+  {
+    "name": "xcode",
+    "type": "icon",
+    "label": "XC",
+    "color": "#069CEC"
+  },
+  {
+    "name": "xd",
+    "type": "icon",
+    "label": "XD",
+    "color": "#470137"
+  },
+  {
+    "name": "xml",
+    "type": "icon",
+    "label": "XM",
+    "color": "#005fad"
+  },
+  {
+    "name": "yaml",
+    "type": "icon",
+    "label": "YA",
+    "color": "#cb171e"
+  },
+  {
+    "name": "yarn",
+    "type": "icon",
+    "label": "YA",
+    "color": "#2c8ebb"
+  },
+  {
+    "name": "yii",
+    "type": "icon",
+    "label": "YI",
+    "color": "#40b3d8"
+  },
+  {
+    "name": "yugabytedb",
+    "type": "icon",
+    "label": "YU",
+    "color": "#ff5f3b"
+  },
+  {
+    "name": "yunohost",
+    "type": "icon",
+    "label": "YU",
+    "color": "#ffffff"
+  },
+  {
+    "name": "zend",
+    "type": "icon",
+    "label": "ZE",
+    "color": "#68b604"
+  },
+  {
+    "name": "zig",
+    "type": "icon",
+    "label": "ZI",
+    "color": "#f7a41d"
+  },
+  {
+    "name": "zsh",
+    "type": "icon",
+    "label": "ZS",
+    "color": "#000"
+  },
+  {
+    "name": "zustand",
+    "type": "icon",
+    "label": "ZU",
+    "color": "#443e38"
+  },
+  {
+    "name": "ada",
+    "type": "text",
+    "label": "Ad",
+    "color": "#02f88c"
+  },
+  {
+    "name": "pascal",
+    "type": "text",
+    "label": "Pa",
+    "color": "#E3F171"
+  },
+  {
+    "name": "smalltalk",
+    "type": "text",
+    "label": "Sm",
+    "color": "#596706"
+  },
+  {
+    "name": "scheme",
+    "type": "text",
+    "label": "Sc",
+    "color": "#1e4aec"
+  },
+  {
+    "name": "lisp",
+    "type": "text",
+    "label": "Li",
+    "color": "#3fb68b"
+  },
+  {
+    "name": "commonlisp",
+    "type": "text",
+    "label": "CL",
+    "color": "#4c3a2e"
+  },
+  {
+    "name": "tcl",
+    "type": "text",
+    "label": "Tc",
+    "color": "#e4cc98"
+  },
+  {
+    "name": "verilog",
+    "type": "text",
+    "label": "Ve",
+    "color": "#b2b7f8"
+  },
+  {
+    "name": "vhdl",
+    "type": "text",
+    "label": "VH",
+    "color": "#adb2cb"
+  },
+  {
+    "name": "abap",
+    "type": "text",
+    "label": "AB",
+    "color": "#00a1de"
+  },
+  {
+    "name": "actionscript",
+    "type": "text",
+    "label": "As",
+    "color": "#882B0F"
+  },
+  {
+    "name": "assembly",
+    "type": "text",
+    "label": "Asm",
+    "color": "#6E4C13"
+  },
+  {
+    "name": "d",
+    "type": "text",
+    "label": "D",
+    "color": "#B03931"
+  },
+  {
+    "name": "forth",
+    "type": "text",
+    "label": "Fo",
+    "color": "#341239"
+  },
+  {
+    "name": "hack",
+    "type": "text",
+    "label": "Ha",
+    "color": "#878787"
+  },
+  {
+    "name": "idris",
+    "type": "text",
+    "label": "Id",
+    "color": "#b3823e"
+  },
+  {
+    "name": "mojo",
+    "type": "text",
+    "label": "Mo",
+    "color": "#ff4c1f"
+  },
+  {
+    "name": "nix",
+    "type": "text",
+    "label": "Ni",
+    "color": "#7ebae4"
+  },
+  {
+    "name": "postscript",
+    "type": "text",
+    "label": "Po",
+    "color": "#da291c"
+  },
+  {
+    "name": "sas",
+    "type": "text",
+    "label": "SA",
+    "color": "#0058a3"
+  },
+  {
+    "name": "scratch",
+    "type": "text",
+    "label": "Scr",
+    "color": "#4d97ff"
+  },
+  {
+    "name": "shell",
+    "type": "text",
+    "label": "Sh",
+    "color": "#89e051"
+  },
+  {
+    "name": "sql",
+    "type": "text",
+    "label": "SQ",
+    "color": "#e38c00"
+  },
+  {
+    "name": "sinatra",
+    "type": "text",
+    "label": "Si",
+    "color": "#000000"
+  },
+  {
+    "name": "gin",
+    "type": "text",
+    "label": "Gin",
+    "color": "#00ACD7"
+  },
+  {
+    "name": "echo",
+    "type": "text",
+    "label": "Ec",
+    "color": "#00ACD7"
+  },
+  {
+    "name": "chi",
+    "type": "text",
+    "label": "Chi",
+    "color": "#00ACD7"
+  },
+  {
+    "name": "beego",
+    "type": "text",
+    "label": "Be",
+    "color": "#00ACD7"
+  },
+  {
+    "name": "buffalo",
+    "type": "text",
+    "label": "Bu",
+    "color": "#3E64FF"
+  },
+  {
+    "name": "iris",
+    "type": "text",
+    "label": "Ir",
+    "color": "#40C4FF"
+  },
+  {
+    "name": "fasthttp",
+    "type": "text",
+    "label": "FH",
+    "color": "#00ACD7"
+  },
+  {
+    "name": "revel",
+    "type": "text",
+    "label": "Rv",
+    "color": "#000000"
+  },
+  {
+    "name": "koa",
+    "type": "text",
+    "label": "Koa",
+    "color": "#33333D"
+  },
+  {
+    "name": "hapi",
+    "type": "text",
+    "label": "Ha",
+    "color": "#F68D2E"
+  },
+  {
+    "name": "sails",
+    "type": "text",
+    "label": "Sa",
+    "color": "#14ACC2"
+  },
+  {
+    "name": "strapi",
+    "type": "text",
+    "label": "Str",
+    "color": "#4945FF"
+  },
+  {
+    "name": "actix",
+    "type": "text",
+    "label": "Ac",
+    "color": "#000000"
+  },
+  {
+    "name": "rocket",
+    "type": "text",
+    "label": "Ro",
+    "color": "#D33847"
+  },
+  {
+    "name": "axum",
+    "type": "text",
+    "label": "Ax",
+    "color": "#000000"
+  },
+  {
+    "name": "tide",
+    "type": "text",
+    "label": "Ti",
+    "color": "#000000"
+  },
+  {
+    "name": "warp",
+    "type": "text",
+    "label": "Wa",
+    "color": "#000000"
+  },
+  {
+    "name": "micronaut",
+    "type": "text",
+    "label": "Mi",
+    "color": "#4695EB"
+  },
+  {
+    "name": "vapor",
+    "type": "text",
+    "label": "Va",
+    "color": "#0D0D0D"
+  },
+  {
+    "name": "kitura",
+    "type": "text",
+    "label": "Kit",
+    "color": "#DA1A46"
+  },
+  {
+    "name": "perfect",
+    "type": "text",
+    "label": "Pf",
+    "color": "#3D3D3D"
+  },
+  {
+    "name": "playframework",
+    "type": "text",
+    "label": "Pl",
+    "color": "#000000"
+  },
+  {
+    "name": "servicestack",
+    "type": "text",
+    "label": "SS",
+    "color": "#8C1B13"
+  },
+  {
+    "name": "nancy",
+    "type": "text",
+    "label": "Na",
+    "color": "#7A9E43"
+  },
+  {
+    "name": "hanami",
+    "type": "text",
+    "label": "Hn",
+    "color": "#FF3B4C"
+  },
+  {
+    "name": "padrino",
+    "type": "text",
+    "label": "Pd",
+    "color": "#EE3D2C"
+  },
+  {
+    "name": "volt",
+    "type": "text",
+    "label": "Vo",
+    "color": "#F5C518"
+  },
+  {
+    "name": "struts",
+    "type": "text",
+    "label": "Sts",
+    "color": "#C71A36"
+  },
+  {
+    "name": "wicket",
+    "type": "text",
+    "label": "Wk",
+    "color": "#3F5D8A"
+  },
+  {
+    "name": "jsf",
+    "type": "text",
+    "label": "JSF",
+    "color": "#5382A1"
+  },
+  {
+    "name": "aspnetcore",
+    "type": "text",
+    "label": "AC",
+    "color": "#512BD4"
+  },
+  {
+    "name": "slim",
+    "type": "text",
+    "label": "Sl",
+    "color": "#75A9DC"
+  },
+  {
+    "name": "bottle",
+    "type": "text",
+    "label": "Bo",
+    "color": "#000000"
+  },
+  {
+    "name": "cherrypy",
+    "type": "text",
+    "label": "Cpy",
+    "color": "#000000"
+  },
+  {
+    "name": "pyramid",
+    "type": "text",
+    "label": "Py",
+    "color": "#00A94F"
+  },
+  {
+    "name": "sanic",
+    "type": "text",
+    "label": "Sc",
+    "color": "#FF0E42"
+  },
+  {
+    "name": "falcon",
+    "type": "text",
+    "label": "Fa",
+    "color": "#F0AD4E"
+  },
+  {
+    "name": "tornado",
+    "type": "text",
+    "label": "To",
+    "color": "#0D5C63"
+  },
+  {
+    "name": "web2py",
+    "type": "text",
+    "label": "W2",
+    "color": "#00629C"
+  },
+  {
+    "name": "turbogears",
+    "type": "text",
+    "label": "TG",
+    "color": "#729FCF"
+  },
+  {
+    "name": "aiohttp",
+    "type": "text",
+    "label": "Ai",
+    "color": "#2C5BB4"
+  },
+  {
+    "name": "emberjs",
+    "type": "text",
+    "label": "Em",
+    "color": "#E04E39"
+  },
+  {
+    "name": "polymer",
+    "type": "text",
+    "label": "Po",
+    "color": "#FF4470"
+  },
+  {
+    "name": "riotjs",
+    "type": "text",
+    "label": "Ri",
+    "color": "#802A54"
+  },
+  {
+    "name": "aurelia",
+    "type": "text",
+    "label": "Au",
+    "color": "#ED2B88"
+  },
+  {
+    "name": "marko",
+    "type": "text",
+    "label": "Mrk",
+    "color": "#FF5733"
+  },
+  {
+    "name": "preact",
+    "type": "text",
+    "label": "Pr",
+    "color": "#673AB8"
+  },
+  {
+    "name": "hyperapp",
+    "type": "text",
+    "label": "Hy",
+    "color": "#FF3B4C"
+  },
+  {
+    "name": "stimulus",
+    "type": "text",
+    "label": "Stm",
+    "color": "#77E8B9"
+  },
+  {
+    "name": "lit",
+    "type": "text",
+    "label": "Lit",
+    "color": "#324FFF"
+  },
+  {
+    "name": "mantine",
+    "type": "text",
+    "label": "Mn",
+    "color": "#339AF0"
+  },
+  {
+    "name": "daisyui",
+    "type": "text",
+    "label": "DU",
+    "color": "#5A0EF8"
+  },
+  {
+    "name": "semanticui",
+    "type": "text",
+    "label": "Se",
+    "color": "#00B5AD"
+  },
+  {
+    "name": "uikit",
+    "type": "text",
+    "label": "UI",
+    "color": "#2396F3"
+  },
+  {
+    "name": "picocss",
+    "type": "text",
+    "label": "Pc",
+    "color": "#AB4CFF"
+  },
+  {
+    "name": "nativescript",
+    "type": "text",
+    "label": "NS",
+    "color": "#3655FF"
+  },
+  {
+    "name": "cordova",
+    "type": "text",
+    "label": "Co",
+    "color": "#E8E8E8"
+  },
+  {
+    "name": "maui",
+    "type": "text",
+    "label": "Mau",
+    "color": "#512BD4"
+  },
+  {
+    "name": "kmm",
+    "type": "text",
+    "label": "KM",
+    "color": "#7F52FF"
+  },
+  {
+    "name": "nwjs",
+    "type": "text",
+    "label": "NW",
+    "color": "#00A6FB"
+  },
+  {
+    "name": "gtk",
+    "type": "text",
+    "label": "GTK",
+    "color": "#7FE719"
+  },
+  {
+    "name": "wxwidgets",
+    "type": "text",
+    "label": "Wx",
+    "color": "#1A6BB8"
+  },
+  {
+    "name": "kivy",
+    "type": "text",
+    "label": "Kiv",
+    "color": "#1B6F8A"
+  },
+  {
+    "name": "tkinter",
+    "type": "text",
+    "label": "Tk",
+    "color": "#F4B32C"
+  },
+  {
+    "name": "javafx",
+    "type": "text",
+    "label": "JFX",
+    "color": "#EF6B22"
+  },
+  {
+    "name": "swingui",
+    "type": "text",
+    "label": "Sw",
+    "color": "#5382A1"
+  },
+  {
+    "name": "caffe",
+    "type": "text",
+    "label": "Ca",
+    "color": "#A32020"
+  },
+  {
+    "name": "theano",
+    "type": "text",
+    "label": "Th",
+    "color": "#5B3AA9"
+  },
+  {
+    "name": "mxnet",
+    "type": "text",
+    "label": "MX",
+    "color": "#0F62FE"
+  },
+  {
+    "name": "jax",
+    "type": "text",
+    "label": "Jax",
+    "color": "#5F4B8B"
+  },
+  {
+    "name": "onnx",
+    "type": "text",
+    "label": "ON",
+    "color": "#005CED"
+  },
+  {
+    "name": "paddlepaddle",
+    "type": "text",
+    "label": "PP",
+    "color": "#0062B0"
+  },
+  {
+    "name": "fastai",
+    "type": "text",
+    "label": "FA",
+    "color": "#00A98F"
+  },
+  {
+    "name": "huggingface",
+    "type": "text",
+    "label": "HF",
+    "color": "#FFD21E"
+  },
+  {
+    "name": "transformers",
+    "type": "text",
+    "label": "Tr",
+    "color": "#FFD21E"
+  },
+  {
+    "name": "spacy",
+    "type": "text",
+    "label": "Sp",
+    "color": "#09A3D5"
+  },
+  {
+    "name": "xgboost",
+    "type": "text",
+    "label": "XG",
+    "color": "#EC1C24"
+  },
+  {
+    "name": "lightgbm",
+    "type": "text",
+    "label": "LG",
+    "color": "#4B8BBE"
+  },
+  {
+    "name": "catboost",
+    "type": "text",
+    "label": "CB",
+    "color": "#FFCC00"
+  },
+  {
+    "name": "chai",
+    "type": "text",
+    "label": "Cha",
+    "color": "#A30701"
+  },
+  {
+    "name": "mockito",
+    "type": "text",
+    "label": "Mk",
+    "color": "#78A641"
+  },
+  {
+    "name": "phpunit",
+    "type": "text",
+    "label": "PU",
+    "color": "#3C9CD7"
+  },
+  {
+    "name": "testng",
+    "type": "text",
+    "label": "TN",
+    "color": "#EF2D5E"
+  },
+  {
+    "name": "nunit",
+    "type": "text",
+    "label": "NU",
+    "color": "#00A3D9"
+  },
+  {
+    "name": "xunit",
+    "type": "text",
+    "label": "XU",
+    "color": "#1B85D6"
+  },
+  {
+    "name": "robotframework",
+    "type": "text",
+    "label": "RF",
+    "color": "#000000"
+  },
+  {
+    "name": "cockroachdb",
+    "type": "text",
+    "label": "CR",
+    "color": "#6933FF"
+  },
+  {
+    "name": "scylladb",
+    "type": "text",
+    "label": "Sc",
+    "color": "#5CE0D8"
+  },
+  {
+    "name": "tidb",
+    "type": "text",
+    "label": "Ti",
+    "color": "#2A2A2A"
+  },
+  {
+    "name": "singlestore",
+    "type": "text",
+    "label": "SS",
+    "color": "#AA00FF"
+  },
+  {
+    "name": "db2",
+    "type": "text",
+    "label": "DB2",
+    "color": "#0F62FE"
+  },
+  {
+    "name": "h2",
+    "type": "text",
+    "label": "H2",
+    "color": "#0000C0"
+  },
+  {
+    "name": "hsqldb",
+    "type": "text",
+    "label": "HS",
+    "color": "#4B6EAF"
+  },
+  {
+    "name": "derby",
+    "type": "text",
+    "label": "De",
+    "color": "#DB7C1E"
+  },
+  {
+    "name": "greenplum",
+    "type": "text",
+    "label": "GP",
+    "color": "#00A1DE"
+  },
+  {
+    "name": "vertica",
+    "type": "text",
+    "label": "Ve",
+    "color": "#0577B1"
+  },
+  {
+    "name": "teradata",
+    "type": "text",
+    "label": "Te",
+    "color": "#F37440"
+  },
+  {
+    "name": "planetscale",
+    "type": "text",
+    "label": "PS",
+    "color": "#000000"
+  },
+  {
+    "name": "timescaledb",
+    "type": "text",
+    "label": "TS",
+    "color": "#FDB515"
+  },
+  {
+    "name": "questdb",
+    "type": "text",
+    "label": "QD",
+    "color": "#D14671"
+  },
+  {
+    "name": "snowflake",
+    "type": "text",
+    "label": "SF",
+    "color": "#29B5E8"
+  },
+  {
+    "name": "bigquery",
+    "type": "text",
+    "label": "BQ",
+    "color": "#4285F4"
+  },
+  {
+    "name": "redshift",
+    "type": "text",
+    "label": "RS",
+    "color": "#8C4FFF"
+  },
+  {
+    "name": "databricks",
+    "type": "text",
+    "label": "DB",
+    "color": "#FF3621"
+  },
+  {
+    "name": "arangodb",
+    "type": "text",
+    "label": "AR",
+    "color": "#8FBC3F"
+  },
+  {
+    "name": "orientdb",
+    "type": "text",
+    "label": "OR",
+    "color": "#5271FF"
+  },
+  {
+    "name": "rethinkdb",
+    "type": "text",
+    "label": "RT",
+    "color": "#8C0000"
+  },
+  {
+    "name": "ravendb",
+    "type": "text",
+    "label": "RV",
+    "color": "#D6000D"
+  },
+  {
+    "name": "dgraph",
+    "type": "text",
+    "label": "Dg",
+    "color": "#E50695"
+  },
+  {
+    "name": "janusgraph",
+    "type": "text",
+    "label": "JG",
+    "color": "#5C6BC0"
+  },
+  {
+    "name": "neptune",
+    "type": "text",
+    "label": "Ne",
+    "color": "#527FFF"
+  },
+  {
+    "name": "memgraph",
+    "type": "text",
+    "label": "Mg",
+    "color": "#FF5F00"
+  },
+  {
+    "name": "tigergraph",
+    "type": "text",
+    "label": "TG",
+    "color": "#FF6600"
+  },
+  {
+    "name": "edgedb",
+    "type": "text",
+    "label": "ED",
+    "color": "#FF5A00"
+  },
+  {
+    "name": "xata",
+    "type": "text",
+    "label": "Xa",
+    "color": "#1D9AFA"
+  },
+  {
+    "name": "turso",
+    "type": "text",
+    "label": "Tu",
+    "color": "#4FF8D2"
+  },
+  {
+    "name": "fauna",
+    "type": "text",
+    "label": "Fa",
+    "color": "#3A1AB6"
+  },
+  {
+    "name": "pinecone",
+    "type": "text",
+    "label": "Pc",
+    "color": "#1C1C1C"
+  },
+  {
+    "name": "weaviate",
+    "type": "text",
+    "label": "We",
+    "color": "#00C58E"
+  },
+  {
+    "name": "qdrant",
+    "type": "text",
+    "label": "Qd",
+    "color": "#DC244C"
+  },
+  {
+    "name": "chroma",
+    "type": "text",
+    "label": "Ch",
+    "color": "#FFFFFF"
+  },
+  {
+    "name": "milvus",
+    "type": "text",
+    "label": "Mi",
+    "color": "#00A1EA"
+  },
+  {
+    "name": "solr",
+    "type": "text",
+    "label": "So",
+    "color": "#D9411E"
+  },
+  {
+    "name": "sphinxsearch",
+    "type": "text",
+    "label": "Sx",
+    "color": "#000000"
+  },
+  {
+    "name": "meilisearch",
+    "type": "text",
+    "label": "Me",
+    "color": "#FF5CAA"
+  },
+  {
+    "name": "typesense",
+    "type": "text",
+    "label": "Ty",
+    "color": "#EE6C4D"
+  },
+  {
+    "name": "redisearch",
+    "type": "text",
+    "label": "RSc",
+    "color": "#DC382D"
+  },
+  {
+    "name": "berkeleydb",
+    "type": "text",
+    "label": "BD",
+    "color": "#00688B"
+  },
+  {
+    "name": "leveldb",
+    "type": "text",
+    "label": "LD",
+    "color": "#4285F4"
+  },
+  {
+    "name": "foundationdb",
+    "type": "text",
+    "label": "FD",
+    "color": "#3D008D"
+  },
+  {
+    "name": "etcd",
+    "type": "text",
+    "label": "Et",
+    "color": "#419EDA"
+  },
+  {
+    "name": "zookeeper",
+    "type": "text",
+    "label": "ZK",
+    "color": "#D5A62E"
+  },
+  {
+    "name": "voltdb",
+    "type": "text",
+    "label": "VD",
+    "color": "#00A0DF"
+  },
+  {
+    "name": "objectbox",
+    "type": "text",
+    "label": "OB",
+    "color": "#FF6A00"
+  },
+  {
+    "name": "hasura",
+    "type": "text",
+    "label": "Ha",
+    "color": "#1EB4D4"
+  },
+  {
+    "name": "gcp",
+    "type": "text",
+    "label": "GCP",
+    "color": "#4285F4"
+  },
+  {
+    "name": "alibabacloud",
+    "type": "text",
+    "label": "AC",
+    "color": "#FF6A00"
+  },
+  {
+    "name": "oraclecloud",
+    "type": "text",
+    "label": "OC",
+    "color": "#F80000"
+  },
+  {
+    "name": "ibmcloud",
+    "type": "text",
+    "label": "IC",
+    "color": "#052FAD"
+  },
+  {
+    "name": "linode",
+    "type": "text",
+    "label": "Li",
+    "color": "#00A95C"
+  },
+  {
+    "name": "vultr",
+    "type": "text",
+    "label": "Vu",
+    "color": "#007BFC"
+  },
+  {
+    "name": "ovh",
+    "type": "text",
+    "label": "OVH",
+    "color": "#123F6D"
+  },
+  {
+    "name": "upcloud",
+    "type": "text",
+    "label": "UC",
+    "color": "#7B00FF"
+  },
+  {
+    "name": "hetzner",
+    "type": "text",
+    "label": "He",
+    "color": "#D50C2D"
+  },
+  {
+    "name": "render",
+    "type": "text",
+    "label": "Re",
+    "color": "#46E3B7"
+  },
+  {
+    "name": "flyio",
+    "type": "text",
+    "label": "Fly",
+    "color": "#8B5CF6"
+  },
+  {
+    "name": "koyeb",
+    "type": "text",
+    "label": "Ko",
+    "color": "#121212"
+  },
+  {
+    "name": "chef",
+    "type": "text",
+    "label": "Ch",
+    "color": "#F09820"
+  },
+  {
+    "name": "puppet",
+    "type": "text",
+    "label": "Pu",
+    "color": "#FFAE1A"
+  },
+  {
+    "name": "saltstack",
+    "type": "text",
+    "label": "SS",
+    "color": "#00EACE"
+  },
+  {
+    "name": "cloudformation",
+    "type": "text",
+    "label": "CF",
+    "color": "#FF4F8B"
+  },
+  {
+    "name": "opentofu",
+    "type": "text",
+    "label": "OT",
+    "color": "#FFDA18"
+  },
+  {
+    "name": "crossplane",
+    "type": "text",
+    "label": "Cr",
+    "color": "#F4267B"
+  },
+  {
+    "name": "spacelift",
+    "type": "text",
+    "label": "Sp",
+    "color": "#7A4FE3"
+  },
+  {
+    "name": "terragrunt",
+    "type": "text",
+    "label": "TG",
+    "color": "#5C4EE5"
+  },
+  {
+    "name": "atlantis",
+    "type": "text",
+    "label": "At",
+    "color": "#4A4A4A"
+  },
+  {
+    "name": "waypoint",
+    "type": "text",
+    "label": "Wa",
+    "color": "#5D4FDE"
+  },
+  {
+    "name": "boundary",
+    "type": "text",
+    "label": "Bo",
+    "color": "#F4534A"
+  },
+  {
+    "name": "openshift",
+    "type": "text",
+    "label": "OS",
+    "color": "#EE0000"
+  },
+  {
+    "name": "dockerswarm",
+    "type": "text",
+    "label": "DS",
+    "color": "#019BC6"
+  },
+  {
+    "name": "containerd",
+    "type": "text",
+    "label": "Cd",
+    "color": "#575757"
+  },
+  {
+    "name": "cri-o",
+    "type": "text",
+    "label": "CRI",
+    "color": "#3D6C9E"
+  },
+  {
+    "name": "microk8s",
+    "type": "text",
+    "label": "MK8",
+    "color": "#EF5350"
+  },
+  {
+    "name": "kind",
+    "type": "text",
+    "label": "Ki",
+    "color": "#3771C8"
+  },
+  {
+    "name": "minikube",
+    "type": "text",
+    "label": "Mk",
+    "color": "#3771C8"
+  },
+  {
+    "name": "gitlabci",
+    "type": "text",
+    "label": "GLC",
+    "color": "#E24329"
+  },
+  {
+    "name": "fluxcd",
+    "type": "text",
+    "label": "FC",
+    "color": "#3D46F1"
+  },
+  {
+    "name": "spinnaker",
+    "type": "text",
+    "label": "Sk",
+    "color": "#139BB4"
+  },
+  {
+    "name": "teamcity",
+    "type": "text",
+    "label": "TC",
+    "color": "#000000"
+  },
+  {
+    "name": "drone",
+    "type": "text",
+    "label": "Dr",
+    "color": "#212121"
+  },
+  {
+    "name": "concourse",
+    "type": "text",
+    "label": "Co",
+    "color": "#53575C"
+  },
+  {
+    "name": "buildkite",
+    "type": "text",
+    "label": "BK",
+    "color": "#14CC80"
+  },
+  {
+    "name": "tekton",
+    "type": "text",
+    "label": "Te",
+    "color": "#FD495C"
+  },
+  {
+    "name": "harness",
+    "type": "text",
+    "label": "Ha",
+    "color": "#0092E4"
+  },
+  {
+    "name": "octopusdeploy",
+    "type": "text",
+    "label": "OD",
+    "color": "#2F93E0"
+  },
+  {
+    "name": "elasticstack",
+    "type": "text",
+    "label": "ES",
+    "color": "#005571"
+  },
+  {
+    "name": "elk",
+    "type": "text",
+    "label": "ELK",
+    "color": "#005571"
+  },
+  {
+    "name": "jaeger",
+    "type": "text",
+    "label": "Ja",
+    "color": "#60D0E4"
+  },
+  {
+    "name": "zipkin",
+    "type": "text",
+    "label": "Zi",
+    "color": "#FF6600"
+  },
+  {
+    "name": "pagerduty",
+    "type": "text",
+    "label": "PD",
+    "color": "#06AC38"
+  },
+  {
+    "name": "opsgenie",
+    "type": "text",
+    "label": "OG",
+    "color": "#172B4D"
+  },
+  {
+    "name": "nagios",
+    "type": "text",
+    "label": "Na",
+    "color": "#000000"
+  },
+  {
+    "name": "zabbix",
+    "type": "text",
+    "label": "Za",
+    "color": "#D40000"
+  },
+  {
+    "name": "icinga",
+    "type": "text",
+    "label": "Ic",
+    "color": "#4C4C4C"
+  },
+  {
+    "name": "sensu",
+    "type": "text",
+    "label": "Se",
+    "color": "#94D530"
+  },
+  {
+    "name": "victoriametrics",
+    "type": "text",
+    "label": "VM",
+    "color": "#621773"
+  },
+  {
+    "name": "thanos",
+    "type": "text",
+    "label": "Th",
+    "color": "#6C2A5E"
+  },
+  {
+    "name": "cortex",
+    "type": "text",
+    "label": "Cx",
+    "color": "#3EBFAE"
+  },
+  {
+    "name": "loki",
+    "type": "text",
+    "label": "Lo",
+    "color": "#F5A623"
+  },
+  {
+    "name": "fluentd",
+    "type": "text",
+    "label": "Fl",
+    "color": "#0E83C8"
+  },
+  {
+    "name": "fluentbit",
+    "type": "text",
+    "label": "FB",
+    "color": "#49BDA5"
+  },
+  {
+    "name": "vector",
+    "type": "text",
+    "label": "Ve",
+    "color": "#10E7FF"
+  },
+  {
+    "name": "honeycomb",
+    "type": "text",
+    "label": "Ho",
+    "color": "#F4B942"
+  },
+  {
+    "name": "lightstep",
+    "type": "text",
+    "label": "LS",
+    "color": "#6B2D8C"
+  },
+  {
+    "name": "signalfx",
+    "type": "text",
+    "label": "SF",
+    "color": "#0091FF"
+  },
+  {
+    "name": "kafka",
+    "type": "text",
+    "label": "Ka",
+    "color": "#231F20"
+  },
+  {
+    "name": "activemq",
+    "type": "text",
+    "label": "AMQ",
+    "color": "#D22128"
+  },
+  {
+    "name": "redpanda",
+    "type": "text",
+    "label": "Rp",
+    "color": "#EB4C36"
+  },
+  {
+    "name": "zeromq",
+    "type": "text",
+    "label": "ZMQ",
+    "color": "#DF1D8E"
+  },
+  {
+    "name": "nsq",
+    "type": "text",
+    "label": "NSQ",
+    "color": "#182534"
+  },
+  {
+    "name": "eventbridge",
+    "type": "text",
+    "label": "EB",
+    "color": "#FF4F8B"
+  },
+  {
+    "name": "sns",
+    "type": "text",
+    "label": "SNS",
+    "color": "#E7157B"
+  },
+  {
+    "name": "sqs",
+    "type": "text",
+    "label": "SQS",
+    "color": "#FF4F8B"
+  },
+  {
+    "name": "istio",
+    "type": "text",
+    "label": "Is",
+    "color": "#466BB0"
+  },
+  {
+    "name": "linkerd",
+    "type": "text",
+    "label": "Ld",
+    "color": "#2BEDA7"
+  },
+  {
+    "name": "consulconnect",
+    "type": "text",
+    "label": "CC",
+    "color": "#DC477D"
+  },
+  {
+    "name": "traefik",
+    "type": "text",
+    "label": "Tk",
+    "color": "#24A1C1"
+  },
+  {
+    "name": "kong",
+    "type": "text",
+    "label": "Kg",
+    "color": "#003459"
+  },
+  {
+    "name": "haproxy",
+    "type": "text",
+    "label": "HAP",
+    "color": "#106DA9"
+  },
+  {
+    "name": "caddy",
+    "type": "text",
+    "label": "Ca",
+    "color": "#1F88C0"
+  },
+  {
+    "name": "tyk",
+    "type": "text",
+    "label": "Ty",
+    "color": "#FF6C37"
+  },
+  {
+    "name": "apigee",
+    "type": "text",
+    "label": "Ap",
+    "color": "#EA4335"
+  },
+  {
+    "name": "sealedsecrets",
+    "type": "text",
+    "label": "SSc",
+    "color": "#326CE5"
+  },
+  {
+    "name": "externalsecrets",
+    "type": "text",
+    "label": "ESc",
+    "color": "#326CE5"
+  },
+  {
+    "name": "keycloak",
+    "type": "text",
+    "label": "Kc",
+    "color": "#4D4D4D"
+  },
+  {
+    "name": "auth0",
+    "type": "text",
+    "label": "Au0",
+    "color": "#EB5424"
+  },
+  {
+    "name": "cognito",
+    "type": "text",
+    "label": "Cg",
+    "color": "#DD344C"
+  },
+  {
+    "name": "artifactory",
+    "type": "text",
+    "label": "Ar",
+    "color": "#41BF47"
+  },
+  {
+    "name": "nexus",
+    "type": "text",
+    "label": "Nx",
+    "color": "#1B1C30"
+  },
+  {
+    "name": "quay",
+    "type": "text",
+    "label": "Qu",
+    "color": "#C23539"
+  },
+  {
+    "name": "dockerhub",
+    "type": "text",
+    "label": "DH",
+    "color": "#2496ED"
+  },
+  {
+    "name": "ecr",
+    "type": "text",
+    "label": "ECR",
+    "color": "#FF9900"
+  },
+  {
+    "name": "gcr",
+    "type": "text",
+    "label": "GCR",
+    "color": "#4285F4"
+  },
+  {
+    "name": "acr",
+    "type": "text",
+    "label": "ACR",
+    "color": "#0078D4"
+  },
+  {
+    "name": "opa",
+    "type": "text",
+    "label": "OPA",
+    "color": "#7D9199"
+  },
+  {
+    "name": "gatekeeper",
+    "type": "text",
+    "label": "Ga",
+    "color": "#326CE5"
+  },
+  {
+    "name": "falco",
+    "type": "text",
+    "label": "Fa",
+    "color": "#00AEC7"
+  },
+  {
+    "name": "trivy",
+    "type": "text",
+    "label": "Tv",
+    "color": "#1904DA"
+  },
+  {
+    "name": "clair",
+    "type": "text",
+    "label": "Cl",
+    "color": "#F15B2A"
+  },
+  {
+    "name": "anchore",
+    "type": "text",
+    "label": "An",
+    "color": "#2D4356"
+  },
+  {
+    "name": "firecrawl",
+    "type": "text",
+    "label": "Fcr",
+    "color": "#FFA500"
+  },
+  {
+    "name": "shopify",
+    "type": "text",
+    "label": "Sh",
+    "color": "#7AB55C"
+  },
+  {
+    "name": "bigcommerce",
+    "type": "text",
+    "label": "BC",
+    "color": "#121118"
+  },
+  {
+    "name": "prestashop",
+    "type": "text",
+    "label": "Pr",
+    "color": "#DF0067"
+  },
+  {
+    "name": "opencart",
+    "type": "text",
+    "label": "OC",
+    "color": "#28B8C8"
+  },
+  {
+    "name": "commercetools",
+    "type": "text",
+    "label": "CT",
+    "color": "#0A1929"
+  },
+  {
+    "name": "medusajs",
+    "type": "text",
+    "label": "Me",
+    "color": "#000000"
+  },
+  {
+    "name": "saleor",
+    "type": "text",
+    "label": "Sa",
+    "color": "#000000"
+  },
+  {
+    "name": "vendure",
+    "type": "text",
+    "label": "Ve",
+    "color": "#17C1FF"
+  },
+  {
+    "name": "spree",
+    "type": "text",
+    "label": "Sp",
+    "color": "#5C6AC4"
+  },
+  {
+    "name": "volusion",
+    "type": "text",
+    "label": "Vo",
+    "color": "#1D4C9B"
+  },
+  {
+    "name": "ecwid",
+    "type": "text",
+    "label": "Ec",
+    "color": "#6772E5"
+  },
+  {
+    "name": "zencart",
+    "type": "text",
+    "label": "Zc",
+    "color": "#1E7DC1"
+  },
+  {
+    "name": "joomla",
+    "type": "text",
+    "label": "Jo",
+    "color": "#5091CD"
+  },
+  {
+    "name": "craftcms",
+    "type": "text",
+    "label": "Cr",
+    "color": "#E5422B"
+  },
+  {
+    "name": "umbraco",
+    "type": "text",
+    "label": "Um",
+    "color": "#3544B1"
+  },
+  {
+    "name": "kentico",
+    "type": "text",
+    "label": "Ke",
+    "color": "#F05A22"
+  },
+  {
+    "name": "sitecore",
+    "type": "text",
+    "label": "Si",
+    "color": "#EB1E23"
+  },
+  {
+    "name": "episerver",
+    "type": "text",
+    "label": "Ep",
+    "color": "#00263E"
+  },
+  {
+    "name": "wagtail",
+    "type": "text",
+    "label": "Wa",
+    "color": "#43B1B0"
+  },
+  {
+    "name": "django-cms",
+    "type": "text",
+    "label": "DC",
+    "color": "#092E20"
+  },
+  {
+    "name": "contentful",
+    "type": "text",
+    "label": "Co",
+    "color": "#2478CC"
+  },
+  {
+    "name": "directus",
+    "type": "text",
+    "label": "Di",
+    "color": "#6644FF"
+  },
+  {
+    "name": "payloadcms",
+    "type": "text",
+    "label": "Pl",
+    "color": "#000000"
+  },
+  {
+    "name": "keystonejs",
+    "type": "text",
+    "label": "Ks",
+    "color": "#166BFF"
+  },
+  {
+    "name": "builder.io",
+    "type": "text",
+    "label": "Bu",
+    "color": "#000000"
+  },
+  {
+    "name": "storyblok",
+    "type": "text",
+    "label": "Sbk",
+    "color": "#00B3B0"
+  },
+  {
+    "name": "prismic",
+    "type": "text",
+    "label": "Pm",
+    "color": "#5163BA"
+  },
+  {
+    "name": "graphcms",
+    "type": "text",
+    "label": "GC",
+    "color": "#00b1e5"
+  },
+  {
+    "name": "hygraph",
+    "type": "text",
+    "label": "Hy",
+    "color": "#F2296C"
+  },
+  {
+    "name": "cockpitcms",
+    "type": "text",
+    "label": "Ck",
+    "color": "#4A4EE0"
+  },
+  {
+    "name": "gridsome",
+    "type": "text",
+    "label": "Gr",
+    "color": "#00A672"
+  },
+  {
+    "name": "hexo",
+    "type": "text",
+    "label": "He",
+    "color": "#0E83CD"
+  },
+  {
+    "name": "zola",
+    "type": "text",
+    "label": "Zo",
+    "color": "#4A90D9"
+  },
+  {
+    "name": "hubspot",
+    "type": "text",
+    "label": "HS",
+    "color": "#FF7A59"
+  },
+  {
+    "name": "zendesk",
+    "type": "text",
+    "label": "Ze",
+    "color": "#03363D"
+  },
+  {
+    "name": "intercom",
+    "type": "text",
+    "label": "In",
+    "color": "#1F8DED"
+  },
+  {
+    "name": "freshdesk",
+    "type": "text",
+    "label": "Fd",
+    "color": "#25C16F"
+  },
+  {
+    "name": "mailchimp",
+    "type": "text",
+    "label": "Ma",
+    "color": "#FFE01B"
+  },
+  {
+    "name": "klaviyo",
+    "type": "text",
+    "label": "Kl",
+    "color": "#000000"
+  },
+  {
+    "name": "activecampaign",
+    "type": "text",
+    "label": "AC",
+    "color": "#004C97"
+  },
+  {
+    "name": "marketo",
+    "type": "text",
+    "label": "Mk",
+    "color": "#5C4C9F"
+  },
+  {
+    "name": "pardot",
+    "type": "text",
+    "label": "Pd",
+    "color": "#00A1E0"
+  },
+  {
+    "name": "zoho",
+    "type": "text",
+    "label": "Zh",
+    "color": "#C8202F"
+  },
+  {
+    "name": "pipedrive",
+    "type": "text",
+    "label": "Pi",
+    "color": "#1A1A1A"
+  },
+  {
+    "name": "monday",
+    "type": "text",
+    "label": "Mo",
+    "color": "#FF3D57"
+  },
+  {
+    "name": "salesforcecommercecloud",
+    "type": "text",
+    "label": "SCC",
+    "color": "#00A1E0"
+  },
+  {
+    "name": "stripe",
+    "type": "text",
+    "label": "St",
+    "color": "#635BFF"
+  },
+  {
+    "name": "paypal",
+    "type": "text",
+    "label": "PP",
+    "color": "#003087"
+  },
+  {
+    "name": "square",
+    "type": "text",
+    "label": "Sqr",
+    "color": "#000000"
+  },
+  {
+    "name": "braintree",
+    "type": "text",
+    "label": "Br",
+    "color": "#000000"
+  },
+  {
+    "name": "razorpay",
+    "type": "text",
+    "label": "Rz",
+    "color": "#0C2451"
+  },
+  {
+    "name": "adyen",
+    "type": "text",
+    "label": "Ad",
+    "color": "#0ABF53"
+  },
+  {
+    "name": "paddle",
+    "type": "text",
+    "label": "Pa",
+    "color": "#FFFFFF"
+  },
+  {
+    "name": "lemonsqueezy",
+    "type": "text",
+    "label": "LS",
+    "color": "#FFC233"
+  },
+  {
+    "name": "paystack",
+    "type": "text",
+    "label": "Ps",
+    "color": "#00C3F7"
+  }
+]
