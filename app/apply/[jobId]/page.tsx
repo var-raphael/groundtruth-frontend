@@ -16,24 +16,7 @@ import {
   FiLoader,
   FiAlertTriangle,
 } from "react-icons/fi";
-import {
-  SiGo,
-  SiTypescript,
-  SiJavascript,
-  SiPython,
-  SiHtml5,
-  SiRust,
-  SiRuby,
-  SiPhp,
-  SiSwift,
-  SiKotlin,
-  SiCplusplus,
-  SiSharp,
-  SiElixir,
-  SiScala,
-  SiDart,
-} from "react-icons/si";
-import type { IconType } from "react-icons";
+import { TechBadge } from "../../candidates/TechBadge";
 import * as ct from "countries-and-timezones";
 import type { Session } from "@supabase/supabase-js";
 import { getSupabase } from "../../../lib/supabase";
@@ -66,29 +49,10 @@ function Logo({ size = 20 }: { size?: number }) {
   );
 }
 
-const LANG_META: Record<string, { icon: IconType; color: string }> = {
-  Go: { icon: SiGo, color: "text-[#29D3F5]" },
-  TypeScript: { icon: SiTypescript, color: "text-[#5B9FF5]" },
-  JavaScript: { icon: SiJavascript, color: "text-[#F5DE4E]" },
-  Python: { icon: SiPython, color: "text-[#FFD84D]" },
-  HTML: { icon: SiHtml5, color: "text-[#FF7A50]" },
-  Rust: { icon: SiRust, color: "text-[#F0883E]" },
-  Ruby: { icon: SiRuby, color: "text-[#FF5A5B]" },
-  PHP: { icon: SiPhp, color: "text-[#7C8CF8]" },
-  Swift: { icon: SiSwift, color: "text-[#F0883E]" },
-  Kotlin: { icon: SiKotlin, color: "text-[#B084F5]" },
-  "C++": { icon: SiCplusplus, color: "text-[#5B9FF5]" },
-  "C#": { icon: SiSharp, color: "text-[#3FB950]" },
-  Elixir: { icon: SiElixir, color: "text-[#B084F5]" },
-  Scala: { icon: SiScala, color: "text-[#FF5A5B]" },
-  Dart: { icon: SiDart, color: "text-[#29D3F5]" },
-};
-
 function StackTag({ lang }: { lang: string }) {
-  const meta = LANG_META[lang];
   return (
     <span className="flex items-center gap-1.5 font-mono text-[12px] text-white/80 border border-white/15 rounded px-2.5 py-1">
-      {meta?.icon ? <meta.icon size={13} className={meta.color} /> : null}
+      <TechBadge name={lang} size={13} />
       {lang}
     </span>
   );

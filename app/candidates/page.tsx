@@ -230,6 +230,34 @@ function CountryFlag({ code, size = 16 }: { code: string; size?: number }) {
   );
 }
 
+// Candidate countries may be stored as an ISO code ("DE") or a name ("Germany").
+// Resolve either form to an ISO code so we can show a flag.
+const countryCodeByName = (() => {
+  const map = new Map<string, string>();
+  for (const code of ISO_COUNTRY_CODES) map.set(countryName(code).toLowerCase(), code);
+  return map;
+})();
+
+function resolveCountryCode(value?: string | null): string | null {
+  if (!value) return null;
+  const v = value.trim();
+  if (/^[A-Za-z]{2}$/.test(v) && ISO_COUNTRY_CODES.includes(v.toUpperCase())) {
+    return v.toUpperCase();
+  }
+  return countryCodeByName.get(v.toLowerCase()) ?? null;
+}
+
+function CountryLabel({ value, size = 14 }: { value: string; size?: number }) {
+  const code = resolveCountryCode(value);
+  if (!code) return <>{value}</>;
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      <CountryFlag code={code} size={size} />
+      {countryName(code)}
+    </span>
+  );
+}
+
 const JOB_COUNTRIES = ISO_COUNTRY_CODES
   .map((code) => ({ code, name: countryName(code) }))
   .sort((a, b) => a.name.localeCompare(b.name));
@@ -241,11 +269,25 @@ function applyUrl(jobId: string) {
   return `${base}/apply/${jobId}`;
 }
 
-function locationLabel(job: Job): string {
-  if (job.location_mode === "anywhere") return "Remote, anywhere";
+function JobLocation({ job }: { job: Job }) {
+  if (job.location_mode === "anywhere") return <>Remote, anywhere</>;
   const list = job.location_countries ?? [];
-  const countries = list.length > 0 ? list.map((code) => countryName(code)).join(", ") : "unspecified";
-  return job.location_mode === "onsite" ? `On-site · ${countries}` : `Remote · ${countries}`;
+  return (
+    <span className="inline-flex flex-wrap items-center gap-x-1.5 gap-y-1">
+      <span>{job.location_mode === "onsite" ? "On-site" : "Remote"}</span>
+      <span className="text-white/30">·</span>
+      {list.length === 0 ? (
+        <span>unspecified</span>
+      ) : (
+        list.map((code) => (
+          <span key={code} className="inline-flex items-center gap-1.5">
+            <CountryFlag code={code} size={12} />
+            {countryName(code)}
+          </span>
+        ))
+      )}
+    </span>
+  );
 }
 
 const FETCH_TIMEOUT_MS = 10000;
@@ -975,8 +1017,19 @@ function CandidateCard({
                   <div className="font-mono text-[9px] uppercase tracking-[0.08em] text-white/30 mb-0.5">
                     location
                   </div>
-                  <div className="font-mono text-[12px] text-white/70">
-                    {[c.city, c.country, c.timezone].filter(Boolean).join(" · ")}
+                  <div className="font-mono text-[12px] text-white/70 flex flex-wrap items-center gap-x-1.5 gap-y-1">
+                    {[
+                      c.city ? <span key="city">{c.city}</span> : null,
+                      c.country ? <CountryLabel key="country" value={c.country} /> : null,
+                      c.timezone ? <span key="tz">{c.timezone}</span> : null,
+                    ]
+                      .filter(Boolean)
+                      .map((node, i) => (
+                        <span key={i} className="inline-flex items-center gap-x-1.5">
+                          {i > 0 && <span className="text-white/30">·</span>}
+                          {node}
+                        </span>
+                      ))}
                   </div>
                 </div>
               )}
@@ -1444,11 +1497,13 @@ function MultiSelectFilter({
   options,
   selected,
   onToggle,
+  renderOption,
 }: {
   label: string;
   options: string[];
   selected: string[];
   onToggle: (v: string) => void;
+  renderOption?: (opt: string) => ReactNode;
 }) {
   if (options.length === 0) return null;
   return (
@@ -1463,13 +1518,13 @@ function MultiSelectFilter({
             <button
               key={opt}
               onClick={() => onToggle(opt)}
-              className={`font-mono text-[11px] rounded px-2 py-1 border transition-colors ${
+              className={`flex items-center font-mono text-[11px] rounded px-2 py-1 border transition-colors ${
                 active
                   ? "bg-white text-black border-white"
                   : "text-white/70 border-white/15 bg-white/[0.04] hover:border-white/30"
               }`}
             >
-              {opt}
+              {renderOption ? renderOption(opt) : opt}
             </button>
           );
         })}
@@ -1565,6 +1620,7 @@ function FilterPanel({
         options={availableCountries}
         selected={filters.countries}
         onToggle={toggleCountry}
+        renderOption={(c) => <CountryLabel value={c} size={12} />}
       />
 
       <MultiSelectFilter
@@ -1860,8 +1916,8 @@ export default function CandidatesPage() {
                         <span className="flex items-center justify-between gap-2">
                           <span className="truncate text-[13px]">{job.title}</span>
                         </span>
-                        <span className="font-mono text-[10px] text-white/35 truncate">
-                          {locationLabel(job)}
+                        <span className="font-mono text-[10px] text-white/35 block">
+                          <JobLocation job={job} />
                         </span>
                       </button>
                       <button
@@ -1994,7 +2050,7 @@ export default function CandidatesPage() {
               {total} scored candidates, ranked by verified evidence
             </span>
             <span className="font-mono text-[11px] text-white/50 border border-white/15 rounded px-2 py-0.5">
-              {locationLabel(activeJob)}
+              <JobLocation job={activeJob} />
             </span>
           </div>
         </div>

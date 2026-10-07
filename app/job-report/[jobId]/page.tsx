@@ -20,244 +20,12 @@ import {
 import { SiGithub, SiX } from "react-icons/si";
 import { FaLinkedin } from "react-icons/fa6";
 import type { IconType } from "react-icons";
+import { TechBadge } from "../../candidates/TechBadge";
 
 const USE_MOCK_DATA = false;
 const mockReportData = null;
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
-
-const SIMPLE_ICON_SLUGS: Record<string, string> = {
-  // Languages
-  go: "go",
-  golang: "go",
-  typescript: "typescript",
-  javascript: "javascript",
-  python: "python",
-  java: "openjdk",
-  kotlin: "kotlin",
-  swift: "swift",
-  rust: "rust",
-  php: "php",
-  ruby: "ruby",
-  dart: "dart",
-  c: "c",
-  "c++": "cplusplus",
-  cpp: "cplusplus",
-  "c#": "csharp",
-  ".net": "dotnet",
-
-  // Frontend
-  react: "react",
-  "react router": "reactrouter",
-  nextjs: "nextdotjs",
-  "next.js": "nextdotjs",
-  vue: "vuedotjs",
-  nuxt: "nuxt",
-  angular: "angular",
-  svelte: "svelte",
-  solidjs: "solid",
-  astro: "astro",
-  vite: "vite",
-  webpack: "webpack",
-  parcel: "parcel",
-  html: "html5",
-  html5: "html5",
-  css: "css",
-  css3: "css",
-  sass: "sass",
-  scss: "sass",
-  tailwind: "tailwindcss",
-  tailwindcss: "tailwindcss",
-  bootstrap: "bootstrap",
-  mui: "mui",
-  materialui: "mui",
-  shadcn: "shadcnui",
-
-  // Backend
-  node: "nodedotjs",
-  "node.js": "nodedotjs",
-  express: "express",
-  nestjs: "nestjs",
-  fastify: "fastify",
-  hono: "hono",
-  django: "django",
-  flask: "flask",
-  fastapi: "fastapi",
-  laravel: "laravel",
-  spring: "spring",
-  springboot: "springboot",
-  rails: "rubyonrails",
-
-  // Databases
-  postgres: "postgresql",
-  postgresql: "postgresql",
-  mysql: "mysql",
-  mariadb: "mariadb",
-  sqlite: "sqlite",
-  mongodb: "mongodb",
-  redis: "redis",
-  elasticsearch: "elasticsearch",
-  opensearch: "opensearch",
-  cockroachdb: "cockroachlabs",
-  cassandra: "apachecassandra",
-  dynamodb: "amazondynamodb",
-  influxdb: "influxdb",
-
-  // ORMs
-  prisma: "prisma",
-  drizzle: "drizzle",
-  sequelize: "sequelize",
-  typeorm: "typeorm",
-
-  // Cloud
-  aws: "amazonaws",
-  gcp: "googlecloud",
-  googlecloud: "googlecloud",
-  azure: "microsoftazure",
-  cloudflare: "cloudflare",
-  vercel: "vercel",
-  netlify: "netlify",
-  firebase: "firebase",
-  supabase: "supabase",
-
-  // Containers / Infra
-  docker: "docker",
-  kubernetes: "kubernetes",
-  helm: "helm",
-  terraform: "terraform",
-  ansible: "ansible",
-  nginx: "nginx",
-  traefik: "traefik",
-
-  // CI/CD
-  githubactions: "githubactions",
-  "github actions": "githubactions",
-  gitlabci: "gitlab",
-  jenkins: "jenkins",
-  circleci: "circleci",
-
-  // Monitoring
-  prometheus: "prometheus",
-  grafana: "grafana",
-  datadog: "datadog",
-  sentry: "sentry",
-  opentelemetry: "opentelemetry",
-  langfuse: "langfuse",
-
-  // Messaging
-  kafka: "apachekafka",
-  rabbitmq: "rabbitmq",
-  nats: "natsdotio",
-
-  // AI
-  openai: "openai",
-  anthropic: "anthropic",
-  langchain: "langchain",
-  llamaindex: "llamaindex",
-  ollama: "ollama",
-
-  // Mobile
-  flutter: "flutter",
-  reactnative: "react",
-  expo: "expo",
-
-  // Tools
-  git: "git",
-  github: "github",
-  gitlab: "gitlab",
-  bitbucket: "bitbucket",
-  vscode: "visualstudiocode",
-  postman: "postman",
-  insomnia: "insomnia",
-  linux: "linux",
-
-  // Package Managers
-  npm: "npm",
-  yarn: "yarn",
-  pnpm: "pnpm",
-  bun: "bun",
-
-  // Auth
-  auth0: "auth0",
-  clerk: "clerk",
-  keycloak: "keycloak",
-
-  // Payments
-  stripe: "stripe",
-  paypal: "paypal",
-  paystack: "paystack",
-
-  // CMS
-  strapi: "strapi",
-  contentful: "contentful",
-  sanity: "sanity",
-
-  // Testing
-  jest: "jest",
-  vitest: "vitest",
-  playwright: "playwright",
-  cypress: "cypress",
-};
-
-const DARK_ICON_SLUGS = new Set([
-  "nextdotjs",
-  "vercel",
-  "github",
-  "openjdk",
-  "express",
-]);
-
-function matchIconSlug(name: string): string | null {
-  const normalized = name.trim().toLowerCase();
-  if (SIMPLE_ICON_SLUGS[normalized]) return SIMPLE_ICON_SLUGS[normalized];
-
-  const tokens = normalized.split(/[^a-z0-9.#+]+/).filter(Boolean);
-
-  for (const token of tokens) {
-    if (SIMPLE_ICON_SLUGS[token]) return SIMPLE_ICON_SLUGS[token];
-  }
-
-  const keys = Object.keys(SIMPLE_ICON_SLUGS).sort((a, b) => b.length - a.length);
-  for (const key of keys) {
-    if (key.length < 3) continue;
-    if (normalized.includes(key)) return SIMPLE_ICON_SLUGS[key];
-  }
-
-  return null;
-}
-
-function stackIconUrl(name: string): string | null {
-  const slug = matchIconSlug(name);
-  if (!slug) return null;
-  return DARK_ICON_SLUGS.has(slug)
-    ? `https://cdn.simpleicons.org/${slug}/ffffff`
-    : `https://cdn.simpleicons.org/${slug}`;
-}
-
-function hashString(str: string): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = (hash << 5) - hash + str.charCodeAt(i);
-    hash |= 0;
-  }
-  return Math.abs(hash);
-}
-
-function stringToColor(str: string): string {
-  const hue = hashString(str) % 360;
-  return `hsl(${hue}, 65%, 50%)`;
-}
-
-function fallbackAvatar(name: string): { letters: string; color: string } {
-  const cleaned = name.trim().toLowerCase().replace(/\s*(analytics|sdk|client|cli|package|library)$/i, "").trim();
-  const alnum = cleaned.replace(/[^a-zA-Z0-9]/g, "");
-  const letters =
-    alnum.length <= 2
-      ? alnum.toUpperCase() || "?"
-      : (alnum[0] + alnum[alnum.length - 1]).toUpperCase();
-  const color = stringToColor(cleaned);
-  return { letters, color };
-}
 
 type Evidence = {
   name: string;
@@ -265,8 +33,10 @@ type Evidence = {
   repoUrl: string;
   liveUrl?: string;
   isLive: boolean;
+  releaseUrl?: string;
+  releaseTag?: string;
   languages: Record<string, number>;
-  detectedStack: string[];
+  detectedStack?: string[];
   detectedStackError?: string;
   commits90d?: number;
   activeWeeks90d?: number;
@@ -290,7 +60,7 @@ type Contribution = {
   stars: number;
 };
 
-type ReasonEvidence = { project: string; repoUrl?: string; liveUrl?: string };
+type ReasonEvidence = { project: string; repoUrl?: string; liveUrl?: string; releaseUrl?: string };
 
 type StackCoverage = {
   technology: string;
@@ -340,10 +110,12 @@ type CandidateReport = {
   generatedAt: string;
   lastScannedAt: string;
   candidate: CandidateSummary;
-  evidence: Evidence[];
+  overlapHours?: number;
+  evidence?: Evidence[];
   contributions?: Contribution[];
   reasoning: Reasoning;
   warning?: string;
+  pending?: boolean;
 };
 
 type Job = {
@@ -355,7 +127,7 @@ type Job = {
   location_mode: "anywhere" | "country" | "onsite";
   location_countries: string[];
   min_years_experience: number;
-  timezone: string;
+  timezones?: string[];
   min_overlap_hours: number;
   candidate_limit: number;
   created_at: string;
@@ -392,9 +164,43 @@ function mailtoUrl(to: string, subject: string, body: string) {
   return `mailto:${to}?${encodeQuery({ subject, body })}`;
 }
 
+const countryNameCache = (() => {
+  try {
+    return new Intl.DisplayNames(["en"], { type: "region" });
+  } catch {
+    return null;
+  }
+})();
+
+function countryName(iso2: string): string {
+  try {
+    return countryNameCache?.of(iso2) ?? iso2;
+  } catch {
+    return iso2;
+  }
+}
+
+function countryFlagUrl(iso2: string, width: 24 | 40 = 24): string {
+  return `https://flagcdn.com/${width}x${width === 24 ? 18 : 30}/${iso2.toLowerCase()}.png`;
+}
+
+function CountryFlag({ code, size = 16 }: { code: string; size?: number }) {
+  return (
+    <img
+      src={countryFlagUrl(code)}
+      alt=""
+      width={size * 1.33}
+      height={size}
+      className="inline-block rounded-[2px] flex-shrink-0 align-middle"
+      loading="lazy"
+    />
+  );
+}
+
 function locationLabel(job: Job): string {
   if (job.location_mode === "anywhere") return "Remote, anywhere";
-  const countries = job.location_countries.length > 0 ? job.location_countries.join(", ") : "unspecified";
+  const list = job.location_countries ?? [];
+  const countries = list.length > 0 ? list.map((code) => countryName(code)).join(", ") : "unspecified";
   return job.location_mode === "onsite" ? `On-site · ${countries}` : `Remote · ${countries}`;
 }
 
@@ -625,30 +431,9 @@ function MatchIndicator({ match }: { match: Reasoning["stackMatch"] }) {
 }
 
 function StackTag({ lang }: { lang: string }) {
-  const iconUrl = stackIconUrl(lang);
-  const [iconFailed, setIconFailed] = useState(false);
-  const showIcon = iconUrl && !iconFailed;
-  const fallback = showIcon ? null : fallbackAvatar(lang);
   return (
     <span className="flex items-center gap-1.5 font-mono text-[11px] text-white/85 border border-white/20 bg-white/[0.06] rounded px-2 py-0.5">
-      {showIcon ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={iconUrl}
-          alt=""
-          width={11}
-          height={11}
-          className="flex-shrink-0"
-          onError={() => setIconFailed(true)}
-        />
-      ) : (
-        <span
-          className="flex-shrink-0 w-[13px] h-[13px] rounded-[3px] flex items-center justify-center text-[7px] font-bold text-black/80 leading-none"
-          style={{ backgroundColor: fallback!.color }}
-        >
-          {fallback!.letters}
-        </span>
-      )}
+      <TechBadge name={lang} size={13} />
       {lang}
     </span>
   );
@@ -718,8 +503,10 @@ function SingleEvidenceLink({ evidence }: { evidence: ReasonEvidence }) {
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, [tooltipOpen]);
 
-  const hasBoth = Boolean(evidence.liveUrl && evidence.repoUrl);
-  const singleUrl = evidence.liveUrl ?? evidence.repoUrl;
+  const siteUrl = evidence.liveUrl ?? evidence.releaseUrl;
+  const siteLabel = evidence.liveUrl ? "View live" : "View release";
+  const hasBoth = Boolean(siteUrl && evidence.repoUrl);
+  const singleUrl = siteUrl ?? evidence.repoUrl;
 
   if (!singleUrl) {
     return <span className="font-mono text-[10px] text-white/50">{evidence.project}</span>;
@@ -749,12 +536,12 @@ function SingleEvidenceLink({ evidence }: { evidence: ReasonEvidence }) {
       {tooltipOpen && (
         <div className="absolute left-0 top-5 z-30 w-40 bg-black border border-white/15 rounded-lg overflow-hidden shadow-lg">
           <a
-            href={evidence.liveUrl}
+            href={siteUrl}
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-2 px-3 py-2.5 text-[12px] text-white/80 hover:bg-white/[0.06] hover:text-white border-b border-white/10"
           >
-            <FiExternalLink size={12} className="text-white/40" /> View live
+            <FiExternalLink size={12} className="text-white/40" /> {siteLabel}
           </a>
           <a
             href={evidence.repoUrl}
@@ -770,7 +557,8 @@ function SingleEvidenceLink({ evidence }: { evidence: ReasonEvidence }) {
   );
 }
 
-function EvidenceLinks({ evidence }: { evidence: ReasonEvidence[] }) {
+function EvidenceLinks({ evidence: evidenceProp }: { evidence?: ReasonEvidence[] }) {
+  const evidence = evidenceProp ?? [];
   if (evidence.length === 0) return null;
   return (
     <div className="font-mono text-[10px] text-white/40 flex flex-wrap items-center gap-x-1">
@@ -1019,12 +807,14 @@ function EmailPreviewModal({
 
 function CandidateCard({
   report,
+  job,
   rank,
   draftUsedFor,
   draftsRemaining,
   onDraftUsed,
 }: {
   report: CandidateReport;
+  job: Job;
   rank: number;
   draftUsedFor: Set<string>;
   draftsRemaining: number;
@@ -1033,7 +823,9 @@ function CandidateCard({
   const [open, setOpen] = useState(false);
   const c = report.candidate;
   const r = report.reasoning;
+  const evidence = report.evidence ?? [];
   const alreadyDrafted = draftUsedFor.has(c.candidateId);
+  const showOverlap = Boolean(c.timezone) && typeof report.overlapHours === "number";
 
   return (
     <div className="border border-white/10 rounded-xl bg-white/[0.02] overflow-hidden">
@@ -1068,7 +860,7 @@ function CandidateCard({
         </div>
       </button>
 
-      {!open && r.positiveReasons[0] && (
+      {!open && r.positiveReasons?.[0] && (
         <div className="relative px-4 pb-3 -mt-1">
           <div className="flex items-start gap-2 pl-11">
             <FiCheck size={12} className="text-[#3FB950]/70 mt-0.5 flex-shrink-0" />
@@ -1096,22 +888,22 @@ function CandidateCard({
               top repos
             </div>
             <div className="flex flex-col gap-2">
-              {report.evidence.map((r) => (
-                <div key={r.name} className="border border-white/10 rounded-lg px-3 py-2.5">
+              {evidence.map((repo) => (
+                <div key={repo.name} className="border border-white/10 rounded-lg px-3 py-2.5">
                   <div className="flex items-center justify-between gap-2 mb-1">
                     <a
-                      href={r.repoUrl}
+                      href={repo.repoUrl}
                       target="_blank"
                       rel="noreferrer"
                       className="flex items-center gap-1.5 font-mono text-[12px] text-white hover:underline"
                     >
                       <SiGithub size={11} className="text-white/40 flex-shrink-0" />
-                      {r.name}
+                      {repo.name}
                     </a>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      {r.isLive && r.liveUrl && (
+                      {repo.isLive && repo.liveUrl && (
                         <a
-                          href={r.liveUrl}
+                          href={repo.liveUrl}
                           target="_blank"
                           rel="noreferrer"
                           className="font-mono text-[10px] text-[#3FB950] flex items-center gap-1 hover:underline"
@@ -1119,16 +911,26 @@ function CandidateCard({
                           <FiExternalLink size={11} /> live
                         </a>
                       )}
+                      {!repo.liveUrl && repo.releaseUrl && (
+                        <a
+                          href={repo.releaseUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="font-mono text-[10px] text-white/60 flex items-center gap-1 hover:text-white hover:underline"
+                        >
+                          <FiExternalLink size={11} /> release{repo.releaseTag ? ` ${repo.releaseTag}` : ""}
+                        </a>
+                      )}
                     </div>
                   </div>
-                  {r.description && <div className="text-[12px] text-white/60 mb-2">{r.description}</div>}
+                  {repo.description && <div className="text-[12px] text-white/60 mb-2">{repo.description}</div>}
                   <div className="flex flex-wrap gap-1.5 mb-2">
-                    {r.detectedStack.map((s) => (
+                    {(repo.detectedStack ?? []).map((s) => (
                       <StackTag key={s} lang={s} />
                     ))}
                   </div>
                   <div className="font-mono text-[10px] text-white/40">
-                    {r.commits90d ?? 0} commits / {r.activeWeeks90d ?? 0} active weeks (90d)
+                    {repo.commits90d ?? 0} commits / {repo.activeWeeks90d ?? 0} active weeks (90d)
                   </div>
                 </div>
               ))}
@@ -1148,10 +950,12 @@ function CandidateCard({
                         href={contrib.repoUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-1.5 font-mono text-[12px] text-white hover:underline"
+                        className="flex items-center gap-1.5 font-mono text-[12px] text-white hover:underline min-w-0"
                       >
                         <SiGithub size={11} className="text-white/40 flex-shrink-0" />
-                        {contrib.repoOwner}/{contrib.repoName}
+                        <span className="truncate">
+                          {contrib.repoOwner}/{contrib.repoName}
+                        </span>
                       </a>
                       <span className="font-mono text-[10px] text-white/40 flex-shrink-0">
                         {contrib.stars.toLocaleString()}★
@@ -1200,6 +1004,20 @@ function CandidateCard({
                   </div>
                 </div>
               )}
+              {showOverlap && (
+                <div>
+                  <div className="font-mono text-[9px] uppercase tracking-[0.08em] text-white/30 mb-0.5">
+                    timezone overlap
+                  </div>
+                  <div
+                    className={`font-mono text-[12px] ${
+                      (report.overlapHours ?? 0) >= job.min_overlap_hours ? "text-white/70" : "text-[#F0883E]"
+                    }`}
+                  >
+                    {report.overlapHours}h{job.min_overlap_hours > 0 ? ` / ${job.min_overlap_hours}h min` : ""}
+                  </div>
+                </div>
+              )}
               {c.appliedAt && (
                 <div>
                   <div className="font-mono text-[9px] uppercase tracking-[0.08em] text-white/30 mb-0.5">
@@ -1223,7 +1041,7 @@ function CandidateCard({
               why this score
             </div>
             <div className="flex flex-col gap-3">
-              {r.positiveReasons.map((reason, idx) => (
+              {(r.positiveReasons ?? []).map((reason, idx) => (
                 <div key={idx} className="flex items-start gap-2.5">
                   <FiCheck size={14} className="text-[#3FB950] mt-0.5 flex-shrink-0" />
                   <div className="min-w-0">
@@ -1234,7 +1052,7 @@ function CandidateCard({
                   </div>
                 </div>
               ))}
-              {r.negativeReasons.map((reason, idx) => (
+              {(r.negativeReasons ?? []).map((reason, idx) => (
                 <div key={`neg-${idx}`} className="flex items-start gap-2.5">
                   <FiAlertTriangle size={14} className="text-[#F0883E] mt-0.5 flex-shrink-0" />
                   <div className="min-w-0">
@@ -1273,9 +1091,16 @@ function StatCard({
   label: string;
   value: string;
   detail?: string;
-  accent?: "green" | "amber";
+  accent?: "green" | "amber" | "red";
 }) {
-  const accentClass = accent === "green" ? "text-[#3FB950]" : accent === "amber" ? "text-[#F0883E]" : "text-white";
+  const accentClass =
+    accent === "green"
+      ? "text-[#3FB950]"
+      : accent === "amber"
+      ? "text-[#F0883E]"
+      : accent === "red"
+      ? "text-red-400"
+      : "text-white";
   return (
     <div className="border border-white/10 rounded-lg bg-white/[0.02] px-3.5 py-3 min-w-0">
       <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-white/40 truncate mb-1.5">
@@ -1288,15 +1113,96 @@ function StatCard({
 }
 
 function JobStats({ job, reports }: { job: Job; reports: CandidateReport[] }) {
-  const strongCount = reports.filter((r) => r.reasoning.stackMatch === "strong").length;
+  const strongCount = reports.filter((r) => r.reasoning?.stackMatch === "strong").length;
   const avgScore =
     reports.length > 0 ? reports.reduce((sum, r) => sum + r.reasoning.score, 0) / reports.length : 0;
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-8">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-8">
       <StatCard label="scored candidates" value={String(reports.length)} />
       <StatCard label="strong matches" value={String(strongCount)} accent="green" />
       <StatCard label="average score" value={`${avgScore.toFixed(1)}/10`} />
+      <StatCard label="min years exp." value={String(job.min_years_experience)} />
+    </div>
+  );
+}
+
+function DetailRow({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div>
+      <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/40 mb-1">{label}</div>
+      <div className="text-[13px] text-white/90">{children}</div>
+    </div>
+  );
+}
+
+function RoleDetails({ job }: { job: Job }) {
+  const [open, setOpen] = useState(false);
+  const countries = job.location_countries ?? [];
+  const timezones = job.timezones ?? [];
+
+  return (
+    <div className="mb-8">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-2 font-mono text-[12px] rounded-lg border border-white/15 px-3 py-2 text-white/60 hover:text-white hover:border-white/30 transition-colors"
+      >
+        Role details
+        {open ? <FiChevronUp size={13} /> : <FiChevronDown size={13} />}
+      </button>
+
+      {open && (
+        <div className="mt-3 border border-white/10 rounded-xl bg-white/[0.02] p-4 flex flex-col gap-4">
+          <div className="grid grid-cols-2 gap-3">
+            <DetailRow label="Min. years exp.">{job.min_years_experience}</DetailRow>
+            <DetailRow label="Location">
+              {job.location_mode === "anywhere"
+                ? "Remote, anywhere"
+                : job.location_mode === "onsite"
+                ? "On-site"
+                : "Remote, specific country"}
+            </DetailRow>
+          </div>
+
+          {job.location_mode !== "anywhere" && countries.length > 0 && (
+            <DetailRow label={job.location_mode === "onsite" ? "Office countries" : "Required countries"}>
+              <div className="flex flex-wrap gap-1.5">
+                {countries.map((code) => (
+                  <span
+                    key={code}
+                    className="flex items-center gap-1.5 font-mono text-[11px] border border-white/15 bg-white/[0.04] rounded px-2 py-1 text-white/80"
+                  >
+                    <CountryFlag code={code} /> {countryName(code)}
+                  </span>
+                ))}
+              </div>
+            </DetailRow>
+          )}
+
+          {timezones.length > 0 && (
+            <DetailRow label="Team timezone(s)">
+              <div className="flex flex-wrap gap-1.5">
+                {timezones.map((tz) => (
+                  <span
+                    key={tz}
+                    className="font-mono text-[11px] border border-white/15 bg-white/[0.04] rounded px-2 py-1 text-white/80"
+                  >
+                    {tz}
+                  </span>
+                ))}
+              </div>
+            </DetailRow>
+          )}
+
+          <DetailRow label="Min. overlap hours">{job.min_overlap_hours}</DetailRow>
+
+          {job.description && (
+            <DetailRow label="Description">
+              <p className="leading-relaxed whitespace-pre-wrap text-white/70">{job.description}</p>
+            </DetailRow>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -1351,7 +1257,7 @@ function reportMatchesFilters(report: CandidateReport, f: FilterState): boolean 
 
   if (f.stack.length > 0) {
     const candidateStack = new Set(
-      report.evidence.flatMap((e) => e.detectedStack.map((s) => s.toLowerCase()))
+      (report.evidence ?? []).flatMap((e) => (e.detectedStack ?? []).map((s) => s.toLowerCase()))
     );
     const hasAll = f.stack.every((s) => candidateStack.has(s.toLowerCase()));
     if (!hasAll) return false;
@@ -1591,7 +1497,10 @@ export default function JobReportPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jobId]);
 
-  const reports = data?.reports ?? [];
+  const reports = useMemo(
+    () => (data?.reports ?? []).filter((r) => !r.pending && r.reasoning),
+    [data]
+  );
 
   const availableCountries = useMemo(
     () => Array.from(new Set(reports.map((r) => r.candidate.country).filter(Boolean))).sort(),
@@ -1600,7 +1509,9 @@ export default function JobReportPage() {
 
   const availableStack = useMemo(
     () =>
-      Array.from(new Set(reports.flatMap((r) => r.evidence.flatMap((e) => e.detectedStack)))).sort(),
+      Array.from(
+        new Set(reports.flatMap((r) => (r.evidence ?? []).flatMap((e) => e.detectedStack ?? [])))
+      ).sort(),
     [reports]
   );
 
@@ -1680,6 +1591,8 @@ export default function JobReportPage() {
               )}
             </div>
 
+            <RoleDetails job={data.job} />
+
             <JobStats job={data.job} reports={reports} />
 
             <div className="flex items-center justify-between mb-3">
@@ -1739,6 +1652,7 @@ export default function JobReportPage() {
                     <CandidateCard
                       key={report.candidateId}
                       report={report}
+                      job={data.job}
                       rank={i + 1}
                       draftUsedFor={draftUsedFor}
                       draftsRemaining={draftsRemaining}

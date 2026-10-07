@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import {
   FiLock,
   FiLoader,
@@ -16,6 +16,8 @@ import {
   FiUsers,
 } from "react-icons/fi";
 import { getRecruiterSupabase } from "../../lib/supabase";
+import { TechBadge } from "../candidates/TechBadge";
+import { TechAutocomplete } from "../candidates/TechAutocomplete";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
@@ -96,23 +98,140 @@ type Job = {
   created_at: string;
 };
 
-const JOB_COUNTRIES: { name: string; code: string }[] = [
-  { name: "United States", code: "US" },
-  { name: "United Kingdom", code: "GB" },
-  { name: "Canada", code: "CA" },
-  { name: "Germany", code: "DE" },
-  { name: "France", code: "FR" },
-  { name: "Nigeria", code: "NG" },
-  { name: "India", code: "IN" },
-  { name: "Brazil", code: "BR" },
-  { name: "Australia", code: "AU" },
-  { name: "Japan", code: "JP" },
-  { name: "Singapore", code: "SG" },
-  { name: "Netherlands", code: "NL" },
-  { name: "South Africa", code: "ZA" },
+const ISO_COUNTRY_CODES = [
+  "AD","AE","AF","AG","AI","AL","AM","AO","AQ","AR","AS","AT","AU","AW","AX","AZ",
+  "BA","BB","BD","BE","BF","BG","BH","BI","BJ","BL","BM","BN","BO","BQ","BR","BS",
+  "BT","BV","BW","BY","BZ","CA","CC","CD","CF","CG","CH","CI","CK","CL","CM","CN",
+  "CO","CR","CU","CV","CW","CX","CY","CZ","DE","DJ","DK","DM","DO","DZ","EC","EE",
+  "EG","EH","ER","ES","ET","FI","FJ","FK","FM","FO","FR","GA","GB","GD","GE","GF",
+  "GG","GH","GI","GL","GM","GN","GP","GQ","GR","GS","GT","GU","GW","GY","HK","HM",
+  "HN","HR","HT","HU","ID","IE","IL","IM","IN","IO","IQ","IR","IS","IT","JE","JM",
+  "JO","JP","KE","KG","KH","KI","KM","KN","KP","KR","KW","KY","KZ","LA","LB","LC",
+  "LI","LK","LR","LS","LT","LU","LV","LY","MA","MC","MD","ME","MF","MG","MH","MK",
+  "ML","MM","MN","MO","MP","MQ","MR","MS","MT","MU","MV","MW","MX","MY","MZ","NA",
+  "NC","NE","NF","NG","NI","NL","NO","NP","NR","NU","NZ","OM","PA","PE","PF","PG",
+  "PH","PK","PL","PM","PN","PR","PS","PT","PW","PY","QA","RE","RO","RS","RU","RW",
+  "SA","SB","SC","SD","SE","SG","SH","SI","SJ","SK","SL","SM","SN","SO","SR","SS",
+  "ST","SV","SX","SY","SZ","TC","TD","TF","TG","TH","TJ","TK","TL","TM","TN","TO",
+  "TR","TT","TV","TW","TZ","UA","UG","UM","US","UY","UZ","VA","VC","VE","VG","VI",
+  "VN","VU","WF","WS","YE","YT","ZA","ZM","ZW",
 ];
 
-const COUNTRY_CODE_BY_NAME = new Map(JOB_COUNTRIES.map((c) => [c.name, c.code]));
+const countryNameCache = (() => {
+  try {
+    return new Intl.DisplayNames(["en"], { type: "region" });
+  } catch {
+    return null;
+  }
+})();
+
+function countryName(iso2: string): string {
+  return countryNameCache?.of(iso2) ?? iso2;
+}
+
+function countryFlagUrl(iso2: string, width: 24 | 40 = 24): string {
+  return `https://flagcdn.com/${width}x${width === 24 ? 18 : 30}/${iso2.toLowerCase()}.png`;
+}
+
+function CountryFlag({ code, size = 16 }: { code: string; size?: number }) {
+  return (
+    <img
+      src={countryFlagUrl(code)}
+      alt=""
+      width={size * 1.33}
+      height={size}
+      className="inline-block rounded-[2px] flex-shrink-0 align-middle"
+      loading="lazy"
+    />
+  );
+}
+
+const JOB_COUNTRIES = ISO_COUNTRY_CODES
+  .map((code) => ({ code, name: countryName(code) }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+function CountryMultiSelect({
+  selected,
+  onChange,
+}: {
+  selected: string[];
+  onChange: (next: string[]) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return JOB_COUNTRIES;
+    return JOB_COUNTRIES.filter(
+      (c) => c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q)
+    );
+  }, [query]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onClickOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [open]);
+
+  const toggle = (code: string) => {
+    if (selected.includes(code)) {
+      onChange(selected.filter((c) => c !== code));
+    } else {
+      onChange([...selected, code]);
+    }
+  };
+
+  return (
+    <div ref={containerRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between bg-white/[0.04] border border-white/10 rounded-lg px-3 py-2 text-[13px] text-white/70 focus:outline-none focus:border-white/30"
+      >
+        <span>{selected.length > 0 ? `${selected.length} countr${selected.length > 1 ? "ies" : "y"} selected` : "Add a country"}</span>
+        {open ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}
+      </button>
+      {open && (
+        <div className="absolute z-10 mt-1 w-full bg-black border border-white/15 rounded-lg shadow-lg flex flex-col max-h-64 overflow-hidden">
+          <input
+            autoFocus
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search e.g. Nigeria, NG"
+            className="w-full bg-white/[0.04] border-b border-white/10 px-3 py-2 text-[12px] text-white placeholder:text-white/30 focus:outline-none"
+          />
+          <div className="overflow-y-auto">
+            {filtered.length === 0 && (
+              <div className="px-3 py-2 text-[12px] text-white/30 font-mono">No matches</div>
+            )}
+            {filtered.map((c) => (
+              <label
+                key={c.code}
+                className="flex items-center gap-2 px-3 py-1.5 text-[12px] text-white/80 font-mono hover:bg-white/[0.06] cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  checked={selected.includes(c.code)}
+                  onChange={() => toggle(c.code)}
+                  className="accent-[#3FB950]"
+                />
+                <CountryFlag code={c.code} />
+                {c.name}
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function reportUrl(jobId: string) {
   const base = (APP_URL || (typeof window !== "undefined" ? window.location.origin : "")).replace(/\/$/, "");
@@ -325,12 +444,6 @@ function CreateJobForm({ onCreated }: { onCreated: (job: Job) => void }) {
     stack.length > 0 &&
     (locationMode === "anywhere" || locationCountries.length > 0);
 
-  const addStackTag = () => {
-    const tag = stackInput.trim();
-    if (tag && !stack.includes(tag)) setStack((prev) => [...prev, tag]);
-    setStackInput("");
-  };
-
   const reset = () => {
     setTitle("");
     setDescription("");
@@ -352,10 +465,7 @@ function CreateJobForm({ onCreated }: { onCreated: (job: Job) => void }) {
         description: description.trim(),
         stack,
         location_mode: locationMode,
-        location_countries:
-          locationMode === "anywhere"
-            ? []
-            : locationCountries.map((n) => COUNTRY_CODE_BY_NAME.get(n) ?? n),
+        location_countries: locationMode === "anywhere" ? [] : locationCountries,
         min_years_experience: minYears ? parseInt(minYears, 10) : 0,
       };
       const created = await apiFetch<Job>("/admin/jobs", {
@@ -413,25 +523,24 @@ function CreateJobForm({ onCreated }: { onCreated: (job: Job) => void }) {
               key={s}
               className="flex items-center gap-1.5 font-mono text-[11px] border border-white/15 bg-white/[0.04] rounded px-2 py-1 text-white/80"
             >
+              <TechBadge name={s} size={12} />
               {s}
-              <button onClick={() => setStack((prev) => prev.filter((t) => t !== s))} aria-label={`Remove ${s}`} className="text-white/40 hover:text-white">
+              <button
+                onClick={() => setStack((prev) => prev.filter((t) => t !== s))}
+                aria-label={`Remove ${s}`}
+                className="text-white/40 hover:text-white"
+              >
                 <FiX size={11} />
               </button>
             </span>
           ))}
         </div>
-        <input
+        <TechAutocomplete
           value={stackInput}
-          onChange={(e) => setStackInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === ",") {
-              e.preventDefault();
-              addStackTag();
-            }
-          }}
-          onBlur={addStackTag}
-          placeholder="Go, Rust — press enter to add"
-          className="w-full bg-black border border-white/15 focus:border-white/50 rounded-lg px-3 py-2.5 text-[13px] text-white placeholder:text-white/30 outline-none transition-colors"
+          onChange={setStackInput}
+          onAdd={(tag) => setStack((prev) => (prev.includes(tag) ? prev : [...prev, tag]))}
+          existing={stack}
+          placeholder="Rust, PostgreSQL, tokio (press enter to add)"
         />
       </div>
 
@@ -471,28 +580,23 @@ function CreateJobForm({ onCreated }: { onCreated: (job: Job) => void }) {
             {locationMode === "onsite" ? "Office countries" : "Required countries"}
           </label>
           <div className="flex flex-wrap gap-1.5 mb-2">
-            {locationCountries.map((c) => (
-              <span key={c} className="flex items-center gap-1.5 font-mono text-[11px] border border-white/15 bg-white/[0.04] rounded px-2 py-1 text-white/80">
-                {c}
-                <button onClick={() => setLocationCountries((prev) => prev.filter((x) => x !== c))} aria-label={`Remove ${c}`} className="text-white/40 hover:text-white">
+            {locationCountries.map((code) => (
+              <span
+                key={code}
+                className="flex items-center gap-1.5 font-mono text-[11px] border border-white/15 bg-white/[0.04] rounded px-2 py-1 text-white/80"
+              >
+                <CountryFlag code={code} /> {countryName(code)}
+                <button
+                  onClick={() => setLocationCountries((prev) => prev.filter((x) => x !== code))}
+                  aria-label={`Remove ${countryName(code)}`}
+                  className="text-white/40 hover:text-white"
+                >
                   <FiX size={11} />
                 </button>
               </span>
             ))}
           </div>
-          <select
-            value=""
-            onChange={(e) => {
-              const c = e.target.value;
-              if (c && !locationCountries.includes(c)) setLocationCountries((prev) => [...prev, c]);
-            }}
-            className="w-full bg-black border border-white/15 focus:border-white/50 rounded-lg px-3 py-2.5 text-[13px] text-white outline-none appearance-none transition-colors"
-          >
-            <option value="" className="bg-black">Add a country</option>
-            {JOB_COUNTRIES.filter((c) => !locationCountries.includes(c.name)).map((c) => (
-              <option key={c.code} value={c.name} className="bg-black">{c.name}</option>
-            ))}
-          </select>
+          <CountryMultiSelect selected={locationCountries} onChange={setLocationCountries} />
         </div>
       )}
 
