@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "countries-and-timezones": "^3.10.0",
     "country-json": "^2.3.0",
     "gray-matter": "^4.0.3",
