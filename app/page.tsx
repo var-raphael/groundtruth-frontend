@@ -258,7 +258,7 @@ export default function Home() {
 
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mb-14">
           <a
-            href="/signup"
+            href="/login"
             className="bg-white hover:bg-white/90 active:bg-white/80 text-black font-mono text-[13px] font-semibold rounded-lg px-5 py-3 transition-colors"
           >
             Create an account →
@@ -418,7 +418,7 @@ export default function Home() {
           </div>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
             <a
-              href="/signup"
+              href="/login"
               className="bg-white hover:bg-white/90 active:bg-white/80 text-black font-mono text-[13px] font-semibold rounded-lg px-5 py-3 transition-colors"
             >
               Create an account →
@@ -428,9 +428,12 @@ export default function Home() {
         </div>
 
         <footer className="font-mono text-[11px] text-white/40 text-center">
-          <a href="#" className="text-white/60 border-b border-dotted border-white/20">
-            how scoring works
-          </a>
+          <a
+  href="/blog/how-groundtruth-scores-candidates"
+  className="text-white/60 border-b border-dotted border-white/20"
+>
+  how scoring works
+</a>
         </footer>
       </div>
     </div>

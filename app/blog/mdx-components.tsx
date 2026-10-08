@@ -42,6 +42,24 @@ export const mdxComponents = {
       {...p}
     />
   ),
+  table: (p: ComponentPropsWithoutRef<"table">) => (
+    <div className="my-6 overflow-x-auto rounded-xl border border-white/15">
+      <table
+        className="w-full min-w-[480px] border-collapse text-left text-[13px] [&_tbody_tr:last-child_td]:border-b-0 [&_td:first-child]:font-semibold [&_td:first-child]:text-white"
+        {...p}
+      />
+    </div>
+  ),
+  thead: (p: ComponentPropsWithoutRef<"thead">) => <thead className="bg-white/[0.03]" {...p} />,
+  th: (p: ComponentPropsWithoutRef<"th">) => (
+    <th
+      className="whitespace-nowrap border-b border-white/10 px-4 py-3 font-mono text-[11px] uppercase tracking-[0.08em] text-white/50"
+      {...p}
+    />
+  ),
+  td: (p: ComponentPropsWithoutRef<"td">) => (
+    <td className="border-b border-white/10 px-4 py-3 align-top text-white/70 leading-relaxed" {...p} />
+  ),
   hr: () => <hr className="border-white/10 my-10" />,
   img: (p: ComponentPropsWithoutRef<"img">) => (
     // eslint-disable-next-line @next/next/no-img-element

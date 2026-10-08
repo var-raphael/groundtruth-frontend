@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import { getAllPosts, getPost } from "@/lib/blog";
 import { withV } from "@/lib/asset-version";
 import { FounderContact } from "../../components/SiteNav";
@@ -94,7 +95,11 @@ export default async function BlogPost({ params }: Props) {
             {post.description}
           </p>
         )}
-        <MDXRemote source={post.content} components={mdxComponents} />
+        <MDXRemote
+          source={post.content}
+          components={mdxComponents}
+          options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+        />
       </article>
 
       <div className="rounded-xl border border-white/15 bg-white/[0.02] p-8 text-center mt-16">
@@ -105,7 +110,7 @@ export default async function BlogPost({ params }: Props) {
         </p>
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
           <a
-            href="/signup"
+            href="/login"
             className="bg-white hover:bg-white/90 active:bg-white/80 text-black font-mono text-[13px] font-semibold rounded-lg px-5 py-3 transition-colors"
           >
             Create an account →

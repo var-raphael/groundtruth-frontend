@@ -7,6 +7,9 @@ import SiteNav from "../components/SiteNav";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
+// Approximate naira amount shown to customers. Update this when the rate drifts.
+const PRO_NGN = "₦82,000";
+
 type PlanInfo = {
   plan: "free" | "pro" | "internal";
   planExpiresAt: string | null;
@@ -218,7 +221,8 @@ export default function PricingPage() {
           <div className="rounded-xl border border-[#3FB950]/40 bg-white/[0.03] p-6 flex flex-col">
             <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-[#3FB950] mb-2">Pro</div>
             <div className="text-[28px] font-bold leading-none mb-1">$59</div>
-            <div className="font-mono text-[11px] text-white/40 mb-6">per month</div>
+            <div className="font-mono text-[11px] text-white/40 mb-1">per month</div>
+            <div className="font-mono text-[11px] text-white/60 mb-6">billed in naira, about {PRO_NGN}</div>
             <Features items={PRO_FEATURES} />
             <div className="mt-auto flex flex-col gap-2">
               {loading ? (
@@ -247,6 +251,12 @@ export default function PricingPage() {
                 </div>
               ) : (
                 <>
+                  <div className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2.5">
+                    <p className="text-[12px] text-white/70 leading-relaxed">
+                      You&apos;re charged in Nigerian naira, about {PRO_NGN}. That&apos;s just $59 converted,
+                      so the price is the same wherever you are.
+                    </p>
+                  </div>
                   <button
                     onClick={upgrade}
                     disabled={busy !== null}
@@ -255,11 +265,10 @@ export default function PricingPage() {
                     {busy === "upgrade" ? <FiLoader size={14} className="animate-spin" /> : null}
                     {signedIn ? "Upgrade to Pro" : "Sign in to upgrade"}
                   </button>
-                  <p className="font-mono text-[10px] text-white/35 text-center leading-relaxed">
-                    Checkout is processed in Nigerian naira (roughly ₦89,000), wherever you are. It&apos;s
-                    just the conversion of $59, not a different price. Your bank may show its own rate.
+                  <p className="font-mono text-[10px] text-white/40 text-center leading-relaxed">
+                    Cancel anytime. Pro stays active until the end of the period you paid for.
                     <br />
-                    Payments are secured by Paystack, a Stripe company.
+                    Your bank may show its own rate. Payments are secured by Paystack, a Stripe company.
                   </p>
                 </>
               )}
