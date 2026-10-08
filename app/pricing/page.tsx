@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FiCheck, FiLoader, FiAlertTriangle } from "react-icons/fi";
 import { getRecruiterSupabase } from "../../lib/supabase";
+import SiteNav from "../components/SiteNav";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -11,24 +12,6 @@ type PlanInfo = {
   planExpiresAt: string | null;
   hasSubscription: boolean;
 };
-
-type Price = { amount: number; currency: string; interval: string };
-
-function Logo({ size = 20 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
-      <path d="M6 3 L20 12 L6 21 Z" fill="#3FB950" />
-      <path
-        d="M9.5 12.5 L11.5 14.5 L15 10.5"
-        stroke="#000000"
-        strokeWidth={2.2}
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 const FREE_FEATURES = [
   "1 job",
@@ -45,27 +28,6 @@ const PRO_FEATURES = [
   "Unlimited outreach drafts",
   "JSON, CSV, Excel and PDF export",
 ];
-
-const CURRENCY_NAMES: Record<string, string> = {
-  NGN: "Nigerian naira",
-  GHS: "Ghanaian cedi",
-  KES: "Kenyan shilling",
-  ZAR: "South African rand",
-  USD: "US dollars",
-};
-
-function formatPrice(price: Price | null): string {
-  if (!price) return "";
-  try {
-    return new Intl.NumberFormat(price.currency === "NGN" ? "en-NG" : "en-US", {
-      style: "currency",
-      currency: price.currency,
-      maximumFractionDigits: 0,
-    }).format(price.amount / 100);
-  } catch {
-    return `${(price.amount / 100).toFixed(0)} ${price.currency}`;
-  }
-}
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
@@ -98,8 +60,6 @@ function Features({ items }: { items: string[] }) {
 }
 
 export default function PricingPage() {
-  const [price, setPrice] = useState<Price | null>(null);
-  const [display, setDisplay] = useState<Price | null>(null);
   const [signedIn, setSignedIn] = useState(false);
   const [info, setInfo] = useState<PlanInfo | null>(null);
   const [loading, setLoading] = useState(true);
@@ -123,15 +83,6 @@ export default function PricingPage() {
   };
 
   useEffect(() => {
-    fetch(`${API_URL}/public/pricing`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (!d?.pro) return;
-        setPrice(d.pro as Price);
-        setDisplay((d.display ?? d.pro) as Price);
-      })
-      .catch(() => {});
-
     (async () => {
       const { data } = await getRecruiterSupabase().auth.getSession();
       if (data.session) {
@@ -212,24 +163,11 @@ export default function PricingPage() {
 
   const plan = info?.plan ?? "free";
   const cancelling = plan === "pro" && info?.planExpiresAt;
-  const priceLabel = formatPrice(display ?? price);
-  const perPeriod = (display ?? price)?.interval === "annually" ? "year" : "month";
-  const conversionNote =
-    price && display && price.currency !== display.currency
-      ? `Billed in ${CURRENCY_NAMES[price.currency] ?? price.currency}: ${formatPrice(price)} per ${perPeriod}. Your card statement will show this amount, not ${formatPrice(display)}.`
-      : null;
 
   return (
     <div className="min-h-screen bg-black text-white font-sans">
       <div className="mx-auto max-w-3xl px-6 pt-8 pb-24">
-        <nav className="flex items-center justify-between font-mono text-[13px] mb-12">
-          <span className="font-semibold flex items-center gap-2">
-            <Logo size={18} /> groundtruth
-          </span>
-          <a href={signedIn ? "/candidates" : "/login"} className="text-white/50 hover:text-white text-[12px]">
-            {signedIn ? "Dashboard" : "Sign in"}
-          </a>
-        </nav>
+        <SiteNav />
 
         <div className="mb-8">
           <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40 mb-3">pricing</div>
@@ -279,8 +217,8 @@ export default function PricingPage() {
 
           <div className="rounded-xl border border-[#3FB950]/40 bg-white/[0.03] p-6 flex flex-col">
             <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-[#3FB950] mb-2">Pro</div>
-            <div className="text-[28px] font-bold leading-none mb-1">{priceLabel || "—"}</div>
-            <div className="font-mono text-[11px] text-white/40 mb-6">per {perPeriod}</div>
+            <div className="text-[28px] font-bold leading-none mb-1">$59</div>
+            <div className="font-mono text-[11px] text-white/40 mb-6">per month</div>
             <Features items={PRO_FEATURES} />
             <div className="mt-auto flex flex-col gap-2">
               {loading ? (
@@ -308,28 +246,26 @@ export default function PricingPage() {
                   Internal plan
                 </div>
               ) : (
-                <button
-                  onClick={upgrade}
-                  disabled={busy !== null}
-                  className="w-full flex items-center justify-center gap-2 font-mono text-[13px] font-semibold text-black bg-white hover:bg-white/90 disabled:opacity-50 rounded-lg py-3 transition-colors"
-                >
-                  {busy === "upgrade" ? <FiLoader size={14} className="animate-spin" /> : null}
-                  {signedIn ? "Upgrade to Pro" : "Sign in to upgrade"}
-                </button>
-              )}
-              {conversionNote && plan === "free" && (
-                <p className="font-mono text-[10px] text-white/35 text-center leading-relaxed">
-                  {conversionNote}
-                </p>
+                <>
+                  <button
+                    onClick={upgrade}
+                    disabled={busy !== null}
+                    className="w-full flex items-center justify-center gap-2 font-mono text-[13px] font-semibold text-black bg-white hover:bg-white/90 disabled:opacity-50 rounded-lg py-3 transition-colors"
+                  >
+                    {busy === "upgrade" ? <FiLoader size={14} className="animate-spin" /> : null}
+                    {signedIn ? "Upgrade to Pro" : "Sign in to upgrade"}
+                  </button>
+                  <p className="font-mono text-[10px] text-white/35 text-center leading-relaxed">
+                    Checkout is processed in Nigerian naira (roughly ₦89,000), wherever you are. It&apos;s
+                    just the conversion of $59, not a different price. Your bank may show its own rate.
+                    <br />
+                    Payments are secured by Paystack, a Stripe company.
+                  </p>
+                </>
               )}
             </div>
           </div>
         </div>
-
-        <p className="font-mono text-[11px] text-white/30 text-center mt-8 leading-relaxed">
-          Payments are handled securely by Paystack. You can cancel anytime and keep Pro until the end of
-          the period you paid for.
-        </p>
       </div>
 
       {confirmCancel && (

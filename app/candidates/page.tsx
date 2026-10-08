@@ -6,13 +6,8 @@ import { createPortal } from "react-dom";
 import {
   FiMenu,
   FiX,
-  FiLogOut,
   FiPlusCircle,
   FiBriefcase,
-  FiBookOpen,
-  FiInfo,
-  FiPhone,
-  FiDollarSign,
   FiCopy,
   FiCheckCircle,
   FiTrash2,
@@ -34,6 +29,7 @@ import { FaLinkedin } from "react-icons/fa6";
 import type { IconType } from "react-icons";
 import { getRecruiterSupabase } from "../../lib/supabase";
 import { TechBadge } from "./TechBadge";
+import SiteNav from "../components/SiteNav";
 import { TechAutocomplete } from "./TechAutocomplete";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
@@ -152,22 +148,6 @@ type Job = {
   candidate_limit: number;
   created_at: string;
 };
-
-function Logo({ size = 20 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
-      <path d="M6 3 L20 12 L6 21 Z" fill="#3FB950" />
-      <path
-        d="M9.5 12.5 L11.5 14.5 L15 10.5"
-        stroke="#000000"
-        strokeWidth={2.2}
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 function encodeQuery(params: Record<string, string>) {
   return Object.entries(params)
@@ -1628,6 +1608,12 @@ function FilterPanel({
         options={availableStack}
         selected={filters.stack}
         onToggle={toggleStack}
+        renderOption={(s) => (
+          <span className="inline-flex items-center gap-1.5">
+            <TechBadge name={s} size={12} />
+            {s}
+          </span>
+        )}
       />
 
       <div className="flex items-center justify-between pt-1 border-t border-white/10">
@@ -1680,7 +1666,6 @@ function JobStats({ job, reports, total, unscanned }: { job: Job; reports: Candi
 }
 
 export default function CandidatesPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [jobsOpen, setJobsOpen] = useState(false);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [jobsLoading, setJobsLoading] = useState(true);
@@ -1693,6 +1678,7 @@ export default function CandidatesPage() {
   const [page, setPage] = useState(1);
 
   const [createJobOpen, setCreateJobOpen] = useState(false);
+  const [autoPrompted, setAutoPrompted] = useState(false);
   const [jobLimitOpen, setJobLimitOpen] = useState(false);
   const [maxJobs, setMaxJobs] = useState<number | null>(null);
   const [exportFormats, setExportFormats] = useState<string[] | null>(null);
@@ -1809,13 +1795,32 @@ export default function CandidatesPage() {
       body: JSON.stringify(payload),
     });
     setJobs((prev) => [created, ...prev]);
-    setActiveJob(created);
-    setPage(1);
+    // First job: keep the empty-state tree mounted so the "Job created" screen
+    // (with the apply link) stays visible. The effect below activates it on close.
+    if (activeJob) {
+      setActiveJob(created);
+      setPage(1);
+    }
     return created;
   };
 
   const atJobLimit = maxJobs !== null && maxJobs !== -1 && jobs.length >= maxJobs;
   const openCreateJob = () => (atJobLimit ? setJobLimitOpen(true) : setCreateJobOpen(true));
+
+  // New account with zero jobs: go straight to the create form, once per visit.
+  useEffect(() => {
+    if (jobsLoading || jobsError || jobs.length > 0 || autoPrompted) return;
+    setAutoPrompted(true);
+    setCreateJobOpen(true);
+  }, [jobsLoading, jobsError, jobs.length, autoPrompted]);
+
+  // After the first job is created and the modal is closed, open its dashboard.
+  useEffect(() => {
+    if (!activeJob && jobs.length > 0 && !createJobOpen) {
+      setActiveJob(jobs[0]);
+      setPage(1);
+    }
+  }, [activeJob, jobs, createJobOpen]);
 
   const handleUpdateJob = async (jobId: string, payload: CreateJobPayload) => {
     const updated = await apiFetch<Job>(`/jobs/${jobId}`, {
@@ -1852,17 +1857,29 @@ export default function CandidatesPage() {
 
   if (!activeJob) {
     return (
-      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center gap-4 font-mono text-[13px] text-white/50">
-        <span>No jobs yet.</span>
-        <button
-          onClick={openCreateJob}
-          className="flex items-center gap-2 font-mono text-[12px] text-black bg-white hover:bg-white/90 rounded-lg px-4 py-2.5"
-        >
-          <FiPlusCircle size={14} /> Create your first job
-        </button>
+      <div className="min-h-screen bg-black text-white font-sans">
+        <div className="mx-auto max-w-3xl px-6 pb-24">
+          <SiteNav compact />
+          <div className="pt-6">
+            <h1 className="text-[26px] sm:text-[30px] font-bold leading-tight tracking-tight mb-3">
+              Post your first role
+            </h1>
+            <p className="text-[14px] text-white/60 leading-relaxed max-w-md mb-6">
+              Set the stack you need and get an apply link. Candidates apply with
+              GitHub and are scored against this role automatically.
+            </p>
+            <button
+              onClick={openCreateJob}
+              className="flex items-center gap-2 font-mono text-[13px] font-semibold text-black bg-white hover:bg-white/90 rounded-lg px-5 py-3"
+            >
+              <FiPlusCircle size={14} /> Create your first job →
+            </button>
+          </div>
+        </div>
         {createJobOpen && (
           <JobFormModal onClose={() => setCreateJobOpen(false)} onCreate={handleCreateJob} />
         )}
+        {jobLimitOpen && <JobLimitModal onClose={() => setJobLimitOpen(false)} />}
       </div>
     );
   }
@@ -1876,12 +1893,10 @@ export default function CandidatesPage() {
   return (
     <div className="min-h-screen bg-black text-white font-sans">
       <div className="mx-auto max-w-3xl px-6 pb-24">
-        <nav className="sticky top-0 z-30 -mx-6 px-6 pt-8 pb-4 flex flex-wrap items-center justify-between gap-y-3 font-mono text-[13px] mb-8 bg-black/90 backdrop-blur-sm border-b border-white/10">
-          <span className="font-semibold flex-shrink-0 flex items-center gap-2">
-            <Logo size={18} /> groundtruth
-          </span>
-
-          <div className="flex items-center gap-2 min-w-0">
+        <SiteNav
+          compact
+          leading={
+            <>
             <div className="relative min-w-0">
               <button
                 onClick={() => setJobsOpen(!jobsOpen)}
@@ -1953,57 +1968,21 @@ export default function CandidatesPage() {
                 </div>
               )}
             </div>
-
-            <div className="relative">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                aria-label="Menu"
-                className="p-2 -m-1 text-white/80 hover:text-white"
-              >
-                {menuOpen ? <FiX size={18} /> : <FiMenu size={18} />}
-              </button>
-              {menuOpen && (
-                <div className="absolute right-0 top-10 w-52 bg-black border border-white/15 rounded-lg overflow-hidden z-20">
-                  <button
-                    onClick={() => {
-                      setMenuOpen(false);
-                      openCreateJob();
-                    }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-[13px] text-left text-white/80 hover:bg-white/[0.06] hover:text-white border-b border-white/10"
-                  >
-                    <FiPlusCircle size={15} className="text-white/50" />
-                    Create job
-                  </button>
-                  {[
-                    { label: "Pricing", icon: FiDollarSign },
-                    { label: "Resources", icon: FiBookOpen },
-                    { label: "About", icon: FiInfo },
-                    { label: "Talk to founder", icon: FiPhone },
-                  ].map(({ label, icon: Icon }) => (
-                    <a
-                      key={label}
-                      href="#"
-                      className="flex items-center gap-3 px-4 py-3 text-[13px] text-white/80 hover:bg-white/[0.06] hover:text-white border-b border-white/10 last:border-b-0"
-                    >
-                      <Icon size={15} className="text-white/50" />
-                      {label}
-                    </a>
-                  ))}
-                  <button
-                    onClick={async () => {
-                      await getRecruiterSupabase().auth.signOut();
-                      window.location.href = "/login";
-                    }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-[13px] text-left text-white/80 hover:bg-white/[0.06] hover:text-white"
-                  >
-                    <FiLogOut size={15} className="text-white/50" />
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </nav>
+            </>
+          }
+          menuTop={(close) => (
+            <button
+              onClick={() => {
+                close();
+                openCreateJob();
+              }}
+              className="w-full flex items-center gap-3 px-4 py-3 text-[13px] text-left text-white/80 hover:bg-white/[0.06] hover:text-white border-b border-white/10"
+            >
+              <FiPlusCircle size={15} className="text-white/50" />
+              Create job
+            </button>
+          )}
+        />
 
         {unscanned > 0 && (
           <div className="mb-4 flex items-start gap-2.5 rounded-lg border border-[#D29922]/40 bg-[#D29922]/10 px-3.5 py-2.5">

@@ -1,14 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import SiteNav, { FounderContact } from "./components/SiteNav";
 import {
-  FiMenu,
-  FiX,
-  FiLogIn,
-  FiBookOpen,
-  FiTag,
-  FiInfo,
-  FiPhone,
   FiAlertTriangle,
   FiArrowLeft,
   FiArrowRight,
@@ -41,25 +35,6 @@ const faqs = [
     a: "GitHub is the one source we can check against something real: commit history, repo activity, contributions. A portfolio link or a resume claim can't be verified the same way, so weighing them would mean guessing.",
   },
 ];
-
-// Groundtruth mark: prompt triangle with an embedded check at 20px+ (nav,
-// hero, app icon); below that, drop the check and use a plain triangle
-// instead — the check detail doesn't survive rendering under ~20px.
-function Logo({ size = 20 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
-      <path d="M6 3 L20 12 L6 21 Z" fill="#3FB950" />
-      <path
-        d="M9.5 12.5 L11.5 14.5 L15 10.5"
-        stroke="#000000"
-        strokeWidth={2.2}
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 function TerminalFrame({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -259,51 +234,12 @@ function ScreeningCarousel() {
 }
 
 export default function Home() {
-  const [github, setGithub] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-white/10">
       <div className="relative mx-auto max-w-3xl px-6 pt-10 pb-24">
-        {/* nav — sticky so it stays visible while the page scrolls */}
-        <nav className="sticky top-0 z-30 -mx-6 px-6 py-4 flex items-center justify-between font-mono text-[13px] mb-16 bg-black/90 backdrop-blur-sm border-b border-white/10">
-          <span className="font-semibold flex items-center gap-2">
-            <Logo size={18} /> groundtruth
-          </span>
-
-          <div className="min-w-0">
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Menu"
-              aria-expanded={menuOpen}
-              className="p-2 -m-2 text-white/80 hover:text-white"
-            >
-              {menuOpen ? <FiX size={18} /> : <FiMenu size={18} />}
-            </button>
-
-            {menuOpen && (
-              <div className="absolute right-0 top-10 w-[min(13rem,calc(100vw-3rem))] bg-black border border-white/15 rounded-lg overflow-hidden z-20">
-                {[
-                  { label: "Login", icon: FiLogIn },
-                  { label: "Resources", icon: FiBookOpen },
-                  { label: "Pricing", icon: FiTag },
-                  { label: "Talk to founder", icon: FiPhone },
-                  { label: "About", icon: FiInfo },
-                ].map(({ label, icon: Icon }) => (
-                  <a
-                    key={label}
-                    href="#"
-                    className="flex items-center gap-3 px-4 py-3 text-[13px] text-white/80 hover:bg-white/[0.06] hover:text-white border-b border-white/10 last:border-b-0"
-                  >
-                    <Icon size={15} className="text-white/50" />
-                    {label}
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
-        </nav>
+        <SiteNav />
 
         {/* hero */}
         <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40 mb-4">
@@ -322,17 +258,12 @@ export default function Home() {
 
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mb-14">
           <a
-            href="#report-form"
+            href="/signup"
             className="bg-white hover:bg-white/90 active:bg-white/80 text-black font-mono text-[13px] font-semibold rounded-lg px-5 py-3 transition-colors"
           >
-            Generate a report →
+            Create an account →
           </a>
-          <a
-            href="#"
-            className="font-mono text-[13px] text-white/70 hover:text-white border-b border-dotted border-white/25"
-          >
-            Talk to founder
-          </a>
+          <FounderContact />
         </div>
 
         {/* THE PROBLEM */}
@@ -389,37 +320,6 @@ export default function Home() {
 
         {/* screening walkthrough carousel */}
         <ScreeningCarousel />
-
-        {/* the form */}
-        <div id="report-form" className="scroll-mt-6 mb-16">
-          <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40 mb-3">
-            try it on one candidate
-          </div>
-          <div className="rounded-xl border border-white/15 bg-white/[0.02] p-6">
-          <div>
-            <label className="block font-mono text-[11px] uppercase tracking-[0.06em] text-white/40 mb-2">
-              GitHub
-            </label>
-            <div className="flex items-center bg-black border border-white/15 focus-within:border-white/50 rounded-lg px-3.5 transition-colors">
-              <span className="font-mono text-[14px] text-white/40 whitespace-nowrap">
-                github.com/
-              </span>
-              <input
-                value={github}
-                onChange={(e) => setGithub(e.target.value)}
-                placeholder="var-raphael"
-                className="flex-1 bg-transparent border-none outline-none font-mono text-[14px] text-white placeholder:text-white/30 py-3.5 px-1"
-              />
-            </div>
-          </div>
-          <button
-            type="button"
-            className="w-full mt-5 bg-white hover:bg-white/90 active:bg-white/80 text-black font-mono text-[14px] font-semibold rounded-lg py-3.5 transition-colors"
-          >
-            Generate my report →
-          </button>
-          </div>
-        </div>
 
         {/* trust strip */}
         <div className="flex flex-wrap gap-x-6 gap-y-2 py-5 border-y border-white/10 mb-20 text-[13px] text-white/60">
@@ -523,12 +423,7 @@ export default function Home() {
             >
               Create an account →
             </a>
-            <a
-              href="#"
-              className="font-mono text-[13px] text-white/70 hover:text-white border-b border-dotted border-white/25"
-            >
-              Talk to founder
-            </a>
+            <FounderContact align="center" />
           </div>
         </div>
 

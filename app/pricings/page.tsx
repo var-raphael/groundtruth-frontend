@@ -1,23 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { FiMenu, FiX, FiLogIn, FiBookOpen, FiTag, FiInfo, FiPhone, FiCheck } from "react-icons/fi";
+import { FiCheck } from "react-icons/fi";
+import SiteNav, { FounderContact } from "../components/SiteNav";
 
-function Logo({ size = 20 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
-      <path d="M6 3 L20 12 L6 21 Z" fill="#3FB950" />
-      <path
-        d="M9.5 12.5 L11.5 14.5 L15 10.5"
-        stroke="#000000"
-        strokeWidth={2.2}
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+const FREE_FEATURES = [
+  "1 job",
+  "20 candidates per job",
+  "3 candidate rescans in total (1 per day)",
+  "3 outreach drafts",
+  "JSON and CSV export",
+];
+
+const PRO_FEATURES = [
+  "4 jobs",
+  "100 candidates per job",
+  "Unlimited rescans (3 per candidate per day)",
+  "Unlimited outreach drafts",
+  "JSON, CSV, Excel and PDF export",
+];
 
 type Plan = {
   name: string;
@@ -29,38 +30,6 @@ type Plan = {
   href: string;
   highlighted?: boolean;
 };
-
-const plans: Plan[] = [
-  {
-    name: "Free",
-    price: "$0",
-    tagline: "Screen one role properly before you commit to anything.",
-    features: [
-      "1 active job",
-      "Up to 20 candidates scored",
-      "5 outreach drafts",
-      "Full evidence reports, same as Pro",
-    ],
-    cta: "Start free →",
-    href: "/signup",
-  },
-  {
-    name: "Pro",
-    price: "$59",
-    priceDetail: "/mo",
-    tagline: "For teams hiring more than one role at a time.",
-    features: [
-      "4 active jobs",
-      "Up to 100 candidates scored per job",
-      "Unlimited outreach drafts",
-      "Export candidate data",
-      "MCP support",
-    ],
-    cta: "Upgrade to Pro →",
-    href: "/signup?plan=pro",
-    highlighted: true,
-  },
-];
 
 const faqs = [
   {
@@ -124,49 +93,34 @@ function PricingCard({ plan }: { plan: Plan }) {
 }
 
 export default function PricingPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const plans: Plan[] = [
+    {
+      name: "Free",
+      price: "$0",
+      priceDetail: "forever",
+      tagline: "Screen one role properly before you commit to anything.",
+      features: FREE_FEATURES,
+      cta: "Start free →",
+      href: "/login",
+    },
+    {
+      name: "Pro",
+      price: "$59",
+      priceDetail: "/mo",
+      tagline: "For teams hiring more than one role at a time.",
+      features: PRO_FEATURES,
+      cta: "Upgrade to Pro →",
+      href: "/login",
+      highlighted: true,
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-white/10">
       <div className="relative mx-auto max-w-3xl px-6 pt-10 pb-24">
-        <nav className="sticky top-0 z-30 -mx-6 px-6 py-4 flex items-center justify-between font-mono text-[13px] mb-16 bg-black/90 backdrop-blur-sm border-b border-white/10">
-          <span className="font-semibold flex items-center gap-2">
-            <Logo size={18} /> groundtruth
-          </span>
-
-          <div className="min-w-0">
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Menu"
-              aria-expanded={menuOpen}
-              className="p-2 -m-2 text-white/80 hover:text-white"
-            >
-              {menuOpen ? <FiX size={18} /> : <FiMenu size={18} />}
-            </button>
-
-            {menuOpen && (
-              <div className="absolute right-0 top-10 w-[min(13rem,calc(100vw-3rem))] bg-black border border-white/15 rounded-lg overflow-hidden z-20">
-                {[
-                  { label: "Login", icon: FiLogIn },
-                  { label: "Resources", icon: FiBookOpen },
-                  { label: "Pricing", icon: FiTag },
-                  { label: "Talk to founder", icon: FiPhone },
-                  { label: "About", icon: FiInfo },
-                ].map(({ label, icon: Icon }) => (
-                  <a
-                    key={label}
-                    href="#"
-                    className="flex items-center gap-3 px-4 py-3 text-[13px] text-white/80 hover:bg-white/[0.06] hover:text-white border-b border-white/10 last:border-b-0"
-                  >
-                    <Icon size={15} className="text-white/50" />
-                    {label}
-                  </a>
-                ))}
-              </div>
-            )}
-          </div>
-        </nav>
+        <SiteNav />
 
         <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/40 mb-4">
           pricing
@@ -220,17 +174,12 @@ export default function PricingPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
             <a
-              href="/signup"
+              href="/login"
               className="bg-white hover:bg-white/90 active:bg-white/80 text-black font-mono text-[13px] font-semibold rounded-lg px-5 py-3 transition-colors"
             >
-              Create an account →
+              Get started →
             </a>
-            <a
-              href="#"
-              className="font-mono text-[13px] text-white/70 hover:text-white border-b border-dotted border-white/25"
-            >
-              Talk to founder
-            </a>
+            <FounderContact align="center" />
           </div>
         </div>
       </div>
