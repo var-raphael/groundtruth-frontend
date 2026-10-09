@@ -8,7 +8,7 @@ import SiteNav from "../components/SiteNav";
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
 // Approximate naira amount shown to customers. Update this when the rate drifts.
-const PRO_NGN = "₦82,000";
+const PRO_NGN = "₦79,000";
 
 type PlanInfo = {
   plan: "free" | "pro" | "internal";
@@ -222,7 +222,7 @@ export default function PricingPage() {
             <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-[#3FB950] mb-2">Pro</div>
             <div className="text-[28px] font-bold leading-none mb-1">$59</div>
             <div className="font-mono text-[11px] text-white/40 mb-1">per month</div>
-           
+
             <Features items={PRO_FEATURES} />
             <div className="mt-auto flex flex-col gap-2">
               {loading ? (
@@ -289,7 +289,7 @@ export default function PricingPage() {
             <div className="px-5 pt-5 pb-4">
               <div className="text-[15px] font-semibold text-white mb-1">Cancel your subscription?</div>
               <p className="text-[13px] text-white/60 leading-relaxed">
-                You keep Pro until the end of the period you've paid for. After that the Free plan's limits
+                You keep Pro until the end of the period you&apos;ve paid for. After that the Free plan&apos;s limits
                 apply again. Your existing jobs and reports are kept.
               </p>
             </div>
