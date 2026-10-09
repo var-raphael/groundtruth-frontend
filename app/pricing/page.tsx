@@ -222,7 +222,7 @@ export default function PricingPage() {
             <div className="font-mono text-[11px] uppercase tracking-[0.1em] text-[#3FB950] mb-2">Pro</div>
             <div className="text-[28px] font-bold leading-none mb-1">$59</div>
             <div className="font-mono text-[11px] text-white/40 mb-1">per month</div>
-            <div className="font-mono text-[11px] text-white/60 mb-6">billed in naira, about {PRO_NGN}</div>
+           
             <Features items={PRO_FEATURES} />
             <div className="mt-auto flex flex-col gap-2">
               {loading ? (
