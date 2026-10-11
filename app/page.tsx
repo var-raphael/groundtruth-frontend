@@ -410,11 +410,11 @@ export default function Home() {
         <div className="rounded-xl border border-white/15 bg-white/[0.02] p-8 text-center mb-16">
           <div className="text-[20px] font-bold mb-2">Hire on what&apos;s real</div>
           <p className="text-[14px] text-white/60 mb-4 max-w-sm mx-auto leading-relaxed">
-            Join the teams who&apos;d rather check a candidate&apos;s work
-            than take their word for it.
+            Be one of the first teams who&apos;d rather check a candidate&apos;s
+            work than take their word for it.
           </p>
           <div className="font-mono text-[12px] text-[#3FB950] mb-6">
-            200+ engineering teams and recruiters already screening with Groundtruth
+            Now open to early teams. Founder-led onboarding.
           </div>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
             <a
@@ -429,11 +429,11 @@ export default function Home() {
 
         <footer className="font-mono text-[11px] text-white/40 text-center">
           <a
-  href="/blog/how-groundtruth-scores-candidates"
-  className="text-white/60 border-b border-dotted border-white/20"
->
-  how scoring works
-</a>
+            href="/blog/how-groundtruth-scores-candidates"
+            className="text-white/60 border-b border-dotted border-white/20"
+          >
+            how scoring works
+          </a>
         </footer>
       </div>
     </div>
